@@ -9,7 +9,7 @@ package application;
 public class Customer {
 	private String name;
 	private int PIN;
-	private int barcodes[];
+	private int bicycles[];
 	private int phoneNr;
 	private boolean missingPayment;
 	
@@ -17,14 +17,14 @@ public class Customer {
 	 * Creates a new Customer
 	 * @param name of Customer
 	 * @param PIN code of Customer
-	 * @param barcodes of the Customer's registered bicycle(s)
+	 * @param bicycle(s) of the Customer
 	 * @param phone number of Customer
 	 * @param true if the customer has missing payments
 	 */
-    public Customer(String name, int PIN, int barcodes[], int phoneNr, boolean missingPayment){ 
+    public Customer(String name, int PIN, int bicycles[], int phoneNr, boolean missingPayment){ 
     	this.name = name;
     	this.PIN = PIN;
-    	this.barcodes = barcodes;
+    	this.bicycles = bicycles;
     	this.phoneNr = phoneNr;
     	this.missingPayment = missingPayment;
 	}
@@ -54,11 +54,11 @@ public class Customer {
 	}
 	
 	/**
-	 * Receives the barcodes of the customer's registered bicyle(s)
-	 * @return barcodes of the customer's registered bicyle(s)
+	 * Receives the customer's bicycle(s)
+	 * @return customer's bicycle(s)
 	 */
-	public int[] getBarcodes(){
-		return barcodes;
+	public int[] getBicycles(){
+		return bicycles;
 	}
 	
 	/**
