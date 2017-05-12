@@ -1,6 +1,6 @@
-package hardware_testdrivers;
+package testdrivers;
 
-import hardware_interfaces.ElectronicLock;
+import interfaces.ElectronicLock;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;

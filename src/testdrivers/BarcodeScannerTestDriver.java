@@ -1,9 +1,9 @@
-package hardware_testdrivers;
+package testdrivers;
 
 import java.util.ArrayList;
 
-import hardware_interfaces.BarcodeObserver;
-import hardware_interfaces.BarcodeScanner;
+import interfaces.BarcodeObserver;
+import interfaces.BarcodeScanner;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

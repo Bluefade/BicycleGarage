@@ -1,9 +1,9 @@
-package hardware_testdrivers;
+package testdrivers;
 
 import java.util.ArrayList;
 
-import hardware_interfaces.PincodeObserver;
-import hardware_interfaces.PincodeTerminal;
+import interfaces.PincodeObserver;
+import interfaces.PincodeTerminal;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
