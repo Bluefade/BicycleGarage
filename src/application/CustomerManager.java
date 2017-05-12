@@ -11,5 +11,34 @@ package application;
 */
 
 public class CustomerManager {
+	private int size;
+	
+	public int getSize(){
+		return size;
+	}
+	
+	public Customer[] allCustomers{
+		return;
+	}
+	
+	public findBarcodes(){
+		
+	}
+	
+	public findNameByBarcode(){
+		
+	}
+	
+	public findNameByPhonenr(){
+		
+	}
+	
+	public generatePIN(){
+		
+	}
+	
+	public generateBarcode(){
+		
+	}
 
 }
