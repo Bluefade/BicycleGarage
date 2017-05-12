@@ -12,7 +12,7 @@ public class Customer {
 	private int bicycles[];
 	private int phoneNr;
 	private boolean missingPayment;
-	
+
 	/**
 	 * Creates a new Customer
 	 * @param name of Customer
