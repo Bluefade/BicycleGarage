@@ -39,12 +39,12 @@ public class CustomerManager {
 		return size;
 	}
 
-	/*public Customer[] allCustomers{
-		return;
+	public Customer[] allCustomers{
+		return customers;
 	}
 
-	public findBarcodesByName(String name){
-
+	public String findBarcodesByName(String name){
+		for()
 	}
 
 	public findNameByBarcode(){
@@ -54,7 +54,6 @@ public class CustomerManager {
 	public findNameByPhonenr(){
 
 	}
-	 */
 
 	/**
 	 * Generates 50 random PIN-code to be assigned to customers.
