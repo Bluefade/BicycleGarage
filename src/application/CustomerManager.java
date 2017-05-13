@@ -1,6 +1,7 @@
 package application;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -16,13 +17,10 @@ import java.util.Random;
  * and generating PIN codes for customers.
  *
  */
-
-
 public class CustomerManager {
 	private int size;
-	private HashMap<String, Customer> customers;
+	private Set<Customer> customers;
 	private LinkedList<String> PINcodes;
-	private HashMap<String, Bicycle> bicycles;
 	private LinkedList<String> barcodes;
 
 	public static void main(String[] args) {
@@ -32,8 +30,7 @@ public class CustomerManager {
 	}
 
 	public CustomerManager() {
-		customers = new HashMap<>();
-		bicycles = new HashMap<>();
+		customers = new HashSet<>();
 		PINcodes = new LinkedList<>();
 		barcodes = new LinkedList<>();
 	}
