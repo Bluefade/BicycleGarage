@@ -36,7 +36,6 @@ public class CustomerListView extends BorderPane {
 		/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
 		 * @param CustomerManager containing the customers
 		 */
-		
 		public CustomerListView(CustomerManager customerManager) {	
 			this.customerManager = customerManager;
 			
@@ -85,10 +84,10 @@ public class CustomerListView extends BorderPane {
 						addBicycleButton.setDisable(false);
 						removeBicycleButton.setDisable(false);
 						removeCustomerButton.setDisable(false);
-						if(Collections.emptySet().equals(customerManager.findNumbers(name))){
+						if(Collections.emptySet().equals(customerManager.findBarcodesByName(name))){
 							removeBicycleButton.setDisable(true);
 						}
-						numbersLabel.setText(newValue + " " + customerManager.findNumbers(newValue));
+						numbersLabel.setText(newValue + " " + customerManager.findBarcodesByName(newValue));
 					} else {
 						numbersLabel.setText("");
 					}
@@ -164,7 +163,7 @@ public class CustomerListView extends BorderPane {
 			int index = listView.getSelectionModel().getSelectedIndex();
 			if (index != -1) {
 				String name = obsList.get(index);
-				Optional<String> result = Dialogs.oneInputDialog("Add phone number to " + name, "Enter the number to add", "Number" );
+				Optional<String> result = Dialogs.oneInputDialog("Add a new bicycle to " + name, "Enter the number to add", "Number" );
 				if (result.isPresent()) {
 					String input = result.get();
 					boolean success = customerManager.put(name, input);
