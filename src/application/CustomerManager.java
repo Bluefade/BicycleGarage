@@ -13,7 +13,6 @@ import java.util.LinkedList;
 *
 */
 
-
 public class CustomerManager {
 	private int size;
 	private HashMap<String, Customer> customers;
