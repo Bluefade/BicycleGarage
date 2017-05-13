@@ -2,6 +2,8 @@ package application;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
 * <h1>CustomerManager</h1>
@@ -50,6 +52,14 @@ public class CustomerManager {
 	
 	public generateBarcode(){
 		
+	}
+	
+	public Set<String> allNames() {
+		Set<String> names = new TreeSet<String>();
+		for(String currentKey : customers.keySet()){
+			names.add(currentKey);
+		}
+		return names;
 	}
 
 }
