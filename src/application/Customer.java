@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Set;
+
 /**
 * <h1>Customer</h1>
 * The Customer class contains the definition 
@@ -8,9 +10,9 @@ package application;
 */
 public class Customer {
 	private String name;
-	private int PIN;
-	private Bicycle bicycles[];
-	private int phoneNr;
+	private String PIN;
+	private Set<Bicycle> bicycles;
+	private String phoneNr;
 	private boolean missingPayment;
 
 	/**
@@ -21,7 +23,7 @@ public class Customer {
 	 * @param phone number of Customer
 	 * @param true if the customer has missing payments
 	 */
-    public Customer(String name, int PIN, Bicycle bicycles[], int phoneNr, boolean missingPayment){ 
+    public Customer(String name, String PIN, Set<Bicycle> bicycles, String phoneNr, boolean missingPayment){ 
     	this.name = name;
     	this.PIN = PIN;
     	this.bicycles = bicycles;
@@ -41,7 +43,7 @@ public class Customer {
 	 * Receives the customer's PIN code
 	 * @return customer's PIN code
 	 */
-	public int getPIN(){
+	public String getPIN(){
 		return PIN;
 	}
 	
@@ -49,7 +51,7 @@ public class Customer {
 	 * Receives the customer's phone number 
 	 * @return customer's phone number
 	 */
-	public int getPhoneNr(){
+	public String getPhoneNr(){
 		return phoneNr;
 	}
 	
@@ -57,7 +59,7 @@ public class Customer {
 	 * Receives the customer's bicycle(s)
 	 * @return customer's bicycle(s)
 	 */
-	public Bicycle[] getBicycles(){
+	public Set<Bicycle> getBicycles(){
 		return bicycles;
 	}
 	
