@@ -12,7 +12,6 @@ import java.util.LinkedList;
 * and generating PIN codes for customers.
 *
 */
-
 public class CustomerManager {
 	private int size;
 	private HashMap<String, Customer> customers;
