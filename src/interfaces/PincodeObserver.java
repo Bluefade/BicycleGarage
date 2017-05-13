@@ -6,3 +6,4 @@ public interface PincodeObserver {
 	 * pressed: '0', '1',... '9', '*', '#'. */
 	public void handleCharacter(char c);
 }
+

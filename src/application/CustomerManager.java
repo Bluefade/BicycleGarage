@@ -1,5 +1,8 @@
 package application;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 /**
 * <h1>CustomerManager</h1>
 * The CustomerManager manages customers and their respective information. 
@@ -12,6 +15,15 @@ package application;
 
 public class CustomerManager {
 	private int size;
+	private HashMap<String, Customer> customers;
+	private LinkedList<String> PINcodes;
+	private HashMap<String, Bicycle> bicycles;
+	private LinkedList<String> barcodes;
+
+	public CustomerManager() {
+		customers = new HashMap<>();
+		bicycles = new HashMap<>();
+	}
 	
 	public int getSize(){
 		return size;

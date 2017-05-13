@@ -18,6 +18,7 @@ public class BarcodePrinterTestDriver implements BarcodePrinter {
 	private TextArea textArea;
 	private int serialNr = 0;
 
+	
 	/**
 	 * Creates a graphically simulated barcode printer. 
 	 * Can only be instantiated inside an JavaFX Application Thread.

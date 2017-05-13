@@ -18,3 +18,4 @@ public interface PincodeTerminal {
 	 */
 	public void lightLED(int color, int time);
 }
+

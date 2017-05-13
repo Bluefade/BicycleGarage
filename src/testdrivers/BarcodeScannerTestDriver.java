@@ -72,3 +72,4 @@ public class BarcodeScannerTestDriver implements BarcodeScanner {
 		barcodeHandlers.add(observer);
 	}
 }
+

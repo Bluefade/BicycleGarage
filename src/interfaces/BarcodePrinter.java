@@ -7,3 +7,4 @@ public interface BarcodePrinter {
 	 */
 	public void printBarcode(String s);
 }
+
