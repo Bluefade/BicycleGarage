@@ -2,6 +2,7 @@ package application;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -32,7 +33,7 @@ public class CustomerManager {
 	public CustomerManager() {
 		customers = new HashSet<>();
 		PINcodes = new LinkedList<>();
-		barcodes = new LinkedList<>();
+		barcodes = new LinkedList<>()
 	}
 
 	public int getSize(){
@@ -43,16 +44,34 @@ public class CustomerManager {
 		return customers;
 	}
 
-	public String findBarcodesByName(String name){
-
+	public Set<String> findBarcodesByName(String name){
+		Set<String> barcodes = new HashSet<>();
+		for(Customer c : customers) {
+			if(name == c.getName()) {
+				for(Bicycle b: c.getBicycles()) {
+					barcodes.add(b.getBarcode());
+				}
+			}
+		}
+		return barcodes;
 	}
 
-	public findNameByBarcode(){
-
+	public String findNameByBarcode(String barcode){
+		for(Customer c : customers) {
+			for(Bicycle b : c.getBicycles()) {
+				if(barcode == b.getBarcode()) {
+					return c.getName();
+				}
+			}
+		}
 	}
 
-	public findNameByPhonenr(){
-
+	public String findNameByPhonenr(String phoneNr){
+		for(Customer c : customers) {
+				if(phoneNr == c.getPhoneNr()) {
+					return c.getName();
+				}
+		}
 	}
 
 	/**
