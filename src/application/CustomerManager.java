@@ -72,6 +72,7 @@ public class CustomerManager {
 			
 		}	
 
+	
 /**
  * Generates 50 random barcodes to be assigned to new customers.
  * 
