@@ -1,7 +1,8 @@
 package application;
 
 	import java.util.Collections;
-	import java.util.Optional;
+import java.util.HashSet;
+import java.util.Optional;
 	import javafx.application.Platform;
 	import javafx.scene.control.Menu;
 	import javafx.scene.control.MenuBar;
@@ -90,7 +91,9 @@ package application;
 						byPhoneNumber();
 					}
 				} else{
-					customerListView.fillList(customerManager.findCustomerByPhoneNr(n));
+					Set<Customer> cm = new HashSet<Customer>();
+					cm.add(customerManager.findCustomerByPhoneNr(n));
+					customerListView.fillList(cm);
 				}
 			}
 		}
@@ -104,7 +107,9 @@ package application;
 						byBarcode();
 					}
 				} else{
-					customerListView.fillList(customerManager.findCustomerByBarcode(b));
+					Set<Customer> cm = new HashSet<Customer>();
+					cm.add(customerManager.findCustomerByBarcode(b));
+					customerListView.fillList(cm);
 				}
 			}
 		}

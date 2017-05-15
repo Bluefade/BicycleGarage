@@ -151,7 +151,7 @@ public class CustomerListView extends BorderPane {
 				boolean success = customerManager.addCustomer(inputs[0], inputs[1]);
 				if(success) {
 					obsList2.setAll(customerManager.allCustomers());
-					select(customerManager.findCustomerByPhoneNr());
+					select(customerManager.findCustomerByPhoneNr(inputs[1]));
 				} else {
 					Dialogs.alert("Add", null, "Failed to add customer");
 					clearSelection();
@@ -196,7 +196,7 @@ public class CustomerListView extends BorderPane {
 			Optional<String> number = Dialogs.oneInputDialog("Remove bicycle", "Specify barcode", "Enter the barcode of the bicycle you want to remove");
 			if (number.isPresent()) {
 				String numb = number.get();
-				if(customer == findCustomerByBarcode(numb)) {
+				if(customer == customerManager.findCustomerByBarcode(numb)) {
 					if(!customerManager.removeBicycle(numb)){
 						if(Dialogs.confirmDialog("An error occurred.","The entered barcode does not belong to the chosen customer.","Do you wan't to remove a different bicycle?")){
 							removeBicycle();
