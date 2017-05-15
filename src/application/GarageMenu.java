@@ -6,104 +6,107 @@ package application;
 	import javafx.scene.control.Menu;
 	import javafx.scene.control.MenuBar;
 	import javafx.scene.control.MenuItem;
-	import phonebook.PhoneBook;
-	import phonebook.MapPhoneBook;
 	import java.util.Map;
 	import java.util.Set;
 	import java.util.TreeSet;
 
 	public class GarageMenu extends MenuBar {
-		private PhoneBook phoneBook;
-		private NameListView nameListView;
+		private CustomerManager customerManager;
+		private CustomerListView customerListView;
 		
 		/** Creates the menu for the phone book application.
 		 * @param phoneBook the phone book with names and numbers
 		 * @param nameListView handles the list view for the names
 		 */
-		public PhoneBookMenu(PhoneBook phoneBook, NameListView nameListView) {
-			this.phoneBook = phoneBook;
-			this.nameListView = nameListView;
+		public GarageMenu(CustomerManager customerManager, CustomerListView customerListView) {
+			this.customerManager = customerManager;
+			this.customerListView = customerListView;
 
-			final Menu menuPhoneBook = new Menu("PhoneBook");
+			final Menu menuGarage = new Menu("Bicycle Garage");
 			final MenuItem menuQuit = new MenuItem("Quit");
 			menuQuit.setOnAction(e -> Platform.exit());
-			menuPhoneBook.getItems().addAll(menuQuit);
+			menuGarage.getItems().addAll(menuQuit);
 		
-			final Menu menuFind = new Menu("Find");
+			final Menu menuFind = new Menu("Search");
 			
-			final MenuItem menuShowAll = new MenuItem("Show All");
+			final MenuItem menuShowAll = new MenuItem("Show all");
 			menuShowAll.setOnAction(e -> showAll());
 			menuFind.getItems().addAll(menuShowAll);
 			
-			final MenuItem menuFindNumbers = new MenuItem("Find Number(s)");
-			menuFindNumbers.setOnAction(e -> findNumbers());
-			menuFind.getItems().addAll(menuFindNumbers);
+			final MenuItem menuByName = new MenuItem("by name");
+			menuByName.setOnAction(e -> byName());
+			menuFind.getItems().addAll(menuByName);
 			
-			final MenuItem menuFindNames = new MenuItem("Find Name(s)");
-			menuFindNames.setOnAction(e -> findNames());
-			menuFind.getItems().addAll(menuFindNames);
+			final MenuItem menuByBarcode = new MenuItem("by barcode");
+			menuByBarcode.setOnAction(e -> byBarcode());
+			menuFind.getItems().addAll(menuByBarcode);
 			
-			final MenuItem menuFindPersons = new MenuItem("Find Person(s)");
-			menuFindPersons.setOnAction(e -> findPersons());
-			menuFind.getItems().addAll(menuFindPersons);
+			final MenuItem menuPhoneNumber = new MenuItem("by phonenumber");
+			menuPhoneNumber.setOnAction(e -> byPhoneNumber());
+			menuFind.getItems().addAll(menuPhoneNumber);
+			
+			final Menu menuMissingPayment = new Menu("List missing payments");
+			menuMissingPayment.setOnAction(e -> showAll());
 
-		    getMenus().addAll(menuPhoneBook, menuFind);
-	  //    setUseSystemMenuBar(true);  // if you want operating system rendered menus, uncomment this line
+		    getMenus().addAll(menuGarage, menuFind, menuMissingPayment);
+		    //setUseSystemMenuBar(true);  // if you want operating system rendered menus, uncomment this line
 		}
 
 		
 		private void showAll() {
-			nameListView.fillList(phoneBook.names());
-			nameListView.clearSelection();
+			customerListView.fillList(customerManager.allCustomers());
+			customerListView.clearSelection();
 		}
 		
-		private void findNumbers() {
-			Optional<String> name = Dialogs.oneInputDialog("Namnsökning", "Val av kontakt", "Mata in namnet på den kontakt som sökes");
+		private void byName() {
+			Optional<String> name = Dialogs.oneInputDialog("Customer search by name", "Search customer by name", "Input the name of the customer you're looking for:");
 			if (name.isPresent()) {
-				String n = name.get();
-				PhoneBook pb = new MapPhoneBook();
-				for(String number : phoneBook.findNumbers(n)){
-					pb.put(n, number);
+				CharSequence n = name.get();
+				Set<Customer> customers = new TreeSet<Customer>();
+				for(Customer customer : customerManager.allCustomers()){
+					if(customer.getName().contains(n)){
+						customers.add(customer);
+					}
 				}
-				if(pb.isEmpty()){
-					if(Dialogs.confirmDialog("Ett fel uppstod","Den valda kontakten har inga tillagda nummer","Vill du testa en annan kontakt?")){
-						findNumbers();
+				if(Collections.emptySet().equals(customers)){
+					if(Dialogs.confirmDialog("An error occured","No customer by the name of " + n + " found.","Would you like to search for another name instead?")){
+						byName();
 					}
 				} else{
-					nameListView.fillList(pb.names());
-					nameListView.select(n);
-				}
+					customerListView.fillList(customers);
+					if(customers.size()<2){
+						customerListView.select(0);
+					}
+				}	
 			}
 		}
-		private void findNames() {
-			Optional<String> number = Dialogs.oneInputDialog("Nummersökning", "Val av nummer", "Mata in numret till den kontakt som sökes");
+		
+		private void byPhoneNumber() {
+			Optional<String> number = Dialogs.oneInputDialog("Customer search by phone number", "Search customer by phone number.", "Input the phone number of the customer you're looking for:");
 			if (number.isPresent()) {
 				String n = number.get();
-				if(Collections.emptySet().equals(phoneBook.findNames(n))){
-					if(Dialogs.confirmDialog("Ett fel uppstod","Det valda numret tillhör ingen av de tillagda kontakterna","Vill du testa ett annat nummer?")){
-						findNames();
+				if(Collections.emptySet().equals(customerManager.findCustomerByPhoneNr(n))){
+					if(Dialogs.confirmDialog("An error occured","No customer with phone number " + n + " found.","Would you like to search for another phone number instead?")){
+						byPhoneNumber();
 					}
 				} else{
-					nameListView.fillList(phoneBook.findNames(n));
+					customerListView.fillList(customerManager.findCustomerByPhoneNr(n));
 				}
 			}
 		}
 		
-		private void findPersons() {
-			Optional<String> seq = Dialogs.oneInputDialog("Namnsökning", "Val av namn", "Mata in de första tecken som namnet som sökes startar på");
-				CharSequence n = seq.get();
-				Set<String> names = new TreeSet<String>();
-				for(String namn : phoneBook.names()){
-					if(namn.contains(n)){
-						names.add(namn);
-					}
-				}
-				if(Collections.emptySet().equals(names)){
-					if(Dialogs.confirmDialog("Ett fel uppstod","Det valda namnet tillhör ingen av de tillagda kontakterna","Vill du testa ett annat namn?")){
-						findNames();
+		private void byBarcode() {
+			Optional<String> barcode = Dialogs.oneInputDialog("Customer search by bicycle barcode", "Search customer by bicycle barcode.", "Input the bicycle barcode to find its corresponding owner:");
+			if (barcode.isPresent()) {
+				String b = barcode.get();
+				if(Collections.emptySet().equals(customerManager.findCustomerByBarcode(b))){
+					if(Dialogs.confirmDialog("An error occured","No customer with barcode " + b + " found.","Would you like to search for another barcode instead?")){
+						byBarcode();
 					}
 				} else{
-					nameListView.fillList(names);
-				}	
+					customerListView.fillList(customerManager.findCustomerByBarcode(b));
+				}
+			}
 		}
+		
 	}
