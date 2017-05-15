@@ -39,15 +39,15 @@ public class CustomerManager {
 
 	/**
 	 * returns the number of customers in the system.
-	 * @return
+	 * @return the size of customers.
 	 */
 	public int getSize(){
 		return size;
 	}
 	/**
-	 * findBarcodesByName returns the barcodes belonging to a customer with the name "name".
+	 * findBarcodesByName finds the barcodes belonging to a customer with the name "name".
 	 * @param name
-	 * @return
+	 * @return a hashset of barcodes belonging to a name.
 	 */
 	public Set<String> findBarcodesByName(String name){
 		Set<String> barcodes = new HashSet<>();
@@ -61,9 +61,9 @@ public class CustomerManager {
 		return barcodes;
 	}
 	/**
-	 * findNamebyBarcode returns the name of a customer with the barcode "barcode".
+	 * findNamebyBarcode finds the name of a customer with the barcode "barcode".
 	 * @param barcode
-	 * @return
+	 * @return the name of a customer with the given barcode.
 	 */
 	public String findNameByBarcode(String barcode){
 		for(Customer c : customers) {
@@ -77,9 +77,9 @@ public class CustomerManager {
 	}
 
 	/**
-	 * FindNameByPhonenr returns the name of a customer with the phoneNr "phoneNr"
+	 * FindNameByPhonenr finds the name of a customer with the phoneNr "phoneNr"
 	 * @param phoneNr
-	 * @return
+	 * @return the name of the customer with the given phoneNr.
 	 */
 	public String findNameByPhonenr(String phoneNr){
 		for(Customer c : customers) {
@@ -127,7 +127,7 @@ public class CustomerManager {
 
 	/**
 	 * allNames returns a set containing all names of the customers in the system.
-	 * @return
+	 * @return a treeset containing all names
 	 */
 	public Set<String> allNames() {
 		Set<String> names = new TreeSet<String>();
@@ -140,28 +140,40 @@ public class CustomerManager {
 	 * Adds a customer with a name and phoneNr to the system.
 	 * @param name
 	 * @param phoneNr
+	 * @return true if the customer was added, false if they were not.
 	 */
 	public boolean addCustomer(String name, String phoneNr) {
-		for(Customer currentKey : customers) {
-			if(currentKey.getName()==name && currentKey.getPhoneNr()==phoneNr) {
-				return false;
-			}
+		if(size>50) {
+			return false; //Garage is full
 		}
-		Customer newCustomer = new Customer(name, phoneNr, PINcodes.pollLast());
-		return customers.add(newCustomer);
+		else {
+			for(Customer currentKey : customers) {
+				if(currentKey.getName()==name && currentKey.getPhoneNr()==phoneNr && currentKey.getBicycles().size()>=2) {
+					return false;
+				}
+			}
+
+			Customer newCustomer = new Customer(name, phoneNr, PINcodes.pollLast());
+			size++;
+			return customers.add(newCustomer);
+		}
 	}
 	/**
 	 * Removes a customer from the system.
 	 * @param customer
-	 * @return
+	 * @return true if the customer was removed, false if they were not.
 	 */
 	public boolean removeCustomer(Customer customer) {
-		return customers.remove(customer);
+		boolean removed = customers.remove(customer);
+		if(removed == true) {
+			size--;
+		}
+		return removed;
 	}
 	/**
 	 * Returns a list of all customers as a TreeSet. To be used in CustomerListView for the
 	 * method removeCustomer to work.
-	 * @return
+	 * @return a treeset of all customers in the system.
 	 */
 	public Set<Customer> allCustomers() {
 		Set<Customer> listCustomers = new TreeSet<Customer>();
@@ -170,5 +182,18 @@ public class CustomerManager {
 		}
 		return customers;
 	}
-
+	/**
+	 * Method should add bike to customer, by finding customer by name.
+	 * @return true if bike was added, false if it wasn't.
+	 */
+	public boolean addBicycle(String name) {
+		return true;
+	}
+		/**
+		 * Method should remove bike from customer.
+		 * @return true if bicycle was removed, otherwise false.
+		 */
+	public boolean removeBicycle(String barcode) {
+		return true;
+	}
 }
