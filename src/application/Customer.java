@@ -9,7 +9,7 @@ import java.util.Set;
 * and fundamental information about the customer.
 *
 */
-public class Customer {
+public class Customer implements Comparable<Customer> {
 	private String name;
 	private String PIN;
 	private Set<Bicycle> bicycles;
@@ -56,7 +56,7 @@ public class Customer {
 	
 	/**
 	 * Changes the customer's PIN code
-	 * @return customer's new PIN code
+	 * @param customer's new PIN code
 	 */
 	public void setPIN(String PIN){
 		this.PIN = PIN;
@@ -72,7 +72,7 @@ public class Customer {
 	
 	/**
 	 * Adds new bicycle(s) to customer
-	 * @return customer's new bicycle(s)
+	 * @param customer's new bicycle(s)
 	 */
 	public void addBicycle(Set<Bicycle> bicycle){
 		for(Bicycle nextBicycle: bicycle){
@@ -90,9 +90,21 @@ public class Customer {
 	
 	/**
 	 * Updates information on whether or not the customer has missing payments
-	 * @return true if the customer has missing payments, false otherwise
+	 * @param true if the customer has missing payments, false otherwise
 	 */
 	public void setMissingPayment(boolean paymentStatus){
 		missingPayment = paymentStatus;
 	}
+	
+	/**
+	 * Compares this customer to another customer by comparing their names
+	 * @param the other customer to compare to
+	 * @return an integer bigger, smaller or equal to zero dependent on the alphabetical order of the names.
+	 * 
+	 */
+	@Override
+	public int compareTo(Customer c) {
+		return this.getName().compareToIgnoreCase(c.getName());
+	}
+
 }
