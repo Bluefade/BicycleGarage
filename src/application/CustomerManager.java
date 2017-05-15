@@ -29,13 +29,20 @@ public class CustomerManager {
 		customer.generatePIN();
 		//customer.generateBarcode();
 	}
-
+	
+	/**
+	 *	Constructor initiating customers, PINcodes and barcodes.
+	 */
 	public CustomerManager() {
 		customers = new HashSet<>();
 		PINcodes = new LinkedList<>();
 		barcodes = new LinkedList<>()
 	}
-
+	
+	/**
+	 * returns the number of customers in the system.
+	 * @return
+	 */
 	public int getSize(){
 		return size;
 	}
@@ -43,7 +50,11 @@ public class CustomerManager {
 	public Customer[] allCustomers{
 		return customers;
 	}
-
+	/**
+	 * findBarcodesByName returns the barcodes belonging to a customer with the name "name".
+	 * @param name
+	 * @return
+	 */
 	public Set<String> findBarcodesByName(String name){
 		Set<String> barcodes = new HashSet<>();
 		for(Customer c : customers) {
@@ -55,7 +66,11 @@ public class CustomerManager {
 		}
 		return barcodes;
 	}
-
+	/**
+	 * findNamebyBarcode returns the name of a customer with the barcode "barcode".
+	 * @param barcode
+	 * @return
+	 */
 	public String findNameByBarcode(String barcode){
 		for(Customer c : customers) {
 			for(Bicycle b : c.getBicycles()) {
@@ -65,7 +80,12 @@ public class CustomerManager {
 			}
 		}
 	}
-
+	
+	/**
+	 * FindNameByPhonenr returns the name of a customer with the phoneNr "phoneNr"
+	 * @param phoneNr
+	 * @return
+	 */
 	public String findNameByPhonenr(String phoneNr){
 		for(Customer c : customers) {
 				if(phoneNr == c.getPhoneNr()) {
@@ -109,6 +129,10 @@ public class CustomerManager {
 		
 	}
 	
+	/**
+	 * allNames returns a set containing all names of the customers in the system.
+	 * @return
+	 */
 	public Set<String> allNames() {
 		Set<String> names = new TreeSet<String>();
 		for(String currentKey : customers.keySet()){
