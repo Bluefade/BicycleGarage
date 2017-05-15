@@ -143,13 +143,20 @@ public class CustomerManager {
 	 * @return true if the customer was added, false if they were not.
 	 */
 	public boolean addCustomer(String name, String phoneNr) {
-		for(Customer currentKey : customers) {
-			if(currentKey.getName()==name && currentKey.getPhoneNr()==phoneNr) {
-				return false;
-			}
+		if(size>50) {
+			return false; //Garage is full
 		}
-		Customer newCustomer = new Customer(name, phoneNr, PINcodes.pollLast());
-		return customers.add(newCustomer);
+		else {
+			for(Customer currentKey : customers) {
+				if(currentKey.getName()==name && currentKey.getPhoneNr()==phoneNr && currentKey.getBicycles().size()>=2) {
+					return false;
+				}
+			}
+
+			Customer newCustomer = new Customer(name, phoneNr, PINcodes.pollLast());
+			size++;
+			return customers.add(newCustomer);
+		}
 	}
 	/**
 	 * Removes a customer from the system.
@@ -157,7 +164,11 @@ public class CustomerManager {
 	 * @return true if the customer was removed, false if they were not.
 	 */
 	public boolean removeCustomer(Customer customer) {
-		return customers.remove(customer);
+		boolean removed = customers.remove(customer);
+		if(removed == true) {
+			size--;
+		}
+		return removed;
 	}
 	/**
 	 * Returns a list of all customers as a TreeSet. To be used in CustomerListView for the
@@ -171,5 +182,18 @@ public class CustomerManager {
 		}
 		return customers;
 	}
-
+	/**
+	 * Method should add bike to customer, by finding customer by name.
+	 * @return true if bike was added, false if it wasn't.
+	 */
+	public boolean addBicycle(String name) {
+		return true;
+	}
+		/**
+		 * Method should remove bike from customer.
+		 * @return true if bicycle was removed, otherwise false.
+		 */
+	public boolean removeBicycle(String barcode) {
+		return true;
+	}
 }
