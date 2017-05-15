@@ -182,6 +182,7 @@ public class CustomerListView extends BorderPane {
 			int index = listView.getSelectionModel().getSelectedIndex();
 			if (index != -1) {
 				String name = obsList.get(index);
+				obsList.
 				if(Dialogs.confirmDialog("Borttagning av kontakt","Vill du verkligen radera kontakten?","Är du säker på att du vill radera " + name + " från telefonkatalogen?")){
 					phoneBook.remove(name);
 				}
