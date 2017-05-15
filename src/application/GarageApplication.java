@@ -58,9 +58,9 @@ public class GarageApplication extends Application{
 		// set default locale english 
 		Locale.setDefault(Locale.ENGLISH);
 		
-		nameListView = new NameListView(phoneBook);
+		customerListView = new CustomerListView(customerManager);
 		BorderPane root = new BorderPane();
-		root.setTop(new PhoneBookMenu(phoneBook, nameListView));
+		root.setTop(new GarageMenu(phoneBook, nameListView));
 		root.setCenter(nameListView);		
 		
 		Scene scene = new Scene(root);
