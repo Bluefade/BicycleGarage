@@ -33,6 +33,9 @@ public class CustomerListView extends BorderPane {
 	private Button removeCustomerButton;
 	private Button removeBicycleButton;
 	private Label numbersLabel;
+	private Label numbersLabel1;
+	private Label numbersLabel2;
+	
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
 	 * @param CustomerManager containing the customers
@@ -52,9 +55,15 @@ public class CustomerListView extends BorderPane {
 
 		setTop(listView);
 
-		// A label to display phone numbers
+		// A label to display names
 		numbersLabel = new Label();
-		numbersLabel.setMinWidth(340);
+		numbersLabel.setMinWidth(200);
+		// A label to display phone numbers
+		numbersLabel1 = new Label();
+		numbersLabel1.setMinWidth(200);
+		// A label to display barcodes
+		numbersLabel1 = new Label();
+		numbersLabel1.setMinWidth(200);
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
@@ -88,9 +97,13 @@ public class CustomerListView extends BorderPane {
 					if(Collections.emptySet().equals(customer.getBicycles())){
 						removeBicycleButton.setDisable(true);
 					}
-					numbersLabel.setText(newValue.getName() + " " + newValue.getBicycles().toString());
+					numbersLabel.setText("Name: \n" + newValue.getName());
+					//numbersLabel.setText("Phone Number: \n" + newValue.getPhoneNr());
+					//numbersLabel2.setText("Bicycle barcodes: \n " + newValue.getBicycles().toString());
 				} else {
 					numbersLabel.setText("");
+					//numbersLabel1.setText("");
+					//numbersLabel2.setText("");
 				}
 
 			}
@@ -107,6 +120,8 @@ public class CustomerListView extends BorderPane {
 		removeBicycleButton.setDisable(true);
 		removeCustomerButton.setDisable(true);
 		numbersLabel.setText("");
+		//numbersLabel1.setText("");
+		//numbersLabel2.setText("");
 		listView.getSelectionModel().clearSelection();
 	}
 
