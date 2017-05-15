@@ -1,5 +1,6 @@
 package application;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -18,17 +19,15 @@ public class Customer {
 	/**
 	 * Creates a new Customer
 	 * @param name of Customer
-	 * @param PIN code of Customer
-	 * @param bicycle(s) of the Customer
 	 * @param phone number of Customer
-	 * @param true if the customer has missing payments
+	 * @param PIN code of Customer
 	 */
-    public Customer(String name, String PIN, Set<Bicycle> bicycles, String phoneNr, boolean missingPayment){ 
+    public Customer(String name, String phoneNr, String PIN){ 
     	this.name = name;
-    	this.PIN = PIN;
-    	this.bicycles = bicycles;
     	this.phoneNr = phoneNr;
-    	this.missingPayment = missingPayment;
+    	this.PIN = PIN;
+    	missingPayment = false;
+    	bicycles = new HashSet<>();
 	}
 	
 	/**
@@ -40,6 +39,14 @@ public class Customer {
 	}
 	
 	/**
+	 * Receives the customer's phone number 
+	 * @return customer's phone number
+	 */
+	public String getPhoneNr(){
+		return phoneNr;
+	}
+	
+	/**
 	 * Receives the customer's PIN code
 	 * @return customer's PIN code
 	 */
@@ -48,11 +55,11 @@ public class Customer {
 	}
 	
 	/**
-	 * Receives the customer's phone number 
-	 * @return customer's phone number
+	 * Changes the customer's PIN code
+	 * @return customer's new PIN code
 	 */
-	public String getPhoneNr(){
-		return phoneNr;
+	public void setPIN(String PIN){
+		this.PIN = PIN;
 	}
 	
 	/**
@@ -64,10 +71,28 @@ public class Customer {
 	}
 	
 	/**
+	 * Adds new bicycle(s) to customer
+	 * @return customer's new bicycle(s)
+	 */
+	public void addBicycle(Set<Bicycle> bicycle){
+		for(Bicycle nextBicycle: bicycle){
+			bicycles.add(nextBicycle);
+		}
+	}
+	
+	/**
 	 * Receives information on whether or not the customer has missing payments
 	 * @return true if the customer has missing payments
 	 */
 	public boolean getMissingPayment(){
 		return missingPayment;
+	}
+	
+	/**
+	 * Updates information on whether or not the customer has missing payments
+	 * @return true if the customer has missing payments, false otherwise
+	 */
+	public void setMissingPayment(boolean paymentStatus){
+		missingPayment = paymentStatus;
 	}
 }
