@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 public class GarageApplication extends Application{
 	private CustomerManager customerManager;
 	private CustomerListView customerListView;
-	private final String operatorpass = "4N70J0!-";
+	private final String operatorpass = "1Qazwsx*";
 	private int logincounter = 0;
 	
 
@@ -78,7 +78,7 @@ public class GarageApplication extends Application{
 			Dialogs.alert("Log-in attempts exceeded", "Log-in attempts exceeded", "System is shutting down due to exceeded number of log-in attempts");
 			System.exit(1);
 		}
-		Optional<String> pass = Dialogs.oneInputDialog("Log-in","Log into application", "Please enter your password to log in.");
+		Optional<String> pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in.");
 		if (pass.isPresent()) {
 			if(pass.equals(operatorpass)){
 				return true;

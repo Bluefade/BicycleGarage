@@ -76,6 +76,26 @@ public class Dialogs {
 		return dialog.showAndWait();
 	}
 	
+	/** Shows an input dialog with one input field.
+	 * @param title the title of the pop up window
+	 * @param headerText the string to show in the dialog header area
+	 * @param label the string to show in the dialog content area before the input field
+	 * @return An Optional that contains the result
+	 */
+	public static Optional<String> logInDialog(String title, String headerText, String label) {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle(title);
+		dialog.setHeaderText(headerText);
+		dialog.setContentText(label + ": ");
+		GridPane grid = new GridPane();
+		dialog.getDialogPane().setContent(grid);
+		ButtonType buttonTypeLogin = new ButtonType("Log in", ButtonData.OK_DONE);
+		ButtonType buttonTypeExit = new ButtonType("Exit", ButtonData.CANCEL_CLOSE);
+		dialog.getDialogPane().getButtonTypes().addAll(buttonTypeLogin, buttonTypeExit);
+		return dialog.showAndWait();
+	}
+	
+
 	/** Shows an input dialog with two input fields.
 	 * @param title the title of the pop up window
 	 * @param headerText the string to show in the dialog header area
