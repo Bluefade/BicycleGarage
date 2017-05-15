@@ -35,6 +35,8 @@ public class CustomerManager {
 		customers = new HashSet<>();
 		PINcodes = new LinkedList<>();
 		barcodes = new LinkedList<>();
+		generatePIN();
+		generateBarcode();
 	}
 
 	/**
@@ -66,7 +68,7 @@ public class CustomerManager {
 	public Customer findCustomerByBarcode(String barcode) {
 		for(Customer c : customers) {
 			for(Bicycle b : c.getBicycles())
-				if(b.getBarcode() == barcode) {
+				if(b.getBarcode().equals(barcode)) {
 					return c;
 				}
 		}
@@ -98,7 +100,6 @@ public class CustomerManager {
 				PINcodes.add(count, newPIN);
 				count++;
 			}
-			System.out.println(PINcodes.getLast());
 		}
 
 	}	
@@ -116,7 +117,6 @@ public class CustomerManager {
 				barcodes.add(count, newBarcode);
 				count++;
 			}
-			System.out.println(barcodes.getLast());
 		}
 
 	}
@@ -182,8 +182,7 @@ public class CustomerManager {
 	 * Method should add bike to customer, by finding customer by name.
 	 * @return true if bike was added, false if it wasn't.
 	 */
-	public boolean addBicycle(String name) {
-		Customer customer = findCustomerByName(name);
+	public boolean addBicycle(Customer customer) {
 		HashSet<Bicycle> bicycles = new HashSet<Bicycle>();
 		bicycles.add(new Bicycle(barcodes.getLast()));
 		if(size<50 && customer.getBicycles().size()<2) {
@@ -200,11 +199,14 @@ public class CustomerManager {
 	 */
 	public boolean removeBicycle(String barcode) {
 		Customer customer = findCustomerByBarcode(barcode);
-		for(Bicycle b: customer.getBicycles()) {
-			if(barcode == b.getBarcode()) {
-				customer.getBicycles().remove(b);
-				size--;
-				return true;
+		System.out.println(customer);
+		if(customer != null) {
+			for(Bicycle b: customer.getBicycles()) {
+				System.out.println("Är du någonsin härinne?");
+				if(barcode.equals(b.getBarcode())) {
+					size--;
+					return customer.getBicycles().remove(b);
+				}
 			}
 		}
 		return false;

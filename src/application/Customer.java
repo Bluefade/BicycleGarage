@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
-* <h1>Customer</h1>
-* The Customer class contains the definition 
-* and fundamental information about the customer.
-*
-*/
+ * <h1>Customer</h1>
+ * The Customer class contains the definition 
+ * and fundamental information about the customer.
+ *
+ */
 public class Customer implements Comparable<Customer> {
 	private String name;
 	private String PIN;
@@ -22,14 +22,14 @@ public class Customer implements Comparable<Customer> {
 	 * @param phone number of Customer
 	 * @param PIN code of Customer
 	 */
-    public Customer(String name, String phoneNr, String PIN){ 
-    	this.name = name;
-    	this.phoneNr = phoneNr;
-    	this.PIN = PIN;
-    	missingPayment = false;
-    	bicycles = new HashSet<>();
+	public Customer(String name, String phoneNr, String PIN){ 
+		this.name = name;
+		this.phoneNr = phoneNr;
+		this.PIN = PIN;
+		missingPayment = false;
+		bicycles = new HashSet<>();
 	}
-	
+
 	/**
 	 * Receives the name of Customer
 	 * @return name of Customer
@@ -37,7 +37,7 @@ public class Customer implements Comparable<Customer> {
 	public String getName(){
 		return name;
 	}
-	
+
 	/**
 	 * Receives the customer's phone number 
 	 * @return customer's phone number
@@ -45,7 +45,7 @@ public class Customer implements Comparable<Customer> {
 	public String getPhoneNr(){
 		return phoneNr;
 	}
-	
+
 	/**
 	 * Receives the customer's PIN code
 	 * @return customer's PIN code
@@ -53,7 +53,7 @@ public class Customer implements Comparable<Customer> {
 	public String getPIN(){
 		return PIN;
 	}
-	
+
 	/**
 	 * Changes the customer's PIN code
 	 * @param customer's new PIN code
@@ -61,7 +61,7 @@ public class Customer implements Comparable<Customer> {
 	public void setPIN(String PIN){
 		this.PIN = PIN;
 	}
-	
+
 	/**
 	 * Receives the customer's bicycle(s)
 	 * @return customer's bicycle(s)
@@ -69,7 +69,7 @@ public class Customer implements Comparable<Customer> {
 	public Set<Bicycle> getBicycles(){
 		return bicycles;
 	}
-	
+
 	/**
 	 * Adds new bicycle(s) to customer
 	 * @param customer's new bicycle(s)
@@ -79,7 +79,7 @@ public class Customer implements Comparable<Customer> {
 			bicycles.add(nextBicycle);
 		}
 	}
-	
+
 	/**
 	 * Receives information on whether or not the customer has missing payments
 	 * @return true if the customer has missing payments
@@ -87,7 +87,7 @@ public class Customer implements Comparable<Customer> {
 	public boolean getMissingPayment(){
 		return missingPayment;
 	}
-	
+
 	/**
 	 * Updates information on whether or not the customer has missing payments
 	 * @param true if the customer has missing payments, false otherwise
@@ -95,7 +95,7 @@ public class Customer implements Comparable<Customer> {
 	public void setMissingPayment(boolean paymentStatus){
 		missingPayment = paymentStatus;
 	}
-	
+
 	/**
 	 * Compares this customer to another customer by comparing their names
 	 * @param the other customer to compare to
@@ -105,12 +105,12 @@ public class Customer implements Comparable<Customer> {
 	public int compareTo(Customer c) {
 		return this.getName().compareToIgnoreCase(c.getName());
 	}
-	
+
 	/**
 	 * Returns the name as of the customer
 	 * @return the name of the customer
 	 */
 	public String toString() { 
-	    return name;
+		return name;
 	} 
 }

@@ -163,11 +163,9 @@ public class CustomerListView extends BorderPane {
 	private void addBicycle() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if (index != -1) {
-			Customer customer = obsList2.get(index);
-			Optional<String> result = Dialogs.oneInputDialog("Add a new bicycle to " + customer.getName(), "Enter the number to add", "Number" );
-			if (result.isPresent()) {
-				String input = result.get();
-				boolean success = customerManager.addBicycle(input);
+			Customer customer = obsList2.get(index);		
+			if(Dialogs.confirmDialog("Add new bicycle","You are about to remove a bicycle.", "Are you sure that you want to add a bicycle to " + customer.getName() + "?")) {
+				boolean success = customerManager.addBicycle(customer);
 				if(success) {
 					select(index);
 				} else {
@@ -193,28 +191,31 @@ public class CustomerListView extends BorderPane {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if (index != -1) {
 			Customer customer = obsList2.get(index);
-			Optional<String> number = Dialogs.oneInputDialog("Remove bicycle", "Specify barcode", "Enter the barcode of the bicycle you want to remove");
+			Optional<String> number = Dialogs.oneInputDialog("Remove bicycle", "Specify barcode", "Enter the barcode of the bicycle you want to remove from " + customer.getName());
 			if (number.isPresent()) {
 				String numb = number.get();
 				if(customer == customerManager.findCustomerByBarcode(numb)) {
-					if(!customerManager.removeBicycle(numb)){
-						if(Dialogs.confirmDialog("An error occurred.","The entered barcode does not belong to the chosen customer.","Do you wan't to remove a different bicycle?")){
+					if(customerManager.removeBicycle(numb)){
+						Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
+					}
+					else {		
+						if(Dialogs.confirmDialog("An error här står det ssaker.","Error","The entered barcode does not exist in the system. Do you want to remove a different bicycle?")){
 							removeBicycle();
 						}
 					}
 				}
 				else {
-					if(Dialogs.confirmDialog("An error occurred.","The entered barcode does not belong to the chosen customer.","Do you wan't to remove a different bicycle?")){
+					if(Dialogs.confirmDialog("An error occurred","Error","The entered barcode does not belong to the chosen customer. Do you want to remove a different bicycle?")){
 						removeBicycle();
 					}
-
-					select(index);
 				}
+				select(index);
 			}
 		}
-
-
-	}
-
-
+	} 
 }
+
+
+
+
+
