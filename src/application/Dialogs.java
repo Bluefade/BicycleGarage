@@ -5,6 +5,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.ImageView;
 
 import java.util.Optional;
 
@@ -30,6 +31,19 @@ public class Dialogs {
 	 */
 	public static void alert(String title, String headerText, String infoText) {
 		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(headerText);
+		alert.setContentText(infoText);
+		alert.showAndWait();
+	}
+	
+	/** Shows an error alert.
+	 * @param title the title of the pop up window
+	 * @param headerText the string to show in the dialog header area
+	 * @param infoText the string to show in the dialog content area
+	 */
+	public static void alertError(String title, String headerText, String infoText) {
+		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle(title);
 		alert.setHeaderText(headerText);
 		alert.setContentText(infoText);
@@ -84,18 +98,24 @@ public class Dialogs {
 	 */
 	public static Optional<String> logInDialog(String title, String headerText, String label) {
 		TextInputDialog dialog = new TextInputDialog();
+		// Set the icon (must be included in the project).
+		dialog.setGraphic(new ImageView(Dialogs.class.getResource("login.png").toString()));
+
+		// Set the button types.
+		dialog.getDialogPane().lookupButton(ButtonType.OK).setVisible(false);
+		dialog.getDialogPane().lookupButton(ButtonType.CANCEL).setVisible(false);
+		ButtonType loginButtonType = new ButtonType("Login", ButtonData.OK_DONE);
+		ButtonType exitButtonType = new ButtonType("Exit", ButtonData.CANCEL_CLOSE);
+		dialog.getDialogPane().getButtonTypes().addAll(exitButtonType, loginButtonType);
 		dialog.setTitle(title);
 		dialog.setHeaderText(headerText);
 		dialog.setContentText(label + ": ");
-		GridPane grid = new GridPane();
-		dialog.getDialogPane().setContent(grid);
-		ButtonType buttonTypeLogin = new ButtonType("Log in", ButtonData.OK_DONE);
-		ButtonType buttonTypeExit = new ButtonType("Exit", ButtonData.CANCEL_CLOSE);
-		dialog.getDialogPane().getButtonTypes().addAll(buttonTypeLogin, buttonTypeExit);
 		return dialog.showAndWait();
 	}
 	
-
+	
+	
+	
 	/** Shows an input dialog with two input fields.
 	 * @param title the title of the pop up window
 	 * @param headerText the string to show in the dialog header area

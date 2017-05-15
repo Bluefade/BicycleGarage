@@ -27,6 +27,7 @@ public class GarageApplication extends Application{
 	private CustomerListView customerListView;
 	private final String operatorpass = "1Qazwsx*";
 	private int logincounter = 0;
+	private boolean login = false;
 	
 
 	/**
@@ -47,16 +48,17 @@ public class GarageApplication extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		if(login()==true){
-			if(Dialogs.confirmDialog("Start options","Launch from previous", "Would you like to launch form a previous file? If you choose not to, a new file will be created.")){
-				FileChooser chooser = new FileChooser();
-			    chooser.setTitle("Choose launch file");
-			    File file = chooser.showOpenDialog(new Stage());
-			    open(file);
-			    
-			} else{
-				customerManager = new CustomerManager();
-			}
+		while(login==false){
+			login();
+		}
+		if(Dialogs.confirmDialog("Start options","Launch from previous", "Would you like to launch form a previous file? If you choose not to, a new file will be created.")){
+			FileChooser chooser = new FileChooser();
+		    chooser.setTitle("Choose launch file");
+		    File file = chooser.showOpenDialog(new Stage());
+		    open(file);
+		    
+		} else{
+			customerManager = new CustomerManager();
 		}
 		// set default locale english 
 		Locale.setDefault(Locale.ENGLISH);
@@ -73,28 +75,29 @@ public class GarageApplication extends Application{
 		
 	}
 
-	public boolean login(){
+	public void login(){
 		if(logincounter==3){
-			Dialogs.alert("Log-in attempts exceeded", "Log-in attempts exceeded", "System is shutting down due to exceeded number of log-in attempts");
+			Dialogs.alertError("Log-in attempts exceeded", "Log-in attempts exceeded", "System is shutting down due to exceeded number of log-in attempts");
 			System.exit(1);
 		}
-		Optional<String> pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in.");
+		Optional<String> pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in");
+		
 		if (pass.isPresent()) {
-			if(pass.equals(operatorpass)){
-				return true;
+			String input = pass.get();
+			if(input.equals(operatorpass)){
+				login = true;
 			}
 			else{
 				logincounter++;
-				Dialogs.alert("Log-in failed", "Log-in failed", "Incorrect password entered");
+				Dialogs.alertError("Log-in failed", "Log-in failed", "Incorrect password entered");
 				login();
 			}
 		    
 		} else{
-			Dialogs.alert("Log-in failed", "Log-in failed", "No password entered");
+			Dialogs.alertError("Log-in failed", "Log-in failed", "No password entered");
 			logincounter++;
 			login();
 		}
-		return false;
 	}
 	
 	@Override
