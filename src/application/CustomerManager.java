@@ -26,6 +26,9 @@ public class CustomerManager {
 		CustomerManager customer = new CustomerManager();
 		customer.generatePIN();
 		customer.generateBarcode();
+		customer.addCustomer("Johan Hansson", "0722048352");
+		customer.findCustomerByName("Johan Hansson").setMissingPayment(true);
+		
 	}
 
 	/**
@@ -37,6 +40,7 @@ public class CustomerManager {
 		barcodes = new LinkedList<>();
 		generatePIN();
 		generateBarcode();
+		customers.add(new Customer("Skyldiga Johan", "0722048352","1234",true));
 	}
 
 	/**

@@ -29,6 +29,14 @@ public class Customer implements Comparable<Customer> {
 		missingPayment = false;
 		bicycles = new HashSet<>();
 	}
+	
+	public Customer(String name, String phoneNr, String PIN, boolean missingPayment){ 
+		this.name = name;
+		this.phoneNr = phoneNr;
+		this.PIN = PIN;
+		this.missingPayment = missingPayment;
+		bicycles = new HashSet<>();
+	}
 
 	/**
 	 * Receives the name of Customer
