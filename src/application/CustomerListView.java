@@ -196,17 +196,25 @@ public class CustomerListView extends BorderPane {
 			Optional<String> number = Dialogs.oneInputDialog("Remove bicycle", "Specify barcode", "Enter the barcode of the bicycle you want to remove");
 			if (number.isPresent()) {
 				String numb = number.get();
-				if(!customerManager.removeBicycle("Barcode"){
-					if(Dialogs.confirmDialog("Ett fel uppstod","Det valda numret kunde inte hittas hos kontakten.","Vill du ta bort ett annat nummer?")){
-						removeNumber();
+				if(customer == findCustomerByBarcode(numb)) {
+					if(!customerManager.removeBicycle("Barcode")){
+						if(Dialogs.confirmDialog("An error occurred.","The entered barcode does not belong to the chosen customer.","Do you wan't to remove a different bicycle?")){
+							removeBicycle();
+						}
 					}
 				}
-				select(index);
+				else {
+					if(Dialogs.confirmDialog("An error occurred.","The entered barcode does not belong to the chosen customer.","Do you wan't to remove a different bicycle?")){
+						removeBicycle();
+					}
+
+					select(index);
+				}
 			}
 		}
-	}
 
-}
+
+	}
 
 
 }
