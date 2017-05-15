@@ -70,5 +70,4 @@ public class Customer {
 	public boolean getMissingPayment(){
 		return missingPayment;
 	}
-	
 }

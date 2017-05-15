@@ -27,7 +27,7 @@ public class CustomerManager {
 	public static void main(String[] args) {
 		CustomerManager customer = new CustomerManager();
 		customer.generatePIN();
-		//customer.generateBarcode();
+		customer.generateBarcode();
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class CustomerManager {
 	public CustomerManager() {
 		customers = new HashSet<>();
 		PINcodes = new LinkedList<>();
-		barcodes = new LinkedList<>()
+		barcodes = new LinkedList<>();
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class CustomerManager {
 		return size;
 	}
 
-	public Customer[] allCustomers{
+	public Set<Customer> allCustomers() { // ändrat till Set
 		return customers;
 	}
 	/**
@@ -79,6 +79,7 @@ public class CustomerManager {
 				}
 			}
 		}
+		return null; // lagt till
 	}
 	
 	/**
@@ -92,6 +93,7 @@ public class CustomerManager {
 					return c.getName();
 				}
 		}
+		return null; // lagt till
 	}
 
 	/**
@@ -135,7 +137,7 @@ public class CustomerManager {
 	 */
 	public Set<String> allNames() {
 		Set<String> names = new TreeSet<String>();
-		for(String currentKey : customers.keySet()){
+			for(String currentKey : customers.keySet()){
 			names.add(currentKey);
 		}
 		return names;

@@ -148,8 +148,8 @@ public class CustomerListView extends BorderPane {
 			if (result.isPresent()) {
 				String[] inputs = result.get();
 				if (inputs.length == 2) {
-					boolean success = customerManager.put(inputs[0], new Customer());
-					if(success) {
+				boolean success = customerManager.put(inputs[0], new Customer());
+				if(success) {
 						obsList.setAll(customerManager.allNames());
 						select(inputs[0]);
 					} else {
