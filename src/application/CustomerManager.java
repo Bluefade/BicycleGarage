@@ -44,50 +44,46 @@ public class CustomerManager {
 	public int getSize(){
 		return size;
 	}
-	/**
-	 * findBarcodesByName finds the barcodes belonging to a customer with the name "name".
-	 * @param name
-	 * @return a hashset of barcodes belonging to a name.
-	 */
-	public Set<String> findBarcodesByName(String name){
-		Set<String> barcodes = new HashSet<>();
-		for(Customer c : customers) {
-			if(name == c.getName()) {
-				for(Bicycle b: c.getBicycles()) {
-					barcodes.add(b.getBarcode());
-				}
-			}
-		}
-		return barcodes;
-	}
-	/**
-	 * findNamebyBarcode finds the name of a customer with the barcode "barcode".
-	 * @param barcode
-	 * @return the name of a customer with the given barcode.
-	 */
-	public String findNameByBarcode(String barcode){
-		for(Customer c : customers) {
-			for(Bicycle b : c.getBicycles()) {
-				if(barcode == b.getBarcode()) {
-					return c.getName();
-				}
-			}
-		}
-		return null; // lagt till
-	}
 
 	/**
-	 * FindNameByPhonenr finds the name of a customer with the phoneNr "phoneNr"
-	 * @param phoneNr
-	 * @return the name of the customer with the given phoneNr.
+	 * Finds the customer with the given name.
+	 * @param name
+	 * @return customer with the given name, or null if such a customer does not exist.
 	 */
-	public String findNameByPhonenr(String phoneNr){
+	public Customer findCustomerByName(String name) {
 		for(Customer c : customers) {
-			if(phoneNr == c.getPhoneNr()) {
-				return c.getName();
+			if(c.getName() == name) {
+				return c;
 			}
 		}
-		return null; // lagt till
+		return null;
+	}
+	/**
+	 * Finds the customer with the given barcode.
+	 * @param barcode
+	 * @return customer with the given barcode, or null if such a customer does not exist.
+	 */
+	public Customer findCustomerByBarcode(String barcode) {
+		for(Customer c : customers) {
+			for(Bicycle b : c.getBicycles())
+				if(b.getBarcode() == barcode) {
+					return c;
+				}
+		}
+		return null;
+	}
+	/**
+	 * Finds the customer with the given phone number.
+	 * @param phoneNr
+	 * @return customer with the given phone number, or null if such a customer does not exist.
+	 */
+	public Customer findCustomerByPhoneNr(String phoneNr) {
+		for(Customer c : customers) {
+			if(c.getPhoneNr() == phoneNr) {
+				return c;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -187,13 +183,30 @@ public class CustomerManager {
 	 * @return true if bike was added, false if it wasn't.
 	 */
 	public boolean addBicycle(String name) {
-		return true;
+		Customer customer = findCustomerByName(name);
+		HashSet<Bicycle> bicycles = new HashSet<Bicycle>();
+		bicycles.add(new Bicycle(barcodes.getLast()));
+		if(size<50 && customer.getBicycles().size()<2) {
+			customer.addBicycle(bicycles);
+			size++;
+			barcodes.removeLast();
+			return true;
+		}
+		return false;
 	}
-		/**
-		 * Method should remove bike from customer.
-		 * @return true if bicycle was removed, otherwise false.
-		 */
+	/**
+	 * Method should remove bike from customer.
+	 * @return true if bicycle was removed, otherwise false.
+	 */
 	public boolean removeBicycle(String barcode) {
-		return true;
+		Customer customer = findCustomerByBarcode(barcode);
+		for(Bicycle b: customer.getBicycles()) {
+			if(barcode == b.getBarcode()) {
+				customer.getBicycles().remove(b);
+				size--;
+				return true;
+			}
+		}
+		return false;
 	}
 }

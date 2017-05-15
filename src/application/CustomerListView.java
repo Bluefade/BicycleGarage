@@ -197,7 +197,7 @@ public class CustomerListView extends BorderPane {
 			if (number.isPresent()) {
 				String numb = number.get();
 				if(customer == findCustomerByBarcode(numb)) {
-					if(!customerManager.removeBicycle("Barcode")){
+					if(!customerManager.removeBicycle(numb)){
 						if(Dialogs.confirmDialog("An error occurred.","The entered barcode does not belong to the chosen customer.","Do you wan't to remove a different bicycle?")){
 							removeBicycle();
 						}
