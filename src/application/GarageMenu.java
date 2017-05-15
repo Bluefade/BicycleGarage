@@ -1,13 +1,12 @@
 package application;
 
 	import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
+	import java.util.HashSet;
+	import java.util.Optional;
 	import javafx.application.Platform;
 	import javafx.scene.control.Menu;
 	import javafx.scene.control.MenuBar;
 	import javafx.scene.control.MenuItem;
-	import java.util.Map;
 	import java.util.Set;
 	import java.util.TreeSet;
 
@@ -46,10 +45,13 @@ import java.util.Optional;
 			menuPhoneNumber.setOnAction(e -> byPhoneNumber());
 			menuFind.getItems().addAll(menuPhoneNumber);
 			
-			final Menu menuMissingPayment = new Menu("List missing payments");
-			menuMissingPayment.setOnAction(e -> showAll());
+			final Menu menuListMissingPayment = new Menu("List missing payments");
+			
+			final MenuItem menuMissingPayment = new MenuItem("List missing payments");
+			menuMissingPayment.setOnAction(e -> byMissingPayment());
+			menuListMissingPayment.getItems().addAll(menuMissingPayment);
 
-		    getMenus().addAll(menuGarage, menuFind, menuMissingPayment);
+		    getMenus().addAll(menuGarage, menuFind, menuListMissingPayment);
 		    //setUseSystemMenuBar(true);  // if you want operating system rendered menus, uncomment this line
 		}
 
@@ -114,4 +116,17 @@ import java.util.Optional;
 			}
 		}
 		
+		private void byMissingPayment() {
+			Set<Customer> cm = new HashSet<Customer>();
+			for(Customer customer : customerManager.allCustomers()){
+				if(customer.getMissingPayment()){
+					cm.add(customer);
+				}
+			}
+			if(Collections.emptySet().equals(cm)){
+				Dialogs.alert("An error occured","An error occured","No customers with missing payments found.");
+			} else{
+				customerListView.fillList(cm);
+			}
+		}
 	}
