@@ -11,9 +11,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 /**
 * <h1>GarageApplication</h1>
@@ -45,9 +43,9 @@ public class GarageApplication extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		if(Dialogs.confirmDialog("Startalternativ","Starta från fil", "Vill du starta från en tidigare sparad fil? Om inte kommer en ny telefonbok skapas.")){
+		if(Dialogs.confirmDialog("Start options","Launch from previous", "Would you like to launch form a previous file? If you choose not to, a new file will be created.")){
 			FileChooser chooser = new FileChooser();
-		    chooser.setTitle("Välj startfil");
+		    chooser.setTitle("Choose launch file");
 		    File file = chooser.showOpenDialog(new Stage());
 		    open(file);
 		    
@@ -60,11 +58,11 @@ public class GarageApplication extends Application{
 		
 		customerListView = new CustomerListView(customerManager);
 		BorderPane root = new BorderPane();
-		root.setTop(new GarageMenu(phoneBook, nameListView));
-		root.setCenter(nameListView);		
+		root.setTop(new GarageMenu(customerManager, customerListView));
+		root.setCenter(customerListView);		
 		
 		Scene scene = new Scene(root);
-		primaryStage.setTitle("PhoneBook");
+		primaryStage.setTitle("Bicycle Garage");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
@@ -73,9 +71,9 @@ public class GarageApplication extends Application{
 	@Override
 	public void stop(){
 		// Here you can place any action to be done when the application is closed, i.e. save phone book to file.
-		if(Dialogs.confirmDialog("Sparalternativ","Spara telefonkatalogen innan stängning.", "Vill du spara telefonkatalogen i en fil?")){
+		if(Dialogs.confirmDialog("Save options","Save current setup before termination.", "Would you like to save the current setup to file?")){
 			FileChooser chooser = new FileChooser();
-		    chooser.setTitle("Välj sparmapp");
+		    chooser.setTitle("Choose save directory");
 		    File file = chooser.showSaveDialog(new Stage());
 			save(file);
 		}
@@ -84,7 +82,8 @@ public class GarageApplication extends Application{
 	public void save(File file) {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-			out.writeObject(phoneBook);
+			out.writeObject(customerManager);
+			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -94,7 +93,7 @@ public class GarageApplication extends Application{
 	public void open(File file){
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-			phoneBook = (MapPhoneBook) in.readObject();
+			customerManager = (CustomerManager) in.readObject();
 			in.close();
 		} catch (Exception e){
 			e.printStackTrace();
