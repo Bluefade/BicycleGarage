@@ -60,7 +60,7 @@ import java.util.Optional;
 		}
 		
 		private void byName() {
-			Optional<String> name = Dialogs.oneInputDialog("Customer search by name", "Search customer by name", "Input the name of the customer you're looking for:");
+			Optional<String> name = Dialogs.oneInputDialog("Customer search by name", "Search customer by name", "Input the name of the customer you're looking for");
 			if (name.isPresent()) {
 				CharSequence n = name.get();
 				Set<Customer> customers = new TreeSet<Customer>();
@@ -83,7 +83,7 @@ import java.util.Optional;
 		}
 		
 		private void byPhoneNumber() {
-			Optional<String> number = Dialogs.oneInputDialog("Customer search by phone number", "Search customer by phone number.", "Input the phone number of the customer you're looking for:");
+			Optional<String> number = Dialogs.oneInputDialog("Customer search by phone number", "Search customer by phone number.", "Input the phone number of the customer you're looking for");
 			if (number.isPresent()) {
 				String n = number.get();
 				if(Collections.emptySet().equals(customerManager.findCustomerByPhoneNr(n))){
@@ -99,7 +99,7 @@ import java.util.Optional;
 		}
 		
 		private void byBarcode() {
-			Optional<String> barcode = Dialogs.oneInputDialog("Customer search by bicycle barcode", "Search customer by bicycle barcode.", "Input the bicycle barcode to find its corresponding owner:");
+			Optional<String> barcode = Dialogs.oneInputDialog("Customer search by bicycle barcode", "Search customer by bicycle barcode.", "Input the bicycle barcode to find its corresponding owner");
 			if (barcode.isPresent()) {
 				String b = barcode.get();
 				if(Collections.emptySet().equals(customerManager.findCustomerByBarcode(b))){
