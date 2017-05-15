@@ -100,11 +100,17 @@ public class Customer implements Comparable<Customer> {
 	 * Compares this customer to another customer by comparing their names
 	 * @param the other customer to compare to
 	 * @return an integer bigger, smaller or equal to zero dependent on the alphabetical order of the names.
-	 * 
 	 */
 	@Override
 	public int compareTo(Customer c) {
 		return this.getName().compareToIgnoreCase(c.getName());
 	}
-
+	
+	/**
+	 * Returns the name as of the customer
+	 * @return the name of the customer
+	 */
+	public String toString() { 
+	    return name;
+	} 
 }
