@@ -9,7 +9,7 @@ import java.util.Set;
 * and fundamental information about the customer.
 *
 */
-public class Customer implements Comparable {
+public class Customer implements Comparable<Customer> {
 	private String name;
 	private String PIN;
 	private Set<Bicycle> bicycles;
@@ -103,8 +103,8 @@ public class Customer implements Comparable {
 	 * 
 	 */
 	@Override
-	public int compareTo(Object o) {
-		return this.getName().compareToIgnoreCase(((Customer) o).getName());
+	public int compareTo(Customer c) {
+		return this.getName().compareToIgnoreCase(c.getName());
 	}
 
 }
