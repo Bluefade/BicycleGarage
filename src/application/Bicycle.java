@@ -47,7 +47,7 @@ public class Bicycle {
 	 * Returns the barcode of the bicycle
 	 * @return the bicycle's barcode
 	 */
-    public String toString() { 
+    public String toString() {
 	    return barcode;
 	} 
 }

@@ -66,7 +66,7 @@ public class GarageApplication extends Application{
 		customerListView = new CustomerListView(customerManager);
 		BorderPane root = new BorderPane();
 		root.setTop(new GarageMenu(customerManager, customerListView));
-		root.setCenter(customerListView);		
+		root.setCenter(customerListView);
 		
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Bicycle Garage");

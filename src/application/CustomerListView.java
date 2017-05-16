@@ -35,7 +35,7 @@ public class CustomerListView extends BorderPane {
 	private Label numbersLabel;
 	private Label numbersLabel1;
 	private Label numbersLabel2;
-	
+
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
 	 * @param CustomerManager containing the customers
@@ -50,8 +50,8 @@ public class CustomerListView extends BorderPane {
 		// Create a list view to display the names. 
 		// The list view is automatically updated when the observable list i updated.
 		listView = new ListView<>(obsList2);
-		listView.setPrefWidth(400);
-		listView.setPrefHeight(200);
+		listView.setPrefWidth(600);
+		listView.setPrefHeight(300);
 
 		setTop(listView);
 
@@ -62,8 +62,8 @@ public class CustomerListView extends BorderPane {
 		numbersLabel1 = new Label();
 		numbersLabel1.setMinWidth(200);
 		// A label to display barcodes
-		numbersLabel1 = new Label();
-		numbersLabel1.setMinWidth(200);
+		numbersLabel2 = new Label();
+		numbersLabel2.setMinWidth(200);
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
@@ -78,9 +78,9 @@ public class CustomerListView extends BorderPane {
 		removeBicycleButton.setOnAction(e -> removeBicycle());
 
 		HBox buttonBox = new HBox();
-		buttonBox.setSpacing(5);
+		buttonBox.setSpacing(0);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
-		buttonBox.getChildren().addAll(numbersLabel, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton);
+		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton);
 		setBottom(buttonBox);
 
 		// The method change is called when a row in the list view is selected. 
@@ -98,12 +98,17 @@ public class CustomerListView extends BorderPane {
 						removeBicycleButton.setDisable(true);
 					}
 					numbersLabel.setText("Name: \n" + newValue.getName());
-					//numbersLabel.setText("Phone Number: \n" + newValue.getPhoneNr());
-					//numbersLabel2.setText("Bicycle barcodes: \n " + newValue.getBicycles().toString());
+					numbersLabel1.setText("Phone Number: \n" + newValue.getPhoneNr());
+					if(newValue.getBicycles().isEmpty()) {
+						numbersLabel2.setText("Bicycle barcodes: \n" + "No registred bicycles");
+					}
+					else {
+						numbersLabel2.setText("Bicycle barcodes: \n" + newValue.getBicycles().toString().replaceAll("\\[", "").replaceAll("\\]",""));
+					}
 				} else {
 					numbersLabel.setText("");
-					//numbersLabel1.setText("");
-					//numbersLabel2.setText("");
+					numbersLabel1.setText("");
+					numbersLabel2.setText("");
 				}
 
 			}
@@ -120,8 +125,8 @@ public class CustomerListView extends BorderPane {
 		removeBicycleButton.setDisable(true);
 		removeCustomerButton.setDisable(true);
 		numbersLabel.setText("");
-		//numbersLabel1.setText("");
-		//numbersLabel2.setText("");
+		numbersLabel1.setText("");
+		numbersLabel2.setText("");
 		listView.getSelectionModel().clearSelection();
 	}
 
