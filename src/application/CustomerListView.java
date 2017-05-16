@@ -169,7 +169,7 @@ public class CustomerListView extends BorderPane {
 				"Please enter the name and phone number of the new customer and press Ok.", labels);
 		if (result.isPresent()) {
 			String[] inputs = result.get();
-			if (inputs.length == 2) {
+			if (inputs.length == 2 && inputs[1].matches("\\d+") && inputs[0].matches("^[\\p{L} .'-]+$")) {
 				boolean success = customerManager.addCustomer(inputs[0], inputs[1]);
 				if(success) {
 					obsList2.setAll(customerManager.allCustomers());
@@ -179,7 +179,18 @@ public class CustomerListView extends BorderPane {
 					clearSelection();
 				}
 			}
-		}	
+			else {
+				if(Dialogs.confirmDialog("Failed to add customer", "Invalid inputs", "You have to enter both a name and a valid phone number to add a customer. Would you like to try again?")) {
+				addCustomer();
+				}
+			}
+		}
+		else {
+			if(Dialogs.confirmDialog("Failed to add customer", "Not enough inputs", "You have to enter both a name and a valid phone number to add a customer. Would you like to try again?")) {
+				addCustomer();
+			}
+
+		}
 	}
 
 	private void addBicycle() {
@@ -235,6 +246,7 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
+
 	public void save(File file) {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
