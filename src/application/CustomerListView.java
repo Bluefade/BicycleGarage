@@ -8,13 +8,13 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.Set;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -57,7 +57,7 @@ public class CustomerListView extends BorderPane {
 		// The list view is automatically updated when the observable list i updated.
 		listView = new ListView<>(obsList2);
 		listView.setPrefWidth(600);
-		listView.setPrefHeight(300);
+		listView.setPrefHeight(400);
 
 		setTop(listView);
 
@@ -77,13 +77,15 @@ public class CustomerListView extends BorderPane {
 		addBicycleButton = new Button("Add bicycle");
 		addBicycleButton.setOnAction(e -> addBicycle());
 
-		removeCustomerButton = new Button("Remove customer");
+		removeCustomerButton = new Button("Remove customer");	
 		removeCustomerButton.setOnAction(e -> removeCustomer());
+		removeCustomerButton.setAlignment(Pos.BOTTOM_CENTER);
 
 		removeBicycleButton = new Button("Remove bicycle");
 		removeBicycleButton.setOnAction(e -> removeBicycle());
 
 		HBox buttonBox = new HBox();
+		buttonBox.setMinHeight(100);
 		buttonBox.setSpacing(0);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
 		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton);
