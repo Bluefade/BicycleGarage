@@ -1,5 +1,6 @@
 package application;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -16,20 +17,12 @@ import java.util.Random;
  * and generating PIN codes for customers.
  *
  */
-public class CustomerManager {
+public class CustomerManager implements Serializable {
 	private int size;
 	private Set<Customer> customers;
 	private LinkedList<String> PINcodes;
 	private LinkedList<String> barcodes;
-
-	public static void main(String[] args) {
-		CustomerManager customer = new CustomerManager();
-		customer.generatePIN();
-		customer.generateBarcode();
-		customer.addCustomer("Johan Hansson", "0722048352");
-		customer.findCustomerByName("Johan Hansson").setMissingPayment(true);
-		
-	}
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 *	Constructor initiating customers, PINcodes and barcodes.
@@ -148,7 +141,7 @@ public class CustomerManager {
 		}
 		else {
 			for(Customer currentKey : customers) {
-				if(currentKey.getName()==name && currentKey.getPhoneNr()==phoneNr && currentKey.getBicycles().size()>=2) {
+				if(currentKey.getPhoneNr().equals(phoneNr)) {
 					return false;
 				}
 			}

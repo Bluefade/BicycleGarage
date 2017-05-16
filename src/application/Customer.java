@@ -1,5 +1,6 @@
 package application;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,13 +10,14 @@ import java.util.Set;
  * and fundamental information about the customer.
  *
  */
-public class Customer implements Comparable<Customer> {
+public class Customer implements Comparable<Customer> , Serializable{
 	private String name;
 	private String PIN;
 	private Set<Bicycle> bicycles;
 	private String phoneNr;
 	private boolean missingPayment;
-
+	private static final long serialVersionUID = 2L;
+	
 	/**
 	 * Creates a new Customer
 	 * @param name of Customer

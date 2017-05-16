@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 public class GarageApplication extends Application{
 	private CustomerManager customerManager;
 	private CustomerListView customerListView;
-	private final String operatorpass = "1Qazwsx*";
+	private final String operatorpass = "a";
 	private int logincounter = 0;
 	private boolean login = false;
 
@@ -113,7 +113,6 @@ public class GarageApplication extends Application{
 			save(file);
 		}
 	}
-
 	public void save(File file) {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
@@ -124,6 +123,7 @@ public class GarageApplication extends Application{
 			System.exit(1);
 		}
 	}
+	
 
 	public void open(File file){
 		try{

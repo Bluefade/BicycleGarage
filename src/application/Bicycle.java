@@ -1,13 +1,16 @@
 package application;
 
+import java.io.Serializable;
+
 /**
  * <h1>Bicycle</h1>
  * The Bicycle class contains the definition 
  * and fundamental information about the bicycle.
  * */
-public class Bicycle {
+public class Bicycle implements Serializable {
 	private String barcode;
 	private boolean status;
+	private static final long serialVersionUID = 3L;
 	
 	/**
 	 * Creates a new bicycle used to authenticate

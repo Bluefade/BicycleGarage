@@ -1,5 +1,8 @@
 package application;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -35,7 +38,6 @@ public class CustomerListView extends BorderPane {
 	private Label numbersLabel;
 	private Label numbersLabel1;
 	private Label numbersLabel2;
-
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
 	 * @param CustomerManager containing the customers
@@ -173,7 +175,7 @@ public class CustomerListView extends BorderPane {
 					obsList2.setAll(customerManager.allCustomers());
 					select(customerManager.findCustomerByPhoneNr(inputs[1]));
 				} else {
-					Dialogs.alert("Add", null, "Failed to add customer");
+					Dialogs.alert("Failed to add customer", "Failed to add customer", "The system is already full or the entered phone number is already registered to another customer.");
 					clearSelection();
 				}
 			}
@@ -189,7 +191,7 @@ public class CustomerListView extends BorderPane {
 				if(success) {
 					select(index);
 				} else {
-					Dialogs.alert("Add", null, "Failed to add bicycle");
+					Dialogs.alert("Failed to add bicycle","Failed to add bicycle" , "The garage is either full or the customer already has two registered bicycles.");
 				}
 			}	
 		}	
@@ -232,8 +234,19 @@ public class CustomerListView extends BorderPane {
 				select(index);
 			}
 		}
-	} 
-}
+	}
+	public void save(File file) {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+			out.writeObject(customerManager);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+} 
+
 
 
 
