@@ -85,7 +85,7 @@ public class CustomerManager {
 	 */
 	public Customer findCustomerByPhoneNr(String phoneNr) {
 		for(Customer c : customers) {
-			if(c.getPhoneNr() == phoneNr) {
+			if(c.getPhoneNr().equals(phoneNr)) {
 				return c;
 			}
 		}
