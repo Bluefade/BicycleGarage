@@ -15,12 +15,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
-* <h1>GarageApplication</h1>
-* This is the application’s primary class, handling start 
-* and stop of application as well as login and logout of operator account. 
-* This class will run continuously, with and without the presence of 
-* an operator, and will only be shutdown during maintenance.
-*/
+ * <h1>GarageApplication</h1>
+ * This is the application’s primary class, handling start 
+ * and stop of application as well as login and logout of operator account. 
+ * This class will run continuously, with and without the presence of 
+ * an operator, and will only be shutdown during maintenance.
+ */
 
 public class GarageApplication extends Application{
 	private CustomerManager customerManager;
@@ -28,7 +28,7 @@ public class GarageApplication extends Application{
 	private final String operatorpass = "1Qazwsx*";
 	private int logincounter = 0;
 	private boolean login = false;
-	
+
 
 	/**
 	 * The entry point for the Java program.
@@ -53,26 +53,26 @@ public class GarageApplication extends Application{
 		}
 		if(Dialogs.confirmDialog("Start options","Launch from previous", "Would you like to launch form a previous file? If you choose not to, a new file will be created.")){
 			FileChooser chooser = new FileChooser();
-		    chooser.setTitle("Choose launch file");
-		    File file = chooser.showOpenDialog(new Stage());
-		    open(file);
-		    
+			chooser.setTitle("Choose launch file");
+			File file = chooser.showOpenDialog(new Stage());
+			open(file);
+
 		} else{
 			customerManager = new CustomerManager();
 		}
 		// set default locale english 
 		Locale.setDefault(Locale.ENGLISH);
-		
+
 		customerListView = new CustomerListView(customerManager);
 		BorderPane root = new BorderPane();
 		root.setTop(new GarageMenu(customerManager, customerListView));
 		root.setCenter(customerListView);
-		
+
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Bicycle Garage");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+
 	}
 
 	public void login(){
@@ -81,7 +81,7 @@ public class GarageApplication extends Application{
 			System.exit(1);
 		}
 		Optional<String> pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in");
-		
+
 		if (pass.isPresent()) {
 			String input = pass.get();
 			if(input.equals(operatorpass)){
@@ -92,25 +92,28 @@ public class GarageApplication extends Application{
 				Dialogs.alertError("Log-in failed", "Log-in failed", "Incorrect password entered");
 				login();
 			}
-		    
+
 		} else{
-			Dialogs.alertError("Log-in failed", "Log-in failed", "No password entered");
-			logincounter++;
-			login();
+			if(Dialogs.confirmDialog("Exit the application", "Exit the application?", "Are you sure you want to exit the application?")) {
+				System.exit(1);
+			}
+			else {
+				login();
+			}
 		}
 	}
-	
+
 	@Override
 	public void stop(){
 		// Here you can place any action to be done when the application is closed, i.e. save phone book to file.
 		if(Dialogs.confirmDialog("Save options","Save current setup before termination.", "Would you like to save the current setup to file?")){
 			FileChooser chooser = new FileChooser();
-		    chooser.setTitle("Choose save directory");
-		    File file = chooser.showSaveDialog(new Stage());
+			chooser.setTitle("Choose save directory");
+			File file = chooser.showSaveDialog(new Stage());
 			save(file);
 		}
 	}
-	
+
 	public void save(File file) {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
@@ -121,7 +124,7 @@ public class GarageApplication extends Application{
 			System.exit(1);
 		}
 	}
-	
+
 	public void open(File file){
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
@@ -132,5 +135,5 @@ public class GarageApplication extends Application{
 			System.exit(1);
 		}
 	}
-	
+
 }
