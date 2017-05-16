@@ -181,17 +181,12 @@ public class CustomerListView extends BorderPane {
 			}
 			else {
 				if(Dialogs.confirmDialog("Failed to add customer", "Invalid inputs", "You have to enter both a name and a valid phone number to add a customer. Would you like to try again?")) {
-				addCustomer();
+					addCustomer();
 				}
 			}
 		}
-		else {
-			if(Dialogs.confirmDialog("Failed to add customer", "Not enough inputs", "You have to enter both a name and a valid phone number to add a customer. Would you like to try again?")) {
-				addCustomer();
-			}
-
-		}
 	}
+
 
 	private void addBicycle() {
 		int index = listView.getSelectionModel().getSelectedIndex();
