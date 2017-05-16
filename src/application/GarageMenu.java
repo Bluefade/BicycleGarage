@@ -72,7 +72,7 @@ public class GarageMenu extends MenuBar {
 				}
 			}
 			if(Collections.emptySet().equals(customers)){
-				if(Dialogs.confirmDialog("An error occured","No customer by the name of " + n + " found.","Would you like to search for another name instead?")){
+				if(Dialogs.confirmDialog("No customer found","No customer found","No customer by the name of '" + n + "' found. Would you like to search for another name instead?")){
 					byName();
 				}
 			} else{
@@ -89,7 +89,7 @@ public class GarageMenu extends MenuBar {
 		if (number.isPresent()) {
 			String n = number.get();
 			if(null == customerManager.findCustomerByPhoneNr(n)){
-				if(Dialogs.confirmDialog("An error occured","No customer with phone number " + n + " found.","Would you like to search for another phone number instead?")){
+				if(Dialogs.confirmDialog("Customer not found","Customer not found","No customer with phone number '" + n + "' found. Would you like to search for another phone number instead?")){
 					byPhoneNumber();
 				}
 			} 
@@ -107,7 +107,7 @@ public class GarageMenu extends MenuBar {
 		if (barcode.isPresent()) {
 			String b = barcode.get();
 			if(null == customerManager.findCustomerByBarcode(b)){
-				if(Dialogs.confirmDialog("An error occured","No customer with barcode " + b + " found.","Would you like to search for another barcode instead?")){
+				if(Dialogs.confirmDialog("No customer found","No customer found","No customer with barcode '" + b + "' found. Would you like to search for another barcode instead?")){
 					byBarcode();
 				}
 			} else{
@@ -127,7 +127,7 @@ public class GarageMenu extends MenuBar {
 			}
 		}
 		if(Collections.emptySet().equals(cm)){
-			Dialogs.alert("An error occured","An error occured","No customers with missing payments found.");
+			Dialogs.alert("No missing payments found","No missing payments found","No customers with missing payments found.");
 		} else{
 			customerListView.fillList(cm);
 		}

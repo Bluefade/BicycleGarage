@@ -1,7 +1,9 @@
 package application;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 
 /**
@@ -169,18 +173,25 @@ public class CustomerListView extends BorderPane {
 				"Please enter the name and phone number of the new customer and press Ok.", labels);
 		if (result.isPresent()) {
 			String[] inputs = result.get();
-			if (inputs.length == 2) {
+			if (inputs.length == 2 && inputs[1].matches("\\d+") && inputs[0].matches("^[\\p{L} .'-]+$")) {
 				boolean success = customerManager.addCustomer(inputs[0], inputs[1]);
 				if(success) {
 					obsList2.setAll(customerManager.allCustomers());
 					select(customerManager.findCustomerByPhoneNr(inputs[1]));
+					save();
 				} else {
 					Dialogs.alert("Failed to add customer", "Failed to add customer", "The system is already full or the entered phone number is already registered to another customer.");
 					clearSelection();
 				}
 			}
-		}	
+			else {
+				if(Dialogs.confirmDialog("Failed to add customer", "Invalid inputs", "You have to enter both a name and a valid phone number to add a customer. Would you like to try again?")) {
+					addCustomer();
+				}
+			}
+		}
 	}
+
 
 	private void addBicycle() {
 		int index = listView.getSelectionModel().getSelectedIndex();
@@ -190,6 +201,7 @@ public class CustomerListView extends BorderPane {
 				boolean success = customerManager.addBicycle(customer);
 				if(success) {
 					select(index);
+					save();
 				} else {
 					Dialogs.alert("Failed to add bicycle","Failed to add bicycle" , "The garage is either full or the customer already has two registered bicycles.");
 				}
@@ -204,6 +216,7 @@ public class CustomerListView extends BorderPane {
 			Customer customer = obsList2.get(index);
 			if(Dialogs.confirmDialog("Remove customer","Do you really want to remove this customer?","Are you sure you want to remove " + customer.getName() + " from the system?")){
 				customerManager.removeCustomer(customer);
+				save();
 			}
 			obsList2.setAll(customerManager.allCustomers());
 		}
@@ -219,6 +232,7 @@ public class CustomerListView extends BorderPane {
 				if(customer == customerManager.findCustomerByBarcode(numb)) {
 					if(customerManager.removeBicycle(numb)){
 						Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
+						save();
 					}
 					else {		
 						if(Dialogs.confirmDialog("An error här står det ssaker.","Error","The entered barcode does not exist in the system. Do you want to remove a different bicycle?")){
@@ -235,13 +249,27 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-	public void save(File file) {
+
+	public void save() {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("database"));
 			out.writeObject(customerManager);
 			out.close();
 		} catch (Exception e) {
 			e.printStackTrace();
+			if(Dialogs.confirmDialog("Error saving database","An error occured when saving the database","Would you like to backup the existing database to a new directory before the application shutsdown?")){
+				FileChooser chooser = new FileChooser();
+				chooser.setTitle("Choose save directory");
+				File file = chooser.showSaveDialog(new Stage());
+				try{
+					ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+					customerManager = (CustomerManager) in.readObject();
+					in.close();
+				} catch (Exception f){
+					f.printStackTrace();
+					System.exit(1);
+				}
+			}
 			System.exit(1);
 		}
 	}

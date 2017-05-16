@@ -196,10 +196,8 @@ public class CustomerManager implements Serializable {
 	 */
 	public boolean removeBicycle(String barcode) {
 		Customer customer = findCustomerByBarcode(barcode);
-		System.out.println(customer);
 		if(customer != null) {
 			for(Bicycle b: customer.getBicycles()) {
-				System.out.println("Är du någonsin härinne?");
 				if(barcode.equals(b.getBarcode())) {
 					size--;
 					return customer.getBicycles().remove(b);
