@@ -267,7 +267,8 @@ public class CustomerListView extends BorderPane {
 		}
 	}
 	public void printBarcode() {
-		
+		int index = listView.getSelectionModel().getSelectedIndex();
+		hardwareManager.printBarcode();
 	}
 
 	public void save() {
