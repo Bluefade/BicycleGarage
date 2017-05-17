@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
@@ -20,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -44,6 +47,7 @@ public class CustomerListView extends BorderPane {
 	private Label numbersLabel1;
 	private Label numbersLabel2;
 	private Label numbersLabel3;
+	private Label numbersLabel4;
 	private HardwareManager hardwareManager;
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
@@ -51,6 +55,7 @@ public class CustomerListView extends BorderPane {
 	 */
 	public CustomerListView(CustomerManager customerManager, HardwareManager hardwareManager) {	
 		this.customerManager = customerManager;
+		this.hardwareManager = hardwareManager;
 
 		//TESTTESTTEST Creates an observable wrapper for the customers.
 		obsList2 = FXCollections.observableArrayList();
@@ -73,9 +78,12 @@ public class CustomerListView extends BorderPane {
 		// A label to display barcodes
 		numbersLabel2 = new Label();
 		numbersLabel2.setMinWidth(200);
-		
+
 		numbersLabel3 = new Label();
 		numbersLabel3.setMinWidth(200);
+		
+		numbersLabel4 = new Label();
+		numbersLabel4.setMinWidth(200);
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
@@ -89,16 +97,41 @@ public class CustomerListView extends BorderPane {
 
 		removeBicycleButton = new Button("Remove bicycle");
 		removeBicycleButton.setOnAction(e -> removeBicycle());
-		
+
 		printBarcodeButton = new Button("Print Barcode");
 		printBarcodeButton.setOnAction(e -> printBarcode());
 
+		//Create Box for labels
+		HBox labelBox = new HBox();
+		labelBox.setMinHeight(100);
+		labelBox.setSpacing(5);
+		labelBox.setPadding(new Insets(10, 10, 10, 10));
+		labelBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, numbersLabel3);
+		
+		//Create box for buttons
 		HBox buttonBox = new HBox();
 		buttonBox.setMinHeight(100);
 		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
-		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton, printBarcodeButton);
-		setBottom(buttonBox);
+		buttonBox.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton, printBarcodeButton);
+		//numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3,
+		
+		HBox box = new HBox();
+		buttonBox.setMinHeight(100);
+		buttonBox.setSpacing(5);
+		buttonBox.setPadding(new Insets(10, 10, 10, 10));
+		box.getChildren().addAll(labelBox, buttonBox);
+		
+		//Information box
+		/*
+		 * VBox infoBox = new VBox();
+		infoBox.setMinHeight(100);
+		infoBox.setSpacing(5);
+		infoBox.setPadding(new Insets(10, 10, 10, 10));
+		infoBox.getChildren().addAll(numbersLabel4);
+		setRight(infoBox);
+		*/
+		setBottom(box);
 
 		// The method change is called when a row in the list view is selected. 
 		listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Customer>() {
@@ -111,6 +144,7 @@ public class CustomerListView extends BorderPane {
 					addBicycleButton.setDisable(false);
 					removeBicycleButton.setDisable(false);
 					removeCustomerButton.setDisable(false);
+					printBarcodeButton.setDisable(false);
 					if(Collections.emptySet().equals(customer.getBicycles())){
 						removeBicycleButton.setDisable(true);
 					}
@@ -120,14 +154,34 @@ public class CustomerListView extends BorderPane {
 						numbersLabel2.setText("Bicycle barcodes: \n" + "No registred bicycles");
 					}
 					else {
-						numbersLabel2.setText("Bicycle barcodes: \n" + newValue.getBicycles().toString().replaceAll("\\[", "").replaceAll("\\]",""));
+						StringBuilder sb = new StringBuilder();
+						sb.append("Bicycle barcodes: \n");
+						Iterator<Bicycle> i = newValue.getBicycles().iterator();
+						boolean firstIteration = true;
+						while(i.hasNext()) {
+							Bicycle b = i.next();
+							if(b.checkStatus()) {		
+								sb.append(b.toString() + " (Checked in) ");
+							}		
+							else {
+								sb.append(b.toString());
+							}
+							if(firstIteration) {
+								firstIteration=false;
+								sb.append(", ");
+							}
+						}
+						numbersLabel2.setText(sb.toString());
+						
 					}
 					numbersLabel3.setText("Pin code: \n" + newValue.getPIN());
+					numbersLabel4.setText(Integer.toString(customerManager.getSize()));
 				} else {
 					numbersLabel.setText("");
 					numbersLabel1.setText("");
 					numbersLabel2.setText("");
 					numbersLabel3.setText("");
+					numbersLabel4.setText("");
 				}
 
 			}
@@ -143,6 +197,7 @@ public class CustomerListView extends BorderPane {
 		addBicycleButton.setDisable(true);
 		removeBicycleButton.setDisable(true);
 		removeCustomerButton.setDisable(true);
+		printBarcodeButton.setDisable(true);
 		numbersLabel.setText("");
 		numbersLabel1.setText("");
 		numbersLabel2.setText("");
@@ -265,8 +320,16 @@ public class CustomerListView extends BorderPane {
 	}
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
-		Optional<Bicycle> result = Dialogs.choiceDialog("", "", "", obsList2.get(index).getBicycles());
-		hardwareManager.printBarcode(result.get().getBarcode());
+		if(index!=-1) {
+			try {
+			Customer customer = obsList2.get(index);
+			Optional<Bicycle> result = Dialogs.choiceDialog("Print barcode", "Print barcode", "Choose which one of " + customer.getName() + "'s bicycles' barcode to print.", customer.getBicycles());
+			hardwareManager.printBarcode(result.get().toString());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void save() {
