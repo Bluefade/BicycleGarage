@@ -61,6 +61,7 @@ public class GarageApplication extends Application{
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("Bicycle Garage");
 		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 
