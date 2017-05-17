@@ -43,7 +43,7 @@ public class PincodeTerminalTestDriver implements PincodeTerminal {
 	public PincodeTerminalTestDriver(String title, int xPos, int yPos) {
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10, 10, 10, 10));
-		root.setStyle("-fx-background-color: #d0e1d8;"
+		root.setStyle("-fx-background-color: #0096c9;"
 				+ "-fx-font-size: 18;");
 		root.setPrefWidth(300);
 		
