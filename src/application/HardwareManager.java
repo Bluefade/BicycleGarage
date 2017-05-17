@@ -49,20 +49,20 @@ public class HardwareManager {
 	 *            The list of registered Customer for the garage
 	 **/
 	public HardwareManager(Set<Customer> cList) {
-		entryScanner = new BarcodeScannerTestDriver("Entry Scanner", 0, 0);
+		entryScanner = new BarcodeScannerTestDriver("Entry Scanner", 1000, 0);
 		entryScanner.registerObserver(new EntryBarcodeObserver());
-		exitScanner = new BarcodeScannerTestDriver("Exit Scanner", 0, 0);
+		exitScanner = new BarcodeScannerTestDriver("Exit Scanner", 1000, 122);
 		exitScanner.registerObserver(new ExitBarcodeObserver());
 
 		entryLock = new ElectronicLockTestDriver("Entry Lock", 0, 0);
-		exitLock = new ElectronicLockTestDriver("Exit Lock", 0, 0);
+		exitLock = new ElectronicLockTestDriver("Exit Lock", 0, 80);
 
-		entryTerminal = new PincodeTerminalTestDriver("Entry Terminal", 0, 0);
+		entryTerminal = new PincodeTerminalTestDriver("Entry Terminal", 677, 0);
 		entryTerminal.registerObserver(new EntryTerminalObserver());
-		exitTerminal = new PincodeTerminalTestDriver("Exit Terminal", 0, 0);
+		exitTerminal = new PincodeTerminalTestDriver("Exit Terminal", 375, 0);
 		exitTerminal.registerObserver(new ExitTerminalObserver());
 
-		testPrinter = new BarcodePrinterTestDriver("Printer", 0, 0);
+		testPrinter = new BarcodePrinterTestDriver("Printer", 0, 140);
 
 		this.cList = cList;
 	}
