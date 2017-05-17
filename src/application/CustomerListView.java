@@ -144,6 +144,7 @@ public class CustomerListView extends BorderPane {
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
 		buttonBox.getChildren().addAll(buttonBoxUp, buttonBoxDown);
 		
+		
 		HBox box = new HBox();
 		box.setMinHeight(100);
 		box.setPrefWidth(900);
