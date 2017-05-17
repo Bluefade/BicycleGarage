@@ -98,7 +98,6 @@ public class CustomerManager implements Serializable {
 				count++;
 			}
 		}
-
 	}	
 
 	/**
@@ -141,7 +140,7 @@ public class CustomerManager implements Serializable {
 		}
 		else {
 			for(Customer currentKey : customers) {
-				if(currentKey.getPhoneNr().equals(phoneNr)) {
+				if(currentKey.getPhoneNr().equals(phoneNr) && currentKey.getName().equals(name)) {
 					return false;
 				}
 			}
@@ -205,5 +204,17 @@ public class CustomerManager implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	public Set<Bicycle> getBikesInGarage() {
+		Set<Bicycle> bicycles = new TreeSet<Bicycle>();
+		for(Customer currentKey : customers) {
+			for(Bicycle b: currentKey.getBicycles()) {
+				if(b.checkStatus()) {
+					bicycles.add(b);
+				}
+			}
+		}
+		return bicycles;
 	}
 }

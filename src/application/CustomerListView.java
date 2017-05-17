@@ -22,6 +22,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 
 /**
@@ -42,6 +45,7 @@ public class CustomerListView extends BorderPane {
 	private Label numbersLabel;
 	private Label numbersLabel1;
 	private Label numbersLabel2;
+	private Label numbersLabel3;
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
 	 * @param CustomerManager containing the customers
@@ -70,6 +74,9 @@ public class CustomerListView extends BorderPane {
 		// A label to display barcodes
 		numbersLabel2 = new Label();
 		numbersLabel2.setMinWidth(200);
+		
+		numbersLabel3 = new Label();
+		numbersLabel3.setMinWidth(200);
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
@@ -86,9 +93,9 @@ public class CustomerListView extends BorderPane {
 
 		HBox buttonBox = new HBox();
 		buttonBox.setMinHeight(100);
-		buttonBox.setSpacing(0);
+		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
-		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton);
+		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton);
 		setBottom(buttonBox);
 
 		// The method change is called when a row in the list view is selected. 
@@ -113,10 +120,12 @@ public class CustomerListView extends BorderPane {
 					else {
 						numbersLabel2.setText("Bicycle barcodes: \n" + newValue.getBicycles().toString().replaceAll("\\[", "").replaceAll("\\]",""));
 					}
+					numbersLabel3.setText("Pin code: \n" + newValue.getPIN());
 				} else {
 					numbersLabel.setText("");
 					numbersLabel1.setText("");
 					numbersLabel2.setText("");
+					numbersLabel3.setText("");
 				}
 
 			}
@@ -179,10 +188,11 @@ public class CustomerListView extends BorderPane {
 				boolean success = customerManager.addCustomer(inputs[0], inputs[1]);
 				if(success) {
 					obsList2.setAll(customerManager.allCustomers());
+					Dialogs.alert("Success!", "Success!", "A customer with name " + inputs[0] + ", phone number " + inputs[1] + " and PIN-code " + customerManager.findCustomerByPhoneNr(inputs[1]).getPIN() + " was added.");
 					select(customerManager.findCustomerByPhoneNr(inputs[1]));
 					save();
 				} else {
-					Dialogs.alert("Failed to add customer", "Failed to add customer", "The system is already full or the entered phone number is already registered to another customer.");
+					Dialogs.alert("Failed to add customer", "Failed to add customer", "The system is already full or there already exists a user with the same name and phone number.");
 					clearSelection();
 				}
 			}
