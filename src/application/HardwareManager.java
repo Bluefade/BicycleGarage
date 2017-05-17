@@ -1,8 +1,11 @@
 package application;
 
 import java.util.Set;
-import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 import interfaces.*;
 import testdrivers.*;
@@ -25,18 +28,17 @@ public class HardwareManager {
 	PincodeTerminal entryTerminal;
 	PincodeTerminal exitTerminal;
 	BarcodePrinterTestDriver testPrinter;
-	
 
 	Set<Customer> cList;
 
-	String pin;
-	int pinCounter;
-	String barcode;
-	int barcodeCounter;
+	String pin = "";
+	int pinCounter = 0;
+	String barcode = "";
+	int barcodeCounter = 0;
 	boolean barcodeByHand = false;
+
+	ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 	
-	Timer timerBetweenButtons;
-	Timer timerBetweenPINBarcode;
 
 	/**
 	 * Creates a class that manage all the hardware for the garage. The hardware
@@ -61,8 +63,6 @@ public class HardwareManager {
 		exitTerminal.registerObserver(new ExitTerminalObserver());
 
 		testPrinter = new BarcodePrinterTestDriver("Printer", 0, 0);
-		
-		
 
 		this.cList = cList;
 	}
@@ -120,7 +120,7 @@ public class HardwareManager {
 		barcodeCounter = 0;
 		barcodeByHand = false;
 	}
-	
+
 	private Customer findCustomer(String PIN) {
 		for (Customer c : cList) {
 			if (c.getPIN().compareTo(PIN) == 0) {
@@ -130,12 +130,17 @@ public class HardwareManager {
 		return null;
 
 	}
-	
-	/**Prints a barcode.
-	 * @param barcode The barcode that shall be printed, barcode is 5 characters that can be 0-9 **/
-		public void printBarcode(String barcode){
-			testPrinter.printBarcode(barcode);
-		}
+
+	/**
+	 * Prints a barcode.
+	 * 
+	 * @param barcode
+	 *            The barcode that shall be printed, barcode is 5 characters
+	 *            that can be 0-9
+	 **/
+	public void printBarcode(String barcode) {
+		testPrinter.printBarcode(barcode);
+	}
 
 	private class EntryBarcodeObserver implements BarcodeObserver {
 		// scannar barcode, ingång
@@ -177,14 +182,20 @@ public class HardwareManager {
 	private class EntryTerminalObserver implements PincodeObserver {
 		@Override
 		public void handleCharacter(char s) {
-			timerBetweenButtons.cancel();
-			timerBetweenButtons.schedule(new TimerTask() {
+		
+		if(executor.isShutdown() == false){
+			executor.shutdownNow();
+		}
+			executor = Executors.newSingleThreadScheduledExecutor();
+			executor.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					timeOut();
 					entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+					timeOut();
+					executor.shutdown();
 				}
-			}, 5*1000); 
+			}, 5, TimeUnit.SECONDS);
+			
 			if (s == '#') {
 				// vill skriva in barcoden
 				barcodeByHand = true;
@@ -203,6 +214,7 @@ public class HardwareManager {
 					}
 
 					if (barcodeCounter == 5) {
+						executor.shutdownNow();
 						if (checkBarcode(barcode)) {
 							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 							entryLock.open(15);
@@ -220,6 +232,7 @@ public class HardwareManager {
 					}
 
 					if (pinCounter == 4) {
+						executor.shutdownNow();
 						if (checkPIN(pin)) {
 							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 							entryLock.open(15);
@@ -282,12 +295,10 @@ public class HardwareManager {
 					if (pinCounter < 4) {
 						pin = pin + s;
 						pinCounter++;
-					} else if (pinCounter <4){
+					} else if (pinCounter < 4) {
 						exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 						timeOut();
 					}
-					
-					
 
 				}
 

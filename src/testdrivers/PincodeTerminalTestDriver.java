@@ -17,21 +17,21 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * This class graphically simulated a pincode terminal. 
+ * This class simulates a pincode terminal. 
  * 
- * @version 1.0
+ * @version 1.2
  * @author Anna Axelsson 
  */
 public class PincodeTerminalTestDriver implements PincodeTerminal {
 	private static final String[] KEYS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "#", "0", "*"};
-	Rectangle red;
-	Rectangle green;
 	private ArrayList<PincodeObserver> pincodeHandlers = new ArrayList<>();
+	private LED red;
+	private LED green;
+
 	
 	/** 
 	 * Creates a graphically simulated pincode terminal. 
@@ -43,7 +43,7 @@ public class PincodeTerminalTestDriver implements PincodeTerminal {
 	public PincodeTerminalTestDriver(String title, int xPos, int yPos) {
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10, 10, 10, 10));
-		root.setStyle("-fx-background-color: #0096c9;"
+		root.setStyle("-fx-background-color: #d0e1d8;"
 				+ "-fx-font-size: 18;");
 		root.setPrefWidth(300);
 		
@@ -51,9 +51,13 @@ public class PincodeTerminalTestDriver implements PincodeTerminal {
 		ledBox.setPadding(new Insets(10, 10, 10, 10));
 		ledBox.setSpacing(10);
 		ledBox.setAlignment(Pos.TOP_CENTER);
-		red = new Rectangle(50, 20);
-		green = new Rectangle(50, 20);
-		ledBox.getChildren().addAll(red, green);
+		Rectangle redRectangle = new Rectangle(50, 20);
+		//red.setFill(offColor);
+		Rectangle greenRectangle = new Rectangle(50, 20);
+		// green.setFill(offColor);
+		ledBox.getChildren().addAll(redRectangle, greenRectangle);
+		red = new LED(Color.RED, redRectangle);
+		green = new LED(Color.GREEN, greenRectangle);
 		root.setCenter(ledBox);
 		
 		TilePane tilePane = new TilePane();		
@@ -81,26 +85,42 @@ public class PincodeTerminalTestDriver implements PincodeTerminal {
 
 	
 	/** 
-	 * Turn on LED for lightTime seconds.
+	 * Turns on LED for lightTime seconds.
 	 * @param color PinCodeTerminal.RED_LED or PinCodeTerminal.GREEN_LED 
 	 * @param time Turn on LED for time seconds
 	 */
 	public void lightLED(int color, int time) {
 		if (color == RED_LED) {
-			lightLED(red, Color.RED, time );
+			red.lightLED(time);
 		}
 		if (color == GREEN_LED) {
-			lightLED(green, Color.GREEN, time );
+			green.lightLED(time);
 		}
 	}
 	
-	private void lightLED(Shape shape, Paint color, int lightTime) {
-		Paint oldColor = shape.getFill();
-		shape.setFill(color);
-		Timeline timeline = new Timeline(new KeyFrame(
-				Duration.millis(lightTime * 1000),
-				e -> {shape.setFill(oldColor);}));
-		timeline.play();
+	private class LED {
+		private Paint color;
+		private Rectangle lamp;
+		private Color offColor = Color.BLACK;
+		private Timeline timeline;
+		
+		private LED(Paint color, Rectangle lamp) {
+			this.color = color;
+			this.lamp = lamp;
+			lamp.setFill(offColor);	
+		}
+		
+		private void lightLED(int lightTime) {	
+			lamp.setFill(color);
+			if (timeline != null ) {
+				timeline.stop();
+			}			
+			timeline = new Timeline(new KeyFrame(
+					Duration.millis(lightTime * 1000),
+					e -> {lamp.setFill(offColor);}));
+			timeline.play();
+		}
+		
 	}
 
 	@Override
@@ -110,8 +130,5 @@ public class PincodeTerminalTestDriver implements PincodeTerminal {
 	 */
 	public void registerObserver(PincodeObserver pincodeHandler) {
 		pincodeHandlers.add(pincodeHandler);
-		
 	}
 }
-
-
