@@ -64,7 +64,7 @@ public class GarageApplication extends Application{
 		primaryStage.show();
 	}
 
-	public void login(){
+	private void login(){
 		if(logincounter==3){
 			Dialogs.alertError("Log-in attempts exceeded", "Log-in attempts exceeded", "System is shutting down due to exceeded number of log-in attempts");
 			System.exit(1);
