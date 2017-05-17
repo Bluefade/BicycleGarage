@@ -38,18 +38,19 @@ public class GarageApplication extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		// set default locale english 
 		Locale.setDefault(Locale.ENGLISH);
-		
 		while(login==false){
 			login();
 		}
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("database"));
 			customerManager = (CustomerManager) in.readObject();
-			customerListView = new CustomerListView(customerManager);
+			hardwareManager = new HardwareManager(customerManager.allCustomers());
+			customerListView = new CustomerListView(customerManager, hardwareManager);
 			in.close();
 		} catch (Exception e){
 			customerManager = new CustomerManager();
-			customerListView = new CustomerListView(customerManager);
+			hardwareManager = new HardwareManager(customerManager.allCustomers());
+			customerListView = new CustomerListView(customerManager, hardwareManager);
 			customerListView.save();
 		} 
 
@@ -61,7 +62,6 @@ public class GarageApplication extends Application{
 		primaryStage.setTitle("Bicycle Garage");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		hardwareManager = new HardwareManager(customerManager.allCustomers());
 	}
 
 	public void login(){
