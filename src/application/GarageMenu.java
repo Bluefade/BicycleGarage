@@ -44,6 +44,10 @@ public class GarageMenu extends MenuBar {
 		final MenuItem menuPhoneNumber = new MenuItem("by phonenumber");
 		menuPhoneNumber.setOnAction(e -> byPhoneNumber());
 		menuFind.getItems().addAll(menuPhoneNumber);
+		
+		final MenuItem menuCheckedInBicycles = new MenuItem("by checked in bicycles");
+		menuPhoneNumber.setOnAction(e -> byBicyclesInGarage());
+		menuFind.getItems().addAll(menuCheckedInBicycles);
 
 		final Menu menuListMissingPayment = new Menu("List missing payments");
 
@@ -131,5 +135,19 @@ public class GarageMenu extends MenuBar {
 		} else{
 			customerListView.fillList(cm);
 		}
+	}
+	
+	private void byBicyclesInGarage() {
+		Set<Customer> cm = new HashSet<Customer>();
+		Set<Bicycle> bm = new HashSet<Bicycle>();
+		for(Customer customer : customerManager.allCustomers()) {
+			for(Bicycle bicycle : customer.getBicycles()) {
+				if(bicycle.checkStatus()) {
+					cm.add(customer);
+					bm.add(bicycle);
+				}
+			}
+		}
+		customerListView.fillList(cm);
 	}
 }
