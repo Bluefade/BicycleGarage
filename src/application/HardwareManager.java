@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
 import interfaces.*;
 import testdrivers.*;
 
@@ -37,8 +36,9 @@ public class HardwareManager {
 	int barcodeCounter = 0;
 	boolean barcodeByHand = false;
 
-	ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-	
+	ScheduledExecutorService executorEntryTerminal = Executors.newSingleThreadScheduledExecutor();
+	ScheduledExecutorService executorExitTerminal = Executors.newSingleThreadScheduledExecutor();
+	ScheduledExecutorService executorExitBarcode = Executors.newSingleThreadScheduledExecutor();
 
 	/**
 	 * Creates a class that manage all the hardware for the garage. The hardware
@@ -147,10 +147,14 @@ public class HardwareManager {
 		@Override
 		public void handleBarcode(String s) {
 			// Kod för vad som ska hända när en streckkod skannas start
-			if (checkBarcode(s)) { // kollar om barcoden existerar
-				entryLock.open(15);
+			if (checkBarcode(s) && findBicycle(barcode).checkStatus() == false) {
 				entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 				findBicycle(s).setStatus(true);
+
+			} else if (findBicycle(barcode).checkStatus()) {
+				entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
+				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+
 			} else {
 				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 			}
@@ -162,14 +166,18 @@ public class HardwareManager {
 		// scannar barcode, utgång
 		@Override
 		public void handleBarcode(String s) {
-			if (checkPinBarcode(pin, s)) {
-				if (findBicycle(s).checkStatus()) { // true, cykeln är i garaget
-					exitLock.open(15);
-					exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
-					findBicycle(s).setStatus(false);
-				} // cykeln är "Withdrawn"
+			executorExitBarcode.shutdownNow(); 
+			if (checkPinBarcode(pin, s) && findBicycle(s).checkStatus()) {
+				// true, cykeln är i garaget
+				exitLock.open(15);
+				exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
+				findBicycle(s).setStatus(false);
+
+			} else if (findBicycle(s).checkStatus() == false) {
+				// cykeln är "Withdrawn"
 				exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
 				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+
 			} else {
 				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 			}
@@ -182,20 +190,20 @@ public class HardwareManager {
 	private class EntryTerminalObserver implements PincodeObserver {
 		@Override
 		public void handleCharacter(char s) {
-		
-		if(executor.isShutdown() == false){
-			executor.shutdownNow();
-		}
-			executor = Executors.newSingleThreadScheduledExecutor();
-			executor.schedule(new TimerTask() {
+
+			if (executorEntryTerminal.isShutdown() == false) {
+				executorEntryTerminal.shutdownNow();
+			}
+			executorEntryTerminal = Executors.newSingleThreadScheduledExecutor();
+			executorEntryTerminal.schedule(new TimerTask() {
 				@Override
 				public void run() {
 					entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 					timeOut();
-					executor.shutdown();
+					executorEntryTerminal.shutdown();
 				}
 			}, 5, TimeUnit.SECONDS);
-			
+
 			if (s == '#') {
 				// vill skriva in barcoden
 				barcodeByHand = true;
@@ -214,12 +222,12 @@ public class HardwareManager {
 					}
 
 					if (barcodeCounter == 5) {
-						executor.shutdownNow();
-						if (checkBarcode(barcode) && findBicycle(barcode).checkStatus()) {
+						executorEntryTerminal.shutdownNow();
+						if (checkBarcode(barcode) && findBicycle(barcode).checkStatus() == false) {
 							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 							entryLock.open(15);
 							findBicycle(barcode).setStatus(true);
-						} else if (findBicycle(barcode).checkStatus() == false) {
+						} else if (findBicycle(barcode).checkStatus()) {
 							entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
 						} else {
@@ -235,7 +243,7 @@ public class HardwareManager {
 					}
 
 					if (pinCounter == 4) {
-						executor.shutdownNow();
+						executorEntryTerminal.shutdownNow();
 						if (checkPIN(pin)) {
 							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 							entryLock.open(15);
@@ -254,6 +262,18 @@ public class HardwareManager {
 		@Override
 
 		public void handleCharacter(char s) {
+			if (executorExitTerminal.isShutdown() == false) {
+				executorExitTerminal.shutdownNow();
+			}
+			executorExitTerminal = Executors.newSingleThreadScheduledExecutor();
+			executorExitTerminal.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+					timeOut();
+					executorExitTerminal.shutdown();
+				}
+			}, 5, TimeUnit.SECONDS);
 
 			if (s == '#') {
 				// vill skriva in barcoden
@@ -273,6 +293,7 @@ public class HardwareManager {
 					}
 
 					if (barcodeCounter == 5 && pinCounter == 4) {
+						executorExitBarcode.shutdownNow();
 						if (checkPinBarcode(pin, barcode)) {
 							if (findBicycle(barcode).checkStatus()) {
 								exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
@@ -292,15 +313,32 @@ public class HardwareManager {
 						// ifall man inte har skrivit in pin rätt
 						exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 						timeOut();
+						executorExitTerminal.shutdownNow();
 					}
 
 				} else {
 					if (pinCounter < 4) {
 						pin = pin + s;
 						pinCounter++;
-					} else if (pinCounter < 4) {
+					} else if (pinCounter > 4) {
 						exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 						timeOut();
+						executorExitTerminal.shutdownNow();
+					}
+					
+					if(pinCounter == 4){
+						executorExitTerminal.shutdownNow();
+						
+						executorExitBarcode  = Executors.newSingleThreadScheduledExecutor();
+						executorExitBarcode.schedule(new TimerTask() {
+							@Override
+							public void run() {
+								exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+								timeOut();
+								executorExitBarcode.shutdown();
+							}
+						}, 15, TimeUnit.SECONDS);
+						
 					}
 
 				}
