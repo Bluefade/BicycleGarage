@@ -91,10 +91,9 @@ public class GarageApplication extends Application{
 			}
 		}
 	}
-	
+
 	@Override
 	public void stop(){
-		Dialogs.alert("System shutdown","System is shutting down", "Warning: the application is crusial for bicycle garage to function and is only supposed to be shutdown during maintenance hours.");
 		customerListView.save();
 	}
 }

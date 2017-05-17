@@ -42,15 +42,17 @@ public class CustomerListView extends BorderPane {
 	private Button addBicycleButton;
 	private Button removeCustomerButton;
 	private Button removeBicycleButton;
+	private Button printBarcodeButton;
 	private Label numbersLabel;
 	private Label numbersLabel1;
 	private Label numbersLabel2;
 	private Label numbersLabel3;
+	private HardwareManager hardwareManager;
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
 	 * @param CustomerManager containing the customers
 	 */
-	public CustomerListView(CustomerManager customerManager) {	
+	public CustomerListView(CustomerManager customerManager, HardwareManager hardwareManager) {	
 		this.customerManager = customerManager;
 
 		//TESTTESTTEST Creates an observable wrapper for the customers.
@@ -90,6 +92,9 @@ public class CustomerListView extends BorderPane {
 
 		removeBicycleButton = new Button("Remove bicycle");
 		removeBicycleButton.setOnAction(e -> removeBicycle());
+		
+		printBarcodeButton = new Button("Print Barcode");
+		printBarcodeButton.setOnAction(e -> printBarcode());
 
 		HBox buttonBox = new HBox();
 		buttonBox.setMinHeight(100);
@@ -188,7 +193,7 @@ public class CustomerListView extends BorderPane {
 				boolean success = customerManager.addCustomer(inputs[0], inputs[1]);
 				if(success) {
 					obsList2.setAll(customerManager.allCustomers());
-					Dialogs.alert("Success!", "Success!", "A customer with name " + inputs[0] + ", phone number " + inputs[1] + " and PIN-code " + customerManager.findCustomerByPhoneNr(inputs[1]).getPIN() + " was added.");
+					Dialogs.alert("Success!", "Success!", "A customer with name '" + inputs[0] + "', phone number '" + inputs[1] + "' and PIN-code '" + customerManager.findCustomerByPhoneNr(inputs[1]).getPIN() + "' was added.");
 					select(customerManager.findCustomerByPhoneNr(inputs[1]));
 					save();
 				} else {
@@ -260,6 +265,9 @@ public class CustomerListView extends BorderPane {
 				select(index);
 			}
 		}
+	}
+	public void printBarcode() {
+		
 	}
 
 	public void save() {
