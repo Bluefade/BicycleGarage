@@ -22,9 +22,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 
 
 /**
@@ -100,7 +97,7 @@ public class CustomerListView extends BorderPane {
 		buttonBox.setMinHeight(100);
 		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
-		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton);
+		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton, printBarcodeButton);
 		setBottom(buttonBox);
 
 		// The method change is called when a row in the list view is selected. 
@@ -267,7 +264,9 @@ public class CustomerListView extends BorderPane {
 		}
 	}
 	public void printBarcode() {
-		
+		int index = listView.getSelectionModel().getSelectedIndex();
+		Optional<Bicycle> result = Dialogs.choiceDialog("", "", "", obsList2.get(index).getBicycles());
+		hardwareManager.printBarcode(result.get().getBarcode());
 	}
 
 	public void save() {

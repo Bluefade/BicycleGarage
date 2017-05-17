@@ -1,13 +1,17 @@
 package application;
 
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -160,6 +164,20 @@ public class Dialogs {
 			input = result.get().split(":");
 		}
 		return Optional.ofNullable(input);
+	}
+	public static Optional<Bicycle> choiceDialog(String title, String headerText, String label, Set<Bicycle> bicycle ) {
+		//Bicycle[] b = bicycle.toArray(new Bicycle[bicycle.size()]);
+
+		//create choice dialog
+		Iterator<Bicycle> i = bicycle.iterator();
+		ChoiceDialog<Bicycle> dialog = new ChoiceDialog<>(i.next(), bicycle);
+		
+		//Create titles
+		dialog.setTitle(title);
+		dialog.setHeaderText(headerText);
+		dialog.setContentText(label);
+		
+		return dialog.showAndWait();
 	}
 	
 }

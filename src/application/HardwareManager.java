@@ -65,7 +65,6 @@ public class HardwareManager {
 		
 
 		this.cList = cList;
-
 	}
 
 	private Bicycle findBicycle(String barcode) {
