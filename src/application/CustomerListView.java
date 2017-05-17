@@ -64,42 +64,52 @@ public class CustomerListView extends BorderPane {
 		// Create a list view to display the names. 
 		// The list view is automatically updated when the observable list i updated.
 		listView = new ListView<>(obsList2);
-		listView.setPrefWidth(600);
-		listView.setPrefHeight(400);
+		listView.setMinWidth(400);
+		listView.setPrefHeight(300);
 
 		setTop(listView);
 
 		// A label to display names
 		numbersLabel = new Label();
-		numbersLabel.setMinWidth(200);
+		numbersLabel.setMinWidth(150);
+		
 		// A label to display phone numbers
 		numbersLabel1 = new Label();
-		numbersLabel1.setMinWidth(200);
+		numbersLabel1.setMinWidth(150);
+		
 		// A label to display barcodes
 		numbersLabel2 = new Label();
-		numbersLabel2.setMinWidth(200);
+		numbersLabel2.setMinWidth(150);
+		numbersLabel2.setWrapText(true);
 
+		//a label to display PIN-code
 		numbersLabel3 = new Label();
-		numbersLabel3.setMinWidth(200);
+		numbersLabel3.setMinWidth(150);
 		
+		//a label to display Number of bikes in the garage.
 		numbersLabel4 = new Label();
-		numbersLabel4.setMinWidth(200);
+		numbersLabel4.setMinWidth(150);
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
+		addCustomerButton.setMinWidth(120);
 
 		addBicycleButton = new Button("Add bicycle");
 		addBicycleButton.setOnAction(e -> addBicycle());
+		addBicycleButton.setMinWidth(120);
 
 		removeCustomerButton = new Button("Remove customer");	
 		removeCustomerButton.setOnAction(e -> removeCustomer());
 		removeCustomerButton.setAlignment(Pos.BOTTOM_CENTER);
+		addBicycleButton.setMinWidth(180);
 
 		removeBicycleButton = new Button("Remove bicycle");
 		removeBicycleButton.setOnAction(e -> removeBicycle());
+		addBicycleButton.setMinWidth(120);
 
 		printBarcodeButton = new Button("Print Barcode");
 		printBarcodeButton.setOnAction(e -> printBarcode());
+		addBicycleButton.setMinWidth(150);
 
 		//Create Box for labels
 		HBox labelBox = new HBox();
@@ -109,28 +119,49 @@ public class CustomerListView extends BorderPane {
 		labelBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, numbersLabel3);
 		
 		//Create box for buttons
-		HBox buttonBox = new HBox();
+		HBox buttonBoxUp = new HBox();
+		buttonBoxUp.setMinHeight(50);
+		buttonBoxUp.setMinWidth(150);
+		buttonBoxUp.setMaxWidth(430);
+		buttonBoxUp.setSpacing(5);
+		buttonBoxUp.setPadding(new Insets(10, 10, 10, 10));
+		buttonBoxUp.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton);
+		buttonBoxUp.setAlignment(Pos.BOTTOM_CENTER);
+
+		HBox buttonBoxDown = new HBox();
+		buttonBoxDown.setMinHeight(50);
+		buttonBoxDown.setMinWidth(150);
+		buttonBoxDown.setMaxWidth(430);
+		buttonBoxDown.setSpacing(5);
+		buttonBoxDown.setPadding(new Insets(10, 10, 10, 10));
+		buttonBoxDown.getChildren().addAll(removeBicycleButton, printBarcodeButton);
+		buttonBoxDown.setAlignment(Pos.BOTTOM_CENTER);
+		
+		VBox buttonBox = new VBox();
+		buttonBoxUp.setAlignment(Pos.CENTER_RIGHT);
 		buttonBox.setMinHeight(100);
+		buttonBox.setMinWidth(600);
 		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
-		buttonBox.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton, printBarcodeButton);
-		//numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3,
+		buttonBox.getChildren().addAll(buttonBoxUp, buttonBoxDown);
+		
 		
 		HBox box = new HBox();
-		buttonBox.setMinHeight(100);
-		buttonBox.setSpacing(5);
-		buttonBox.setPadding(new Insets(10, 10, 10, 10));
+		box.setMinHeight(100);
+		box.setPrefWidth(900);
+		box.setSpacing(5);
+		box.setPadding(new Insets(10, 10, 10, 10));
 		box.getChildren().addAll(labelBox, buttonBox);
 		
 		//Information box
-		/*
-		 * VBox infoBox = new VBox();
+		
+		HBox infoBox = new HBox();
 		infoBox.setMinHeight(100);
 		infoBox.setSpacing(5);
 		infoBox.setPadding(new Insets(10, 10, 10, 10));
 		infoBox.getChildren().addAll(numbersLabel4);
-		setRight(infoBox);
-		*/
+		//setRight(infoBox);
+		
 		setBottom(box);
 
 		// The method change is called when a row in the list view is selected. 
@@ -355,11 +386,11 @@ public class CustomerListView extends BorderPane {
 			System.exit(1);
 		}
 	}
-
+	/*
 
 	private boolean matches(String text) {
 		return text.isEmpty() || (getText().length() < 1) && text.matches("[0-9]");
-	}
+	}*/
 
 } 
 
