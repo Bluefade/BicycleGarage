@@ -1,5 +1,6 @@
 
 package application;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Locale;
@@ -7,6 +8,7 @@ import java.util.Optional;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -94,6 +96,7 @@ public class GarageApplication extends Application{
 
 	@Override
 	public void stop(){
+		Dialogs.alert("System shutdown","System is shutting down", "Warning: the application is crusial for bicycle garage to function and is only supposed to be shutdown during maintenance hours.");
 		customerListView.save();
 	}
 }
