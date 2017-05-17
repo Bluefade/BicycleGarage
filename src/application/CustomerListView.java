@@ -179,6 +179,7 @@ public class CustomerListView extends BorderPane {
 					printBarcodeButton.setDisable(false);
 					if(Collections.emptySet().equals(customer.getBicycles())){
 						removeBicycleButton.setDisable(true);
+						printBarcodeButton.setDisable(true);
 					}
 					numbersLabel.setText("Name: \n" + newValue.getName());
 					numbersLabel1.setText("Phone Number: \n" + newValue.getPhoneNr());
