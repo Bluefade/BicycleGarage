@@ -23,6 +23,7 @@ public class GarageApplication extends Application{
 	private final String operatorpass = "a";
 	private int logincounter = 0;
 	private boolean login = false;
+	private HardwareManager hardwareManager;
 
 
 	/**
@@ -60,6 +61,7 @@ public class GarageApplication extends Application{
 		primaryStage.setTitle("Bicycle Garage");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		hardwareManager = new HardwareManager(customerManager.allCustomers());
 	}
 
 	public void login(){

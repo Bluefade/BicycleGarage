@@ -10,6 +10,9 @@ import testdrivers.*;
  * hardware. The hardware includes barcode readers, PIN code terminals, a
  * barcode printer and an electronic lock.
  *
+ * * @version 1.0
+ * 
+ * @author grupp 9
  */
 
 public class HardwareManager {
@@ -27,8 +30,16 @@ public class HardwareManager {
 	int pinCounter;
 	String barcode;
 	int barcodeCounter;
-	boolean barcodeByHand;
+	boolean barcodeByHand = false;
 
+	/**
+	 * Creates a class that manage all the hardware for the garage. The hardware
+	 * includes barcode readers, PIN code terminals, a barcode printer and an
+	 * electronic lock.
+	 * 
+	 * @param cList
+	 *            The list of registered Customer for the garage
+	 **/
 	public HardwareManager(Set<Customer> cList) {
 		entryScanner = new BarcodeScannerTestDriver("Entry Scanner", 0, 0);
 		entryScanner.registerObserver(new EntryBarcodeObserver());
@@ -48,6 +59,8 @@ public class HardwareManager {
 		this.cList = cList;
 	}
 
+	/**Prints a barcode.
+	 * @param barcode The barcode that shall be printed, barcode is 5 characters that can be 0-9 **/
 	public void printBarcode(java.lang.String barcode) {
 		printer.printBarcode(barcode);
 	}
@@ -113,6 +126,7 @@ public class HardwareManager {
 		pinCounter = 0;
 		barcode = "";
 		barcodeCounter = 0;
+		barcodeByHand = false;
 	}
 
 	private class EntryBarcodeObserver implements BarcodeObserver {
@@ -138,13 +152,13 @@ public class HardwareManager {
 			if (checkPinBarcode(pin, s)) {
 				if (findBicycle(s).checkStatus()) { // true, cykeln är i garaget
 					exitLock.open(15);
-					entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
+					exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 					findBicycle(s).setStatus(false);
 				} // cykeln är "Withdrawn"
-				entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
-				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+				exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
+				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 			} else {
-				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 			}
 
 			timeOut(); // resetar terminalen
@@ -234,8 +248,8 @@ public class HardwareManager {
 								exitLock.open(15);
 								findBicycle(barcode).setStatus(false);
 							} else {
-								entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
-								entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+								exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
+								exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 							}
 
 						} else {
@@ -243,12 +257,22 @@ public class HardwareManager {
 						}
 						timeOut();
 					}
+					if (barcodeCounter == 5 && pinCounter != 4) {
+						// ifall man inte har skrivit in pin rätt
+						exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+						timeOut();
+					}
 
 				} else {
 					if (pinCounter < 4) {
 						pin = pin + s;
 						pinCounter++;
+					} else if (pinCounter <4){
+						exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+						timeOut();
 					}
+					
+					
 
 				}
 
