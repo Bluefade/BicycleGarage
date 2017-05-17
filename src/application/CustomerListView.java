@@ -384,6 +384,12 @@ public class CustomerListView extends BorderPane {
 			System.exit(1);
 		}
 	}
+
+
+	private boolean matches(String text) {
+		return text.isEmpty() || (getText().length() < 1) && text.matches("[0-9]");
+	}
+
 } 
 
 
