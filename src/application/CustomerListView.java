@@ -51,6 +51,7 @@ public class CustomerListView extends BorderPane {
 	 */
 	public CustomerListView(CustomerManager customerManager, HardwareManager hardwareManager) {	
 		this.customerManager = customerManager;
+		this.hardwareManager = hardwareManager;
 
 		//TESTTESTTEST Creates an observable wrapper for the customers.
 		obsList2 = FXCollections.observableArrayList();
@@ -282,9 +283,15 @@ public class CustomerListView extends BorderPane {
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index!=-1) {
+			try {
 			Customer customer = obsList2.get(index);
 			Optional<Bicycle> result = Dialogs.choiceDialog("Print barcode", "Print barcode", "Choose which one of " + customer.getName() + "'s bicycles' barcode to print.", customer.getBicycles());
-			hardwareManager.printBarcode(result.get().getBarcode());
+			System.out.println(result.get());
+			hardwareManager.printBarcode(result.get().toString());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

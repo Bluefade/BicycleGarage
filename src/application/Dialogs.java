@@ -166,7 +166,6 @@ public class Dialogs {
 		return Optional.ofNullable(input);
 	}
 	public static Optional<Bicycle> choiceDialog(String title, String headerText, String label, Set<Bicycle> bicycle ) {
-		//Bicycle[] b = bicycle.toArray(new Bicycle[bicycle.size()]);
 
 		//create choice dialog
 		Iterator<Bicycle> i = bicycle.iterator();
