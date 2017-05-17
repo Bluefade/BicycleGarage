@@ -215,10 +215,13 @@ public class HardwareManager {
 
 					if (barcodeCounter == 5) {
 						executor.shutdownNow();
-						if (checkBarcode(barcode)) {
+						if (checkBarcode(barcode) && findBicycle(barcode).checkStatus()) {
 							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 							entryLock.open(15);
 							findBicycle(barcode).setStatus(true);
+						} else if (findBicycle(barcode).checkStatus() == false) {
+							entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
 						} else {
 							entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 						}
