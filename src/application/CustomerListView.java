@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -123,12 +122,14 @@ public class CustomerListView extends BorderPane {
 		buttonBoxUp.setMinHeight(50);
 		buttonBoxUp.setMinWidth(150);
 		buttonBoxUp.setMaxWidth(430);
+		buttonBoxUp.setAlignment(Pos.CENTER_LEFT);
 		buttonBoxUp.setSpacing(5);
 		buttonBoxUp.setPadding(new Insets(10, 10, 10, 10));
 		buttonBoxUp.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton);
 		buttonBoxUp.setAlignment(Pos.BOTTOM_CENTER);
 
 		HBox buttonBoxDown = new HBox();
+		buttonBoxDown.setAlignment(Pos.CENTER_LEFT);
 		buttonBoxDown.setMinHeight(50);
 		buttonBoxDown.setMinWidth(150);
 		buttonBoxDown.setMaxWidth(430);
