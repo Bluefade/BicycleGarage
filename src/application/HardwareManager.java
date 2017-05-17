@@ -341,7 +341,6 @@ public class HardwareManager {
 						}, 15, TimeUnit.SECONDS);
 						
 					}
-
 				}
 
 			}
