@@ -177,7 +177,7 @@ public class HardwareManager {
 	private class EntryTerminalObserver implements PincodeObserver {
 		@Override
 		public void handleCharacter(char s) {
-			timerBetweenButtons.cancel();
+			/*timerBetweenButtons.cancel();
 			timerBetweenButtons.schedule(new TimerTask() {
 				@Override
 				public void run() {
@@ -185,6 +185,7 @@ public class HardwareManager {
 					entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 				}
 			}, 5*1000); 
+			*/
 			if (s == '#') {
 				// vill skriva in barcoden
 				barcodeByHand = true;

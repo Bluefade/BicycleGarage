@@ -41,12 +41,12 @@ public class GarageMenu extends MenuBar {
 		menuByBarcode.setOnAction(e -> byBarcode());
 		menuFind.getItems().addAll(menuByBarcode);
 
-		final MenuItem menuPhoneNumber = new MenuItem("by phonenumber");
+		final MenuItem menuPhoneNumber = new MenuItem("by phone number");
 		menuPhoneNumber.setOnAction(e -> byPhoneNumber());
 		menuFind.getItems().addAll(menuPhoneNumber);
-		
-		final MenuItem menuCheckedInBicycles = new MenuItem("by checked in bicycles");
-		menuPhoneNumber.setOnAction(e -> byBicyclesInGarage());
+
+		final MenuItem menuCheckedInBicycles = new MenuItem("by checked-in bicycles");
+		menuCheckedInBicycles.setOnAction(e -> byBicyclesInGarage());
 		menuFind.getItems().addAll(menuCheckedInBicycles);
 
 		final Menu menuListMissingPayment = new Menu("List missing payments");
@@ -136,18 +136,21 @@ public class GarageMenu extends MenuBar {
 			customerListView.fillList(cm);
 		}
 	}
-	
+
 	private void byBicyclesInGarage() {
 		Set<Customer> cm = new HashSet<Customer>();
-		Set<Bicycle> bm = new HashSet<Bicycle>();
 		for(Customer customer : customerManager.allCustomers()) {
 			for(Bicycle bicycle : customer.getBicycles()) {
-				if(bicycle.checkStatus()) {
+				if(bicycle.checkStatus()==true) {
 					cm.add(customer);
-					bm.add(bicycle);
 				}
 			}
 		}
-		customerListView.fillList(cm);
+		if(cm.isEmpty()) {
+			Dialogs.alert("No Bicycles found", "No bicycles found", "No bicycles are currently registered in the garage.");
+		}
+		else {
+			customerListView.fillList(cm);
+		}
 	}
 }
