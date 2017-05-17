@@ -32,7 +32,7 @@ public class BarcodeScannerTestDriver implements BarcodeScanner {
 	public BarcodeScannerTestDriver(String title, int xPos, int yPos) {
 		BorderPane root = new BorderPane();
 		root.setPadding(new Insets(10, 10, 10, 10));
-		root.setStyle("-fx-background-color: #d0e1d8;"
+		root.setStyle("-fx-background-color: #0096c9;"
 				+ "-fx-font-size: 14;");
 		root.setPrefWidth(300);
 		
@@ -44,7 +44,7 @@ public class BarcodeScannerTestDriver implements BarcodeScanner {
 		root.setTop(hbox);
 
 		Button button = new Button("Scan");
-		button.setStyle("-fx-background-color: #adcab8;");
+		button.setStyle("-fx-background-color: #00befe;");
 		button.setOnAction(e -> { 
 			String code = tf.getText();
 			tf.setText("");

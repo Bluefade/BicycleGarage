@@ -31,7 +31,7 @@ public class ElectronicLockTestDriver implements ElectronicLock {
 	public ElectronicLockTestDriver(String title, int xPos, int yPos) {
 		Pane root = new StackPane();
 		root.setPadding(new Insets(10, 10, 10, 10));
-		root.setStyle("-fx-background-color: #d0e1d8;"
+		root.setStyle("-fx-background-color: #0096c9;"
 				+ "-fx-font-size: 14;");
 		root.setPrefWidth(300);
 		
