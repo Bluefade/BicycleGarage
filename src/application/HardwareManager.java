@@ -65,6 +65,7 @@ public class HardwareManager {
 		testPrinter = new BarcodePrinterTestDriver("Printer", 0, 140);
 
 		this.cList = cList;
+		
 	}
 
 	private Bicycle findBicycle(String barcode) {
