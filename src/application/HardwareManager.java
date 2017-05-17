@@ -1,6 +1,8 @@
 package application;
 
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import interfaces.*;
 import testdrivers.*;
@@ -22,7 +24,8 @@ public class HardwareManager {
 	ElectronicLock exitLock;
 	PincodeTerminal entryTerminal;
 	PincodeTerminal exitTerminal;
-	BarcodePrinter printer;
+	BarcodePrinterTestDriver testPrinter;
+	
 
 	Set<Customer> cList;
 
@@ -31,6 +34,9 @@ public class HardwareManager {
 	String barcode;
 	int barcodeCounter;
 	boolean barcodeByHand = false;
+	
+	Timer timerBetweenButtons;
+	Timer timerBetweenPINBarcode;
 
 	/**
 	 * Creates a class that manage all the hardware for the garage. The hardware
@@ -54,24 +60,11 @@ public class HardwareManager {
 		exitTerminal = new PincodeTerminalTestDriver("Exit Terminal", 0, 0);
 		exitTerminal.registerObserver(new ExitTerminalObserver());
 
-		printer = new BarcodePrinterTestDriver("Printer", 0, 0);
+		testPrinter = new BarcodePrinterTestDriver("Printer", 0, 0);
+		
+		
 
 		this.cList = cList;
-	}
-
-	/**Prints a barcode.
-	 * @param barcode The barcode that shall be printed, barcode is 5 characters that can be 0-9 **/
-	public void printBarcode(java.lang.String barcode) {
-		printer.printBarcode(barcode);
-	}
-
-	private Customer findCustomer(String PIN) {
-		for (Customer c : cList) {
-			if (c.getPIN().compareTo(PIN) == 0) {
-				return c;
-			}
-		}
-		return null;
 
 	}
 
@@ -128,6 +121,22 @@ public class HardwareManager {
 		barcodeCounter = 0;
 		barcodeByHand = false;
 	}
+	
+	private Customer findCustomer(String PIN) {
+		for (Customer c : cList) {
+			if (c.getPIN().compareTo(PIN) == 0) {
+				return c;
+			}
+		}
+		return null;
+
+	}
+	
+	/**Prints a barcode.
+	 * @param barcode The barcode that shall be printed, barcode is 5 characters that can be 0-9 **/
+		public void printBarcode(String barcode){
+			testPrinter.printBarcode(barcode);
+		}
 
 	private class EntryBarcodeObserver implements BarcodeObserver {
 		// scannar barcode, ingång
@@ -169,7 +178,14 @@ public class HardwareManager {
 	private class EntryTerminalObserver implements PincodeObserver {
 		@Override
 		public void handleCharacter(char s) {
-
+			timerBetweenButtons.cancel();
+			timerBetweenButtons.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					timeOut();
+					entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+				}
+			}, 5*1000); 
 			if (s == '#') {
 				// vill skriva in barcoden
 				barcodeByHand = true;
