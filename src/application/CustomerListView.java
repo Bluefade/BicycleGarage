@@ -64,8 +64,8 @@ public class CustomerListView extends BorderPane {
 		// Create a list view to display the names. 
 		// The list view is automatically updated when the observable list i updated.
 		listView = new ListView<>(obsList2);
-		listView.setMinWidth(900);
-		listView.setPrefHeight(400);
+		listView.setMinWidth(400);
+		listView.setPrefHeight(300);
 
 		setTop(listView);
 
@@ -92,20 +92,20 @@ public class CustomerListView extends BorderPane {
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
-		addCustomerButton.setMinWidth(150);
+		addCustomerButton.setMinWidth(120);
 
 		addBicycleButton = new Button("Add bicycle");
 		addBicycleButton.setOnAction(e -> addBicycle());
-		addBicycleButton.setMinWidth(150);
+		addBicycleButton.setMinWidth(120);
 
 		removeCustomerButton = new Button("Remove customer");	
 		removeCustomerButton.setOnAction(e -> removeCustomer());
 		removeCustomerButton.setAlignment(Pos.BOTTOM_CENTER);
-		addBicycleButton.setMinWidth(150);
+		addBicycleButton.setMinWidth(180);
 
 		removeBicycleButton = new Button("Remove bicycle");
 		removeBicycleButton.setOnAction(e -> removeBicycle());
-		addBicycleButton.setMinWidth(150);
+		addBicycleButton.setMinWidth(120);
 
 		printBarcodeButton = new Button("Print Barcode");
 		printBarcodeButton.setOnAction(e -> printBarcode());
@@ -122,7 +122,7 @@ public class CustomerListView extends BorderPane {
 		HBox buttonBoxUp = new HBox();
 		buttonBoxUp.setMinHeight(50);
 		buttonBoxUp.setMinWidth(150);
-		buttonBoxUp.setMaxWidth(300);
+		buttonBoxUp.setMaxWidth(430);
 		buttonBoxUp.setSpacing(5);
 		buttonBoxUp.setPadding(new Insets(10, 10, 10, 10));
 		buttonBoxUp.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton);
@@ -131,13 +131,14 @@ public class CustomerListView extends BorderPane {
 		HBox buttonBoxDown = new HBox();
 		buttonBoxDown.setMinHeight(50);
 		buttonBoxDown.setMinWidth(150);
-		buttonBoxDown.setMaxWidth(300);
+		buttonBoxDown.setMaxWidth(430);
 		buttonBoxDown.setSpacing(5);
 		buttonBoxDown.setPadding(new Insets(10, 10, 10, 10));
 		buttonBoxDown.getChildren().addAll(removeBicycleButton, printBarcodeButton);
 		buttonBoxDown.setAlignment(Pos.BOTTOM_CENTER);
 		
 		VBox buttonBox = new VBox();
+		buttonBoxUp.setAlignment(Pos.CENTER_RIGHT);
 		buttonBox.setMinHeight(100);
 		buttonBox.setMinWidth(600);
 		buttonBox.setSpacing(5);
@@ -385,11 +386,11 @@ public class CustomerListView extends BorderPane {
 			System.exit(1);
 		}
 	}
-
+	/*
 
 	private boolean matches(String text) {
 		return text.isEmpty() || (getText().length() < 1) && text.matches("[0-9]");
-	}
+	}*/
 
 } 
 
