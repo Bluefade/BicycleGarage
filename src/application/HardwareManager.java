@@ -61,8 +61,8 @@ public class HardwareManager {
 
 	/**Prints a barcode.
 	 * @param barcode The barcode that shall be printed, barcode is 5 characters that can be 0-9 **/
-	public void printBarcode(java.lang.String barcode) {
-		printer.printBarcode(barcode);
+	public void printBarcode(String barcode) {
+			printer.printBarcode(barcode);
 	}
 
 	private Customer findCustomer(String PIN) {
