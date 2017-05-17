@@ -73,7 +73,7 @@ public class CustomerListView extends BorderPane {
 		// A label to display barcodes
 		numbersLabel2 = new Label();
 		numbersLabel2.setMinWidth(200);
-		
+
 		numbersLabel3 = new Label();
 		numbersLabel3.setMinWidth(200);
 
@@ -89,16 +89,32 @@ public class CustomerListView extends BorderPane {
 
 		removeBicycleButton = new Button("Remove bicycle");
 		removeBicycleButton.setOnAction(e -> removeBicycle());
-		
+
 		printBarcodeButton = new Button("Print Barcode");
 		printBarcodeButton.setOnAction(e -> printBarcode());
 
+		//Create Box for labels
+		HBox labelBox = new HBox();
+		labelBox.setMinHeight(100);
+		labelBox.setSpacing(5);
+		labelBox.setPadding(new Insets(10, 10, 10, 10));
+		labelBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, numbersLabel3);
+		
+		//Create box for buttons
 		HBox buttonBox = new HBox();
 		buttonBox.setMinHeight(100);
 		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
-		buttonBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3, addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton, printBarcodeButton);
-		setBottom(buttonBox);
+		buttonBox.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton, removeBicycleButton, printBarcodeButton, labelBox);
+		//numbersLabel, numbersLabel1, numbersLabel2,numbersLabel3,
+		
+		HBox box = new HBox();
+		buttonBox.setMinHeight(100);
+		buttonBox.setSpacing(5);
+		buttonBox.setPadding(new Insets(10, 10, 10, 10));
+		box.getChildren().addAll(labelBox, buttonBox);
+		
+		setBottom(box);
 
 		// The method change is called when a row in the list view is selected. 
 		listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Customer>() {
@@ -265,8 +281,11 @@ public class CustomerListView extends BorderPane {
 	}
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
-		Optional<Bicycle> result = Dialogs.choiceDialog("", "", "", obsList2.get(index).getBicycles());
-		hardwareManager.printBarcode(result.get().getBarcode());
+		if(index!=-1) {
+			Customer customer = obsList2.get(index);
+			Optional<Bicycle> result = Dialogs.choiceDialog("Print barcode", "Print barcode", "Choose which one of " + customer.getName() + "'s bicycles' barcode to print.", customer.getBicycles());
+			hardwareManager.printBarcode(result.get().getBarcode());
+		}
 	}
 
 	public void save() {
