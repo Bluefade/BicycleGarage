@@ -84,6 +84,7 @@ public class GarageApplication extends Application{
 
 		} else{
 			if(Dialogs.confirmDialog("Exit the application", "Exit the application?", "Are you sure you want to exit the application?")) {
+				customerListView.save();
 				System.exit(1);
 			}
 			else {
@@ -94,6 +95,7 @@ public class GarageApplication extends Application{
 
 	@Override
 	public void stop(){
+		Dialogs.alert("System shutdown", "The system is shutting down", "Warning: The bicycle garage won't function without running this application. The application shall only be shutdown during maintenance hours.");
 		customerListView.save();
 	}
 }
