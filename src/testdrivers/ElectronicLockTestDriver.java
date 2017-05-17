@@ -53,7 +53,6 @@ public class ElectronicLockTestDriver implements ElectronicLock {
 	 */
 	public void open(int timeOpen) {
 		label.setText("OPEN");
-		System.out.println("open");
 		Timeline timeline = new Timeline(new KeyFrame(
 		        Duration.millis(timeOpen * 1000),
 		        e -> {label.setText("LOCKED");}));
