@@ -148,11 +148,11 @@ public class HardwareManager {
 		@Override
 		public void handleBarcode(String s) {
 			// Kod för vad som ska hända när en streckkod skannas start
-			if (checkBarcode(s) && findBicycle(barcode).checkStatus() == false) {
+			if (checkBarcode(s) && findBicycle(s).checkStatus() == false) {
 				entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 				findBicycle(s).setStatus(true);
 
-			} else if (findBicycle(barcode).checkStatus()) {
+			} else if (findBicycle(s).checkStatus()) {
 				entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
 				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 
