@@ -15,6 +15,9 @@ import javafx.stage.Stage;
  * and stop of application as well as login and logout of operator account. 
  * This class will run continuously, with and without the presence of 
  * an operator, and will only be shutdown during maintenance.
+ * 
+ * @version 1.0
+ * @author Group 9
  */
 
 public class GarageApplication extends Application{
@@ -95,7 +98,9 @@ public class GarageApplication extends Application{
 			}
 		}
 	}
-
+	/**
+	 * The exit point for the Java program.
+	 */
 	@Override
 	public void stop(){
 		Dialogs.alert("System shutdown", "The system is shutting down", "Warning: The bicycle garage won't function without running this application. The application shall only be shutdown during maintenance hours.");

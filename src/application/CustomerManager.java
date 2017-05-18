@@ -16,6 +16,8 @@ import java.util.Random;
  * find customer by name, barcode or phone number, show all customers 
  * and generating PIN codes for customers.
  *
+ * @version 1.0
+ * @author Group 9
  */
 public class CustomerManager implements Serializable {
 	private int size;
@@ -46,7 +48,7 @@ public class CustomerManager implements Serializable {
 
 	/**
 	 * Finds the customer with the given name.
-	 * @param name
+	 * @param name The name for the customer 
 	 * @return customer with the given name, or null if such a customer does not exist.
 	 */
 	public Customer findCustomerByName(String name) {
@@ -59,7 +61,7 @@ public class CustomerManager implements Serializable {
 	}
 	/**
 	 * Finds the customer with the given barcode.
-	 * @param barcode
+	 * @param barcode The barcode for the customer
 	 * @return customer with the given barcode, or null if such a customer does not exist.
 	 */
 	public Customer findCustomerByBarcode(String barcode) {
@@ -73,7 +75,7 @@ public class CustomerManager implements Serializable {
 	}
 	/**
 	 * Finds the customer with the given phone number.
-	 * @param phoneNr
+	 * @param phoneNr The phone number for the customer
 	 * @return customer with the given phone number, or null if such a customer does not exist.
 	 */
 	public Customer findCustomerByPhoneNr(String phoneNr) {
@@ -130,8 +132,8 @@ public class CustomerManager implements Serializable {
 	}
 	/**
 	 * Adds a customer with a name and phoneNr to the system.
-	 * @param name
-	 * @param phoneNr
+	 * @param name The name for the customer
+	 * @param phoneNr The phone number for the customer
 	 * @return true if the customer was added, false if they were not.
 	 */
 	public boolean addCustomer(String name, String phoneNr) {
@@ -152,7 +154,7 @@ public class CustomerManager implements Serializable {
 	}
 	/**
 	 * Removes a customer from the system.
-	 * @param customer
+	 * @param customer The customer that wished to be removed
 	 * @return true if the customer was removed, false if they were not.
 	 */
 	public boolean removeCustomer(Customer customer) {
@@ -175,7 +177,8 @@ public class CustomerManager implements Serializable {
 		return customers;
 	}
 	/**
-	 * Method should add bike to customer, by finding customer by name.
+	 * Adds bike to customer, by finding customer by name.
+	 * @param customer The customer that the bicycle will be added to
 	 * @return true if bike was added, false if it wasn't.
 	 */
 	public boolean addBicycle(Customer customer) {
@@ -190,7 +193,8 @@ public class CustomerManager implements Serializable {
 		return false;
 	}
 	/**
-	 * Method should remove bike from customer.
+	 * Removes bike from customer.
+	 * @param barcode The barcode for the bicycle that will be removed
 	 * @return true if bicycle was removed, otherwise false.
 	 */
 	public boolean removeBicycle(String barcode) {
@@ -205,6 +209,9 @@ public class CustomerManager implements Serializable {
 		}
 		return false;
 	}
+	
+	/** Returns a set with the bicycles in the garage.
+	 * @return a set with the bicycles in the garages*/
 
 	public Set<Bicycle> getBikesInGarage() {
 		Set<Bicycle> bicycles = new TreeSet<Bicycle>();

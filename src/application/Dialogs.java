@@ -24,6 +24,8 @@ import javafx.util.Callback;
 * Handles all dialog and alert windows such as information alerts, 
 * confirmation alerts as well as input dialogs for single or double inputs. 
 *
+* @version 1.0
+* @author Group 9
 */
 
 public class Dialogs {

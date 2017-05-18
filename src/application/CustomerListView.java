@@ -31,7 +31,8 @@ import javafx.stage.Stage;
  * This class creates and populates the main view 
  * where the list of customers, buttons and selected customer information 
  * is displayed and interacted with. 
- *
+ * @version 1.0
+ * @author Group 9
  */
 
 public class CustomerListView extends BorderPane {
@@ -50,8 +51,8 @@ public class CustomerListView extends BorderPane {
 	private HardwareManager hardwareManager;
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
-	 * @param CustomerManager containing the customers
-	 * @param HardwareManager 
+	 * @param customerManager Contains the customers
+	 * @param hardwareManager Contains the hardware
 	 */
 	public CustomerListView(CustomerManager customerManager, HardwareManager hardwareManager) {	
 		this.customerManager = customerManager;
@@ -241,7 +242,7 @@ public class CustomerListView extends BorderPane {
 	/**
 	 * Selects row index in the list view if index in [0, number rows).
 	 * Otherwise nothing happens.
-	 * @param index the index of the row to select
+	 * @param index The index of the row to select
 	 */
 	public void select(int index) {
 		listView.getSelectionModel().clearSelection();
@@ -253,7 +254,7 @@ public class CustomerListView extends BorderPane {
 	/**
 	 * Selects the row containing name. If no row contains the name nothing
 	 * happens.
-	 * @param name the name to select
+	 * @param name The name to select
 	 */
 	public void select(Customer customer) {
 		int index = obsList2.indexOf(customer);
@@ -262,7 +263,7 @@ public class CustomerListView extends BorderPane {
 
 	/**
 	 * Fills the rows in the vie list with the strings in col.
-	 * @param col a collection containing strings that will be displayed in the list view
+	 * @param col A collection containing strings that will be displayed in the list view
 	 */
 	public void fillList(Collection<Customer> col) {
 		obsList2.setAll(col);
@@ -353,7 +354,7 @@ public class CustomerListView extends BorderPane {
 		}
 	}
 	
-	
+	/**Prints the barcode for a chosen bicycle.*/
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index!=-1) {
@@ -367,7 +368,7 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-
+/**Saves the database everytime a change has been made.*/
 	public void save() {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("database"));
