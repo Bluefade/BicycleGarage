@@ -298,6 +298,7 @@ public class CustomerListView extends BorderPane {
 				if(success) {
 					select(index);
 					save();
+					Dialogs.alert("Success!", "Success!", "A new bicycle was successfully added to " + customer + ".");
 				} else {
 					Dialogs.alert("Failed to add bicycle","Failed to add bicycle" , "The garage is either full or the customer already has two registered bicycles.");
 				}
