@@ -320,29 +320,24 @@ public class CustomerListView extends BorderPane {
 	
 	private void removeBicycle(){
 		int index = listView.getSelectionModel().getSelectedIndex();
-		if (index != -1) {
-			Customer customer = obsList2.get(index);
-			Optional<String> number = Dialogs.oneInputDialog("Remove bicycle", "Specify barcode", "Enter the barcode of the bicycle you want to remove from " + customer.getName());
-			if (number.isPresent()) {
-				String numb = number.get();
-				if(customer == customerManager.findCustomerByBarcode(numb)) {
-					if(customerManager.removeBicycle(numb)){
-						Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
-						save();
-					}
-					else {		
-						if(Dialogs.confirmDialog("An error här står det ssaker.","Error","The entered barcode does not exist in the system. Do you want to remove a different bicycle?")){
-							removeBicycle();
-						}
-					}
+		if(index!=-1) {
+			try {
+				Customer customer = obsList2.get(index);
+				Optional<Bicycle> result = Dialogs.choiceDialog("Remove bicycle", "Remove bicycle", "Choose which one of " + customer.getName() + "'s bicycle barcodes to remove.", customer.getBicycles());
+				if(customerManager.removeBicycle(result.get().toString())){
+					Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
+					save();
 				}
-				else {
-					if(Dialogs.confirmDialog("An error occurred","Error","The entered barcode does not belong to the chosen customer. Do you want to remove a different bicycle?")){
+				else {		
+					if(Dialogs.confirmDialog("An error occured","An error occured","An error occured when removing the bicycle from the selected customer. Would you like to try again?")){
 						removeBicycle();
 					}
 				}
-				select(index);
 			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			select(index);
 		}
 	}
 	
