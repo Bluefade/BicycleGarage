@@ -3,8 +3,6 @@ package application;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Locale;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
