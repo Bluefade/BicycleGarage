@@ -49,6 +49,7 @@ public class GarageApplication extends Application{
 			customerManager = (CustomerManager) in.readObject();
 			hardwareManager = new HardwareManager(customerManager.allCustomers());
 			customerListView = new CustomerListView(customerManager, hardwareManager);
+			
 			in.close();
 		} catch (Exception e){
 			customerManager = new CustomerManager();
