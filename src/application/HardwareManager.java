@@ -290,7 +290,6 @@ public class HardwareManager {
 						timeOut();
 						executorExitTerminal.shutdownNow();
 					}
-
 				} else {
 					if (pinCounter < 4) {
 						pin = pin + s;
@@ -300,10 +299,8 @@ public class HardwareManager {
 						timeOut();
 						executorExitTerminal.shutdownNow();
 					}
-					
 					if(pinCounter == 4){
 						executorExitTerminal.shutdownNow();
-						
 						executorExitBarcode  = Executors.newSingleThreadScheduledExecutor();
 						executorExitBarcode.schedule(new TimerTask() {
 							@Override
@@ -313,7 +310,6 @@ public class HardwareManager {
 								executorExitBarcode.shutdown();
 							}
 						}, 15, TimeUnit.SECONDS);
-						
 					}
 				}
 			}
