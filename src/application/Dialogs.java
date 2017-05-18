@@ -121,7 +121,7 @@ public class Dialogs {
     grid.add(passwordField, 1, 2);
     
     dialog.getDialogPane().setContent(grid);
-	ButtonType buttonTypeLogin = new ButtonType("Login", ButtonData.OK_DONE);
+	ButtonType buttonTypeLogin = new ButtonType("Log in", ButtonData.OK_DONE);
 	ButtonType buttonTypeCancel = new ButtonType("Exit", ButtonData.CANCEL_CLOSE);
 	dialog.getDialogPane().getButtonTypes().addAll(buttonTypeCancel, buttonTypeLogin);
 
