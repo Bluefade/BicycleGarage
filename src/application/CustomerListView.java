@@ -324,13 +324,29 @@ public class CustomerListView extends BorderPane {
 			try {
 				Customer customer = obsList2.get(index);
 				Optional<Bicycle> result = Dialogs.choiceDialog("Remove bicycle", "Remove bicycle", "Choose which one of " + customer.getName() + "'s bicycle barcodes to remove.", customer.getBicycles());
-				if(customerManager.removeBicycle(result.get().toString())){
-					Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
-					save();
-				}
-				else {		
-					if(Dialogs.confirmDialog("An error occured","An error occured","An error occured when removing the bicycle from the selected customer. Would you like to try again?")){
-						removeBicycle();
+				boolean checkin = false;
+				if(result.isPresent()){
+					for(Bicycle b: customer.getBicycles()) {
+						if(result.get().toString().equals(b.getBarcode())) {
+							if(b.checkStatus()){
+								checkin = true;
+							}
+						}
+					}
+					if(checkin!=true){
+						if(customerManager.removeBicycle(result.get().toString())){
+							Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
+							save();
+						}
+						else {		
+							if(Dialogs.confirmDialog("An error occured","An error occured","An error occured when removing the bicycle from the selected customer. Would you like to try again?")){
+								removeBicycle();
+							}
+						}
+					} else{
+						if(Dialogs.confirmDialog("Error: Bicycle is checked in","The selected bicycle is currently checked in","You need to check out the bicycle before removal is permitted. Would you like to remove another bicycle instead?")){
+							removeBicycle();
+						}
 					}
 				}
 			}
@@ -346,9 +362,11 @@ public class CustomerListView extends BorderPane {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index!=-1) {
 			try {
-			Customer customer = obsList2.get(index);
-			Optional<Bicycle> result = Dialogs.choiceDialog("Print barcode", "Print barcode", "Choose which one of " + customer.getName() + "'s bicycles' barcode to print.", customer.getBicycles());
-			hardwareManager.printBarcode(result.get().toString());
+				Customer customer = obsList2.get(index);
+				Optional<Bicycle> result = Dialogs.choiceDialog("Print barcode", "Print barcode", "Choose which one of " + customer.getName() + "'s bicycles' barcode to print.", customer.getBicycles());
+				if(result.isPresent()){
+					hardwareManager.printBarcode(result.get().toString());
+				}
 			}
 			catch (Exception e) {
 				e.printStackTrace();
