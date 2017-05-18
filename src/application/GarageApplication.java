@@ -36,7 +36,12 @@ public class GarageApplication extends Application{
 	public static void main(String[] args) {	
 		Application.launch(args);
 	}
-
+	
+	/**
+	 * The start function that handles operator login, opens/creates a new database file 
+	 * and sets the primary stage.
+	 * @param primaryStage The primaryStage of the application
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// set default locale english 
@@ -99,8 +104,9 @@ public class GarageApplication extends Application{
 			}
 		}
 	}
+	
 	/**
-	 * The exit point for the Java program.
+	 * The exit point for the Java program. Leaves an alert about the consequences of quitting the program.
 	 */
 	@Override
 	public void stop(){

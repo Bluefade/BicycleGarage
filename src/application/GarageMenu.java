@@ -1,7 +1,6 @@
 package application;
 
 import java.util.Collections;
-
 import java.util.HashSet;
 import java.util.Optional;
 import javafx.application.Platform;
@@ -10,6 +9,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import java.util.Set;
 import java.util.TreeSet;
+
 /**
  * <h1>GarageMenu</h1> Contains all functions and routines for the
  *menu of the program.
@@ -22,8 +22,8 @@ public class GarageMenu extends MenuBar {
 	private CustomerListView customerListView;
 
 	/** Creates the menu for the garage application.
-	 * @param customerManager The CustomerManaer with all the customers.
-	 * @param customerListView Handles the list view for the customers
+	 * @param customerManager The CustomerManaer with all the Customers.
+	 * @param customerListView Handles the list view for the Customers
 	 */
 	public GarageMenu(CustomerManager customerManager, CustomerListView customerListView) {
 		this.customerManager = customerManager;
@@ -65,7 +65,6 @@ public class GarageMenu extends MenuBar {
 		getMenus().addAll(menuGarage, menuFind, menuListMissingPayment);
 		//setUseSystemMenuBar(true);  // if you want operating system rendered menus, uncomment this line
 	}
-
 
 	private void showAll() {
 		customerListView.fillList(customerManager.allCustomers());

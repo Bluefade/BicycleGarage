@@ -17,7 +17,6 @@ import testdrivers.*;
  * @version 1.0
  * @author Group 9
  */
-
 public class HardwareManager {
 	BarcodeScanner entryScanner;
 	BarcodeScanner exitScanner;
@@ -44,8 +43,7 @@ public class HardwareManager {
 	 * includes barcode readers, PIN code terminals, a barcode printer and an
 	 * electronic lock.
 	 * 
-	 * @param cList
-	 *            The list of registered Customer for the garage
+	 * @param cList A set of registered Customers for the garage
 	 **/
 	public HardwareManager(Set<Customer> cList) {
 		entryScanner = new BarcodeScannerTestDriver("Entry Scanner", 1000, 0);
@@ -110,7 +108,6 @@ public class HardwareManager {
 			}
 		}
 		return false;
-
 	}
 
 	private void timeOut() { // "Raderar" minnet för pin och barcode
@@ -133,10 +130,7 @@ public class HardwareManager {
 
 	/**
 	 * Prints a barcode.
-	 * 
-	 * @param barcode
-	 *            The barcode that shall be printed, barcode is 5 characters
-	 *            that can be 0-9
+	 * @param barcode The barcode that shall be printed, barcode is 5 characters that can be 0-9
 	 **/
 	public void printBarcode(String barcode) {
 		testPrinter.printBarcode(barcode);
@@ -158,7 +152,6 @@ public class HardwareManager {
 			} else {
 				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 			}
-
 		}
 	}
 
@@ -172,7 +165,6 @@ public class HardwareManager {
 				exitLock.open(15);
 				exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 				findBicycle(s).setStatus(false);
-
 			} else if (findBicycle(s).checkStatus() == false) {
 				// cykeln är "Withdrawn"
 				exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
@@ -181,16 +173,13 @@ public class HardwareManager {
 			} else {
 				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 			}
-
 			timeOut(); // resetar terminalen
-
 		}
 	}
 
 	private class EntryTerminalObserver implements PincodeObserver {
 		@Override
 		public void handleCharacter(char s) {
-
 			if (executorEntryTerminal.isShutdown() == false) {
 				executorEntryTerminal.shutdownNow();
 			}
@@ -203,24 +192,19 @@ public class HardwareManager {
 					executorEntryTerminal.shutdown();
 				}
 			}, 5, TimeUnit.SECONDS);
-
 			if (s == '#') {
-				// vill skriva in barcoden
+				// if Customer wants to manually enter the barcode
 				barcodeByHand = true;
-
 			} else if (s == '*') {
 				// timeOut
 				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 				timeOut();
-
 			} else {
-
 				if (barcodeByHand) {
 					if (barcodeCounter < 5) {
 						barcode = barcode + s;
 						barcodeCounter++;
 					}
-
 					if (barcodeCounter == 5) {
 						executorEntryTerminal.shutdownNow();
 						if (checkBarcode(barcode) && findBicycle(barcode).checkStatus() == false) {
@@ -235,13 +219,11 @@ public class HardwareManager {
 						}
 						timeOut();
 					}
-
 				} else {
 					if (pinCounter < 4) {
 						pin = pin + s;
 						pinCounter++;
 					}
-
 					if (pinCounter == 4) {
 						executorEntryTerminal.shutdownNow();
 						if (checkPIN(pin)) {
@@ -253,14 +235,12 @@ public class HardwareManager {
 						timeOut();
 					}
 				}
-
 			}
 		}
 	}
 
 	private class ExitTerminalObserver implements PincodeObserver {
 		@Override
-
 		public void handleCharacter(char s) {
 			if (executorExitTerminal.isShutdown() == false) {
 				executorExitTerminal.shutdownNow();
@@ -276,22 +256,18 @@ public class HardwareManager {
 			}, 5, TimeUnit.SECONDS);
 
 			if (s == '#') {
-				// vill skriva in barcoden
+				// if Customer wants to enter the barcode manually
 				barcodeByHand = true;
-
 			} else if (s == '*') {
 				// timeOut
 				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 				timeOut();
-
 			} else {
-
 				if (barcodeByHand) {
 					if (barcodeCounter < 5) {
 						barcode = barcode + s;
 						barcodeCounter++;
 					}
-
 					if (barcodeCounter == 5 && pinCounter == 4) {
 						executorExitBarcode.shutdownNow();
 						if (checkPinBarcode(pin, barcode)) {
@@ -303,7 +279,6 @@ public class HardwareManager {
 								exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
 								exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 							}
-
 						} else {
 							exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 						}
@@ -315,7 +290,6 @@ public class HardwareManager {
 						timeOut();
 						executorExitTerminal.shutdownNow();
 					}
-
 				} else {
 					if (pinCounter < 4) {
 						pin = pin + s;
@@ -325,10 +299,8 @@ public class HardwareManager {
 						timeOut();
 						executorExitTerminal.shutdownNow();
 					}
-					
 					if(pinCounter == 4){
 						executorExitTerminal.shutdownNow();
-						
 						executorExitBarcode  = Executors.newSingleThreadScheduledExecutor();
 						executorExitBarcode.schedule(new TimerTask() {
 							@Override
@@ -338,10 +310,8 @@ public class HardwareManager {
 								executorExitBarcode.shutdown();
 							}
 						}, 15, TimeUnit.SECONDS);
-						
 					}
 				}
-
 			}
 		}
 	}
