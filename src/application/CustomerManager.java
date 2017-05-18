@@ -34,8 +34,7 @@ public class CustomerManager implements Serializable {
 		PINcodes = new LinkedList<>();
 		barcodes = new LinkedList<>();
 		generatePIN();
-		generateBarcode();
-		customers.add(new Customer("Skyldiga Johan", "0722048352","1234",true));
+		generateBarcode();		
 	}
 
 	/**
