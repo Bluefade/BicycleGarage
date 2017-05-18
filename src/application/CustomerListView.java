@@ -51,6 +51,7 @@ public class CustomerListView extends BorderPane {
 
 	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
 	 * @param CustomerManager containing the customers
+	 * @param HardwareManager 
 	 */
 	public CustomerListView(CustomerManager customerManager, HardwareManager hardwareManager) {	
 		this.customerManager = customerManager;
@@ -351,6 +352,8 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
+	
+	
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index!=-1) {
@@ -388,11 +391,6 @@ public class CustomerListView extends BorderPane {
 			System.exit(1);
 		}
 	}
-	/*
-
-	private boolean matches(String text) {
-		return text.isEmpty() || (getText().length() < 1) && text.matches("[0-9]");
-	}*/
 
 } 
 

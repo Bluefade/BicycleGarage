@@ -6,6 +6,9 @@ import java.io.Serializable;
  * <h1>Bicycle</h1>
  * The Bicycle class contains the definition 
  * and fundamental information about the bicycle.
+ * 
+ * @version 1.0
+ * @author Group 9
  * */
 public class Bicycle implements Serializable {
 	private String barcode;
@@ -15,7 +18,7 @@ public class Bicycle implements Serializable {
 	/**
 	 * Creates a new bicycle used to authenticate
 	 * the bicycle at the entrance of the garage.
-	 * @param barcode of the bicycle
+	 * @param Barcode The barcode for the bicycle
 	 */
     public Bicycle(String barcode) {
     	this.barcode = barcode;
@@ -24,7 +27,7 @@ public class Bicycle implements Serializable {
     
     /**
 	 * Returns the bicycle's barcode
-	 * @return barcode of the bicycle
+	 * @return barcode The barcode for the bicycle
 	 */
     public String getBarcode(){
     	return barcode;
@@ -32,7 +35,7 @@ public class Bicycle implements Serializable {
     
     /**
 	 * Returns the bicycle's check-in status
-	 * @return check-in status of bicycle
+	 * @return check-in The check-in status of bicycle, true if in the garage
 	 */
     public boolean checkStatus(){
     	return status;
@@ -40,7 +43,7 @@ public class Bicycle implements Serializable {
     
     /**
 	 * Changes the check-in status of the bicycle
-	 * @param check-in status of bicycle
+	 * @param Check-in The check-in status of bicycle
 	 */
     public void setStatus(boolean status){
     	this.status = status;
@@ -48,7 +51,7 @@ public class Bicycle implements Serializable {
     
     /**
 	 * Returns the barcode of the bicycle
-	 * @return the bicycle's barcode
+	 * @return barcode The bicycle's barcode
 	 */
     public String toString() {
 	    return barcode;

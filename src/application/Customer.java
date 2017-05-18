@@ -8,7 +8,8 @@ import java.util.Set;
  * <h1>Customer</h1>
  * The Customer class contains the definition 
  * and fundamental information about the customer.
- *
+ * @version 1.0
+ * @author Group 9
  */
 public class Customer implements Comparable<Customer> , Serializable{
 	private String name;
@@ -20,9 +21,9 @@ public class Customer implements Comparable<Customer> , Serializable{
 	
 	/**
 	 * Creates a new Customer
-	 * @param name of Customer
-	 * @param phone number of Customer
-	 * @param PIN code of Customer
+	 * @param name The name of Customer
+	 * @param phoneNr The phone number of Customer
+	 * @param PIN The PIN code of Customer
 	 */
 	public Customer(String name, String phoneNr, String PIN){ 
 		this.name = name;
@@ -31,7 +32,11 @@ public class Customer implements Comparable<Customer> , Serializable{
 		missingPayment = false;
 		bicycles = new HashSet<>();
 	}
-	
+	/**Creates a new Customer
+	 * @param name The name of Customer
+	 * @param phoneNr The phone number of Customer
+	 * @param PIN The PIN code of Customer
+	 * @param missingPayment The pay status of the customer, true if customer has not paid */
 	public Customer(String name, String phoneNr, String PIN, boolean missingPayment){ 
 		this.name = name;
 		this.phoneNr = phoneNr;
@@ -42,7 +47,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Receives the name of Customer
-	 * @return name of Customer
+	 * @return A string of the name of Customer
 	 */
 	public String getName(){
 		return name;
@@ -50,7 +55,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Receives the customer's phone number 
-	 * @return customer's phone number
+	 * @return A string of the customer's phone number
 	 */
 	public String getPhoneNr(){
 		return phoneNr;
@@ -58,7 +63,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Receives the customer's PIN code
-	 * @return customer's PIN code
+	 * @return A string of the customer's PIN code
 	 */
 	public String getPIN(){
 		return PIN;
@@ -66,7 +71,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Changes the customer's PIN code
-	 * @param customer's new PIN code
+	 * @param PIN The customer's new PIN code
 	 */
 	public void setPIN(String PIN){
 		this.PIN = PIN;
@@ -74,7 +79,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Receives the customer's bicycle(s)
-	 * @return customer's bicycle(s)
+	 * @return A set of the customer's bicycle(s)
 	 */
 	public Set<Bicycle> getBicycles(){
 		return bicycles;
@@ -82,7 +87,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Adds new bicycle(s) to customer
-	 * @param customer's new bicycle(s)
+	 * @param bicyle The customer's new bicycle(s)
 	 */
 	public void addBicycle(Set<Bicycle> bicycle){
 		for(Bicycle nextBicycle: bicycle){
@@ -100,7 +105,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Updates information on whether or not the customer has missing payments
-	 * @param true if the customer has missing payments, false otherwise
+	 * @param paymentStatus True if the customer has missing payments, false otherwise
 	 */
 	public void setMissingPayment(boolean paymentStatus){
 		missingPayment = paymentStatus;
@@ -108,8 +113,8 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Compares this customer to another customer by comparing their names
-	 * @param the other customer to compare to
-	 * @return an integer bigger, smaller or equal to zero dependent on the alphabetical order of the names.
+	 * @param c The other customer to compare to
+	 * @return an integer bigger, smaller or equal to zero dependent on the alphabetical order of the names
 	 */
 	@Override
 	public int compareTo(Customer c) {
@@ -117,8 +122,8 @@ public class Customer implements Comparable<Customer> , Serializable{
 	}
 
 	/**
-	 * Returns the name as of the customer
-	 * @return the name of the customer
+	 * Returns the name of the customer
+	 * @return A sting of the name of the customer
 	 */
 	public String toString() { 
 		return name;
