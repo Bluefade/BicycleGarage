@@ -277,7 +277,7 @@ public class CustomerListView extends BorderPane {
 					select(customerManager.findCustomerByPhoneNr(inputs[1]));
 					save();
 				} else {
-					Dialogs.alert("Failed to add customer", "Failed to add customer", "The system is already full or there already exists a user with the same name and phone number.");
+					Dialogs.alert("Failed to add customer", "Failed to add customer", "The system is already full or the phone number and name combination already exists.");
 					clearSelection();
 				}
 			}
@@ -311,11 +311,22 @@ public class CustomerListView extends BorderPane {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if (index != -1) {
 			Customer customer = obsList2.get(index);
-			if(Dialogs.confirmDialog("Remove customer","Do you really want to remove this customer?","Are you sure you want to remove " + customer.getName() + " from the system?")){
-				customerManager.removeCustomer(customer);
-				save();
+			boolean checkin = false;
+			for(Bicycle bicycle :  customer.getBicycles()){
+				if(bicycle.checkStatus()){
+					checkin = true;
+				}
 			}
-			obsList2.setAll(customerManager.allCustomers());
+			if(!checkin){
+				if(Dialogs.confirmDialog("Remove customer","Do you really want to remove this customer?","Are you sure you want to remove " + customer.getName() + " from the system?")){
+					customerManager.removeCustomer(customer);
+					save();
+				}
+				obsList2.setAll(customerManager.allCustomers());
+			}
+			else{
+				Dialogs.alertError("An error occured","An error occured when removing the customer","The customer has a bicycle deposited in the garage and can therefore not be removed. Check out the bicycle and try again.");
+			}
 		}
 	}
 	
@@ -400,9 +411,3 @@ public class CustomerListView extends BorderPane {
 		}
 	}
 } 
-
-
-
-
-
-
