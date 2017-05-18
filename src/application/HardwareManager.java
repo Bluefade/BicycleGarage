@@ -293,6 +293,9 @@ public class HardwareManager {
 					}
 
 					if (barcodeCounter == 5 && pinCounter == 4) {
+						if(executorExitBarcode.isShutdown() == false){
+							executorExitBarcode.shutdownNow();
+						}
 						executorExitBarcode.shutdownNow();
 						if (checkPinBarcode(pin, barcode)) {
 							if (findBicycle(barcode).checkStatus()) {
@@ -328,6 +331,7 @@ public class HardwareManager {
 					
 					if(pinCounter == 4){
 						executorExitTerminal.shutdownNow();
+						exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 						
 						executorExitBarcode  = Executors.newSingleThreadScheduledExecutor();
 						executorExitBarcode.schedule(new TimerTask() {
