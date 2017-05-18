@@ -103,21 +103,20 @@ public class Dialogs {
 	 */
 	public static String logInDialog(String title, String headerText, String question) {
 	Dialog<String> dialog = new Dialog<>();
-	dialog.setTitle(title);
     GridPane grid = new GridPane();
     grid.setAlignment(Pos.CENTER);
     grid.setHgap(10);
     grid.setVgap(10);
     grid.setPadding(new Insets(25, 25, 25, 25));
-    Text scenetitle = new Text(headerText);
-    scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-    grid.add(scenetitle, 0, 0, 2, 1);
+    dialog.setTitle(title);
+    Text headerTxt = new Text(headerText);
+    headerTxt.setFont(Font.font("Arial", FontWeight.EXTRA_LIGHT, 18));
+    grid.add(headerTxt, 0, 0, 2, 1);
     
 	dialog.setGraphic(new ImageView(Dialogs.class.getResource("login.png").toString()));
 
     Label pw = new Label("Password:");
     grid.add(pw, 0, 2);
-
     PasswordField passwordField = new PasswordField();
     grid.add(passwordField, 1, 2);
     
@@ -134,6 +133,7 @@ public class Dialogs {
 	passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
 	    loginButton.setDisable(newValue.trim().isEmpty());
 	});
+	
 	dialog.showAndWait();
 	dialog.setResult(passwordField.getText());
 	return dialog.getResult();
