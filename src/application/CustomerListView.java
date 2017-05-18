@@ -186,7 +186,7 @@ public class CustomerListView extends BorderPane {
 					numbersLabel.setText("Name: \n" + newValue.getName());
 					numbersLabel1.setText("Phone Number: \n" + newValue.getPhoneNr());
 					if(newValue.getBicycles().isEmpty()) {
-						numbersLabel2.setText("Bicycle barcodes: \n" + "No registred bicycles");
+						numbersLabel2.setText("Bicycle barcodes: \n" + "No registered bicycles");
 					}
 					else {
 						StringBuilder sb = new StringBuilder();
