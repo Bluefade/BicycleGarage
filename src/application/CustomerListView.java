@@ -121,6 +121,7 @@ public class CustomerListView extends BorderPane {
 		
 		//Create box for buttons
 		HBox buttonBoxUp = new HBox();
+		buttonBoxUp.setAlignment(Pos.TOP_CENTER);
 		buttonBoxUp.setMinHeight(50);
 		buttonBoxUp.setMinWidth(150);
 		buttonBoxUp.setMaxWidth(430);
