@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * <h1>Customer</h1>
  * The Customer class contains the definition 
- * and fundamental information about the customer.
+ * and fundamental functions of the customer
  * @version 1.0
  * @author Group 9
  */
@@ -21,9 +21,9 @@ public class Customer implements Comparable<Customer> , Serializable{
 	
 	/**
 	 * Creates a new Customer
-	 * @param name The name of Customer
-	 * @param phoneNr The phone number of Customer
-	 * @param PIN The PIN code of Customer
+	 * @param name The name of the Customer
+	 * @param phoneNr The phone number of the Customer
+	 * @param PIN The PIN code of the Customer
 	 */
 	public Customer(String name, String phoneNr, String PIN){ 
 		this.name = name;
@@ -32,11 +32,14 @@ public class Customer implements Comparable<Customer> , Serializable{
 		missingPayment = false;
 		bicycles = new HashSet<>();
 	}
-	/**Creates a new Customer
-	 * @param name The name of Customer
-	 * @param phoneNr The phone number of Customer
-	 * @param PIN The PIN code of Customer
-	 * @param missingPayment The pay status of the customer, true if customer has not paid */
+	
+	/**
+	 * Creates a new Customer
+	 * @param name The name of the Customer
+	 * @param phoneNr The phone number of the Customer
+	 * @param PIN The PIN code of the Customer
+	 * @param missingPayment The pay status of the customer, true if customer has missing payments 
+	 */
 	public Customer(String name, String phoneNr, String PIN, boolean missingPayment){ 
 		this.name = name;
 		this.phoneNr = phoneNr;
@@ -46,48 +49,48 @@ public class Customer implements Comparable<Customer> , Serializable{
 	}
 
 	/**
-	 * Receives the name of Customer
-	 * @return A string of the name of Customer
+	 * Receives the name of the Customer
+	 * @return A string of the name of the Customer
 	 */
 	public String getName(){
 		return name;
 	}
 
 	/**
-	 * Receives the customer's phone number 
-	 * @return A string of the customer's phone number
+	 * Receives the Customer's phone number 
+	 * @return A string of the Customer's phone number
 	 */
 	public String getPhoneNr(){
 		return phoneNr;
 	}
 
 	/**
-	 * Receives the customer's PIN code
-	 * @return A string of the customer's PIN code
+	 * Receives the Customer's PIN code
+	 * @return A string of the Customer's PIN code
 	 */
 	public String getPIN(){
 		return PIN;
 	}
 
 	/**
-	 * Changes the customer's PIN code
-	 * @param PIN The customer's new PIN code
+	 * Changes the Customer's PIN code
+	 * @param PIN A string of the Customer's new PIN code
 	 */
 	public void setPIN(String PIN){
 		this.PIN = PIN;
 	}
 
 	/**
-	 * Receives the customer's bicycle(s)
-	 * @return A set of the customer's bicycle(s)
+	 * Receives the Customer's bicycle(s)
+	 * @return A set of the Customer's bicycle(s)
 	 */
 	public Set<Bicycle> getBicycles(){
 		return bicycles;
 	}
 
 	/**
-	 * Adds new bicycle(s) to customer
-	 * @param bicyle The customer's new bicycle(s)
+	 * Adds new bicycle(s) to Customer
+	 * @param bicyle A set of the Customer's new bicycle(s)
 	 */
 	public void addBicycle(Set<Bicycle> bicycle){
 		for(Bicycle nextBicycle: bicycle){
@@ -96,25 +99,25 @@ public class Customer implements Comparable<Customer> , Serializable{
 	}
 
 	/**
-	 * Receives information on whether or not the customer has missing payments
-	 * @return true if the customer has missing payments
+	 * Receives information on whether or not the Customer has missing payments
+	 * @return True if the Customer has missing payments
 	 */
 	public boolean getMissingPayment(){
 		return missingPayment;
 	}
 
 	/**
-	 * Updates information on whether or not the customer has missing payments
-	 * @param paymentStatus True if the customer has missing payments, false otherwise
+	 * Updates information on whether or not the Customer has missing payments
+	 * @param paymentStatus True if the Customer has missing payments, false otherwise
 	 */
 	public void setMissingPayment(boolean paymentStatus){
 		missingPayment = paymentStatus;
 	}
 
 	/**
-	 * Compares this customer to another customer by comparing their names
-	 * @param c The other customer to compare to
-	 * @return an integer bigger, smaller or equal to zero dependent on the alphabetical order of the names
+	 * Compares this Customer to another Customer by comparing their names
+	 * @param c The other Customer to compare to
+	 * @return An integer bigger, smaller or equal to zero dependent on the alphabetical order of the names
 	 */
 	@Override
 	public int compareTo(Customer c) {
@@ -122,8 +125,8 @@ public class Customer implements Comparable<Customer> , Serializable{
 	}
 
 	/**
-	 * Returns the name of the customer
-	 * @return A sting of the name of the customer
+	 * Returns the name of the Customer
+	 * @return A sting of the name of the Customer
 	 */
 	public String toString() { 
 		return name;

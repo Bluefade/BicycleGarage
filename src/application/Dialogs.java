@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
@@ -118,10 +117,7 @@ public class Dialogs {
 		dialog.setContentText(label + ": ");
 		return dialog.showAndWait();
 	}
-	
-	
-	
-	
+
 	/** Shows an input dialog with two input fields.
 	 * @param title the title of the pop up window
 	 * @param headerText the string to show in the dialog header area
@@ -167,8 +163,15 @@ public class Dialogs {
 		}
 		return Optional.ofNullable(input);
 	}
+	
+	/** Shows a multiple choice dialog with drop down selector.
+	 * @param title the title of the pop up window
+	 * @param headerText the string to show in the dialog header area
+	 * @param labels the strings to show in the dialog content area before the input fields
+	 * @param bicycles the bicycles to choose from
+	 * @return An Optional that contains the result
+	 */
 	public static Optional<Bicycle> choiceDialog(String title, String headerText, String label, Set<Bicycle> bicycle ) {
-
 		//create choice dialog
 		Iterator<Bicycle> i = bicycle.iterator();
 		ChoiceDialog<Bicycle> dialog = new ChoiceDialog<>(i.next(), bicycle);

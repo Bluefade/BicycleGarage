@@ -10,11 +10,11 @@ import java.util.Random;
 
 /**
  * <h1>CustomerManager</h1>
- * The CustomerManager manages customers and their respective information. 
+ * The CustomerManager manages Customers and their respective information. 
  * This class includes the logic used to store all customers, add and remove 
- * customers, add and remove barcodes as well as generating barcodes, 
- * find customer by name, barcode or phone number, show all customers 
- * and generating PIN codes for customers.
+ * Customers, add and remove barcodes as well as generating barcodes, 
+ * find customer by name, barcode or phone number, show all Customers 
+ * and generating PIN codes for Customers.
  *
  * @version 1.0
  * @author Group 9
@@ -27,7 +27,7 @@ public class CustomerManager implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 *	Constructor initiating customers, PINcodes and barcodes.
+	 *	Constructor initiating Customers, PIN codes and barcodes.
 	 */
 	public CustomerManager() {
 		customers = new HashSet<>();
@@ -39,17 +39,17 @@ public class CustomerManager implements Serializable {
 	}
 
 	/**
-	 * returns the number of customers in the system.
-	 * @return the size of customers.
+	 * Returns the number of Customers in the system.
+	 * @return the number of Customers in the system.
 	 */
 	public int getSize(){
 		return size;
 	}
 
 	/**
-	 * Finds the customer with the given name.
-	 * @param name The name for the customer 
-	 * @return customer with the given name, or null if such a customer does not exist.
+	 * Finds the Customer with the given name.
+	 * @param name The name for the Customer 
+	 * @return Customer with the given name, or null if such a Customer does not exist.
 	 */
 	public Customer findCustomerByName(String name) {
 		for(Customer c : customers) {
@@ -59,10 +59,11 @@ public class CustomerManager implements Serializable {
 		}
 		return null;
 	}
+	
 	/**
-	 * Finds the customer with the given barcode.
-	 * @param barcode The barcode for the customer
-	 * @return customer with the given barcode, or null if such a customer does not exist.
+	 * Finds the Customer with the given barcode.
+	 * @param barcode The barcode for the Customer
+	 * @return the Customer with the given barcode, or null if such a Customer does not exist.
 	 */
 	public Customer findCustomerByBarcode(String barcode) {
 		for(Customer c : customers) {
@@ -73,10 +74,11 @@ public class CustomerManager implements Serializable {
 		}
 		return null;
 	}
+	
 	/**
-	 * Finds the customer with the given phone number.
-	 * @param phoneNr The phone number for the customer
-	 * @return customer with the given phone number, or null if such a customer does not exist.
+	 * Finds the Customer with the given phone number.
+	 * @param phoneNr The phone number for the Customer
+	 * @return the Customer with the given phone number, or null if such a Customer does not exist.
 	 */
 	public Customer findCustomerByPhoneNr(String phoneNr) {
 		for(Customer c : customers) {
@@ -88,7 +90,7 @@ public class CustomerManager implements Serializable {
 	}
 
 	/**
-	 * Generates 50 random PIN-code to be assigned to customers.
+	 * Generates 50 random PIN-codes to be assigned to Customers.
 	 */
 	public void generatePIN(){
 		Random rand = new Random();
@@ -103,7 +105,7 @@ public class CustomerManager implements Serializable {
 	}	
 
 	/**
-	 * Generates 50 random barcodes to be assigned to new customers.
+	 * Generates 50 random barcodes to be assigned to new Customers.
 	 * 
 	 */
 	public void generateBarcode(){
@@ -116,12 +118,11 @@ public class CustomerManager implements Serializable {
 				count++;
 			}
 		}
-
 	}
 
 	/**
-	 * allNames returns a set containing all names of the customers in the system.
-	 * @return a treeset containing all names
+	 * allNames returns a set containing all names of the Customers in the system.
+	 * @return a TreeSet containing all names of Customers in the system
 	 */
 	public Set<String> allNames() {
 		Set<String> names = new TreeSet<String>();
@@ -130,11 +131,12 @@ public class CustomerManager implements Serializable {
 		}
 		return names;
 	}
+	
 	/**
-	 * Adds a customer with a name and phoneNr to the system.
-	 * @param name The name for the customer
-	 * @param phoneNr The phone number for the customer
-	 * @return true if the customer was added, false if they were not.
+	 * Adds a Customer with a name and phoneNr to the system.
+	 * @param name The name for the Customer
+	 * @param phoneNr The phone number for the Customer
+	 * @return true if the Customer was added, false if they were not.
 	 */
 	public boolean addCustomer(String name, String phoneNr) {
 		if(size>50) {
@@ -152,10 +154,11 @@ public class CustomerManager implements Serializable {
 			return customers.add(newCustomer);
 		}
 	}
+	
 	/**
-	 * Removes a customer from the system.
-	 * @param customer The customer that wished to be removed
-	 * @return true if the customer was removed, false if they were not.
+	 * Removes a Customer from the system.
+	 * @param customer The Customer that wishes to be removed
+	 * @return true if the Customer was removed, false if they were not.
 	 */
 	public boolean removeCustomer(Customer customer) {
 		boolean removed = customers.remove(customer);
@@ -164,10 +167,11 @@ public class CustomerManager implements Serializable {
 		}
 		return removed;
 	}
+	
 	/**
-	 * Returns a list of all customers as a TreeSet. To be used in CustomerListView for the
+	 * Returns a list of all Customers as a TreeSet. To be used in CustomerListView for the
 	 * method removeCustomer to work.
-	 * @return a treeset of all customers in the system.
+	 * @return a treeset of all Customers in the system.
 	 */
 	public Set<Customer> allCustomers() {
 		Set<Customer> listCustomers = new TreeSet<Customer>();
@@ -176,9 +180,10 @@ public class CustomerManager implements Serializable {
 		}
 		return customers;
 	}
+	
 	/**
-	 * Adds bike to customer, by finding customer by name.
-	 * @param customer The customer that the bicycle will be added to
+	 * Adds Bicycle to Customer, by finding Customer by name.
+	 * @param Customer The Customer that the Bicycle will be added to
 	 * @return true if bike was added, false if it wasn't.
 	 */
 	public boolean addBicycle(Customer customer) {
@@ -192,10 +197,11 @@ public class CustomerManager implements Serializable {
 		}
 		return false;
 	}
+	
 	/**
-	 * Removes bike from customer.
-	 * @param barcode The barcode for the bicycle that will be removed
-	 * @return true if bicycle was removed, otherwise false.
+	 * Removes Bicycle from customer.
+	 * @param barcode The barcode for the Bicycle that will be removed
+	 * @return true if Bicycle was removed, otherwise false.
 	 */
 	public boolean removeBicycle(String barcode) {
 		Customer customer = findCustomerByBarcode(barcode);
@@ -210,9 +216,8 @@ public class CustomerManager implements Serializable {
 		return false;
 	}
 	
-	/** Returns a set with the bicycles in the garage.
-	 * @return a set with the bicycles in the garages*/
-
+	/** Returns a set with the Bicycles in the garage.
+	 * @return a set with the Bicycles in the garages*/
 	public Set<Bicycle> getBikesInGarage() {
 		Set<Bicycle> bicycles = new TreeSet<Bicycle>();
 		for(Customer currentKey : customers) {

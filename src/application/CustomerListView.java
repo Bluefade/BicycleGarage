@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 /**
  * <h1>ListView</h1>
  * This class creates and populates the main view 
- * where the list of customers, buttons and selected customer information 
+ * where the list of Customers, buttons and selected Customer information 
  * is displayed and interacted with. 
  * @version 1.0
  * @author Group 9
@@ -50,8 +50,8 @@ public class CustomerListView extends BorderPane {
 	private Label numbersLabel4;
 	private HardwareManager hardwareManager;
 
-	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
-	 * @param customerManager Contains the customers
+	/** Creates a list view of all Customer names and adds buttons for adding/removing Customers and Bicycles.
+	 * @param customerManager Contains the Customers
 	 * @param hardwareManager Contains the hardware
 	 */
 	public CustomerListView(CustomerManager customerManager, HardwareManager hardwareManager) {	
@@ -124,14 +124,11 @@ public class CustomerListView extends BorderPane {
 		buttonBoxUp.setMinHeight(50);
 		buttonBoxUp.setMinWidth(150);
 		buttonBoxUp.setMaxWidth(430);
-		buttonBoxUp.setAlignment(Pos.CENTER_LEFT);
 		buttonBoxUp.setSpacing(5);
 		buttonBoxUp.setPadding(new Insets(10, 10, 10, 10));
 		buttonBoxUp.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton);
-		buttonBoxUp.setAlignment(Pos.BOTTOM_CENTER);
 
 		HBox buttonBoxDown = new HBox();
-		buttonBoxDown.setAlignment(Pos.CENTER_LEFT);
 		buttonBoxDown.setMinHeight(50);
 		buttonBoxDown.setMinWidth(150);
 		buttonBoxDown.setMaxWidth(430);
@@ -141,13 +138,11 @@ public class CustomerListView extends BorderPane {
 		buttonBoxDown.setAlignment(Pos.BOTTOM_CENTER);
 		
 		VBox buttonBox = new VBox();
-		buttonBoxUp.setAlignment(Pos.CENTER_RIGHT);
 		buttonBox.setMinHeight(100);
 		buttonBox.setMinWidth(600);
 		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
 		buttonBox.getChildren().addAll(buttonBoxUp, buttonBoxDown);
-		
 		
 		HBox box = new HBox();
 		box.setMinHeight(100);
@@ -157,7 +152,6 @@ public class CustomerListView extends BorderPane {
 		box.getChildren().addAll(labelBox, buttonBox);
 		
 		//Information box
-		
 		HBox infoBox = new HBox();
 		infoBox.setMinHeight(100);
 		infoBox.setSpacing(5);
@@ -218,7 +212,6 @@ public class CustomerListView extends BorderPane {
 					numbersLabel3.setText("");
 					numbersLabel4.setText("");
 				}
-
 			}
 		});
 		clearSelection();	
@@ -268,7 +261,7 @@ public class CustomerListView extends BorderPane {
 	public void fillList(Collection<Customer> col) {
 		obsList2.setAll(col);
 	}
-
+	
 	private void addCustomer() {
 		clearSelection();
 		String[] labels = {"Name", "Phone number"};
@@ -295,8 +288,7 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-
-
+	
 	private void addBicycle() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if (index != -1) {
@@ -325,7 +317,7 @@ public class CustomerListView extends BorderPane {
 			obsList2.setAll(customerManager.allCustomers());
 		}
 	}
-
+	
 	private void removeBicycle(){
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if (index != -1) {
@@ -354,7 +346,7 @@ public class CustomerListView extends BorderPane {
 		}
 	}
 	
-	/**Prints the barcode for a chosen bicycle.*/
+	/**Prints the barcode for a chosen Bicycle.*/
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index!=-1) {
@@ -368,7 +360,8 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-/**Saves the database everytime a change has been made.*/
+	
+	/**Saves the database everytime a change has been made.*/
 	public void save() {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("database"));
@@ -392,7 +385,6 @@ public class CustomerListView extends BorderPane {
 			System.exit(1);
 		}
 	}
-
 } 
 
 
