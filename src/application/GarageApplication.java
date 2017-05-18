@@ -3,7 +3,6 @@ package application;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Locale;
-import java.util.Optional;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -36,7 +35,12 @@ public class GarageApplication extends Application{
 	public static void main(String[] args) {	
 		Application.launch(args);
 	}
-
+	
+	/**
+	 * The start function that handles operator login, opens/creates a new database file 
+	 * and sets the primary stage.
+	 * @param primaryStage The primaryStage of the application
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// set default locale english 
@@ -49,6 +53,7 @@ public class GarageApplication extends Application{
 			customerManager = (CustomerManager) in.readObject();
 			hardwareManager = new HardwareManager(customerManager.allCustomers());
 			customerListView = new CustomerListView(customerManager, hardwareManager);
+			
 			in.close();
 		} catch (Exception e){
 			customerManager = new CustomerManager();
@@ -76,11 +81,9 @@ public class GarageApplication extends Application{
 			Dialogs.alertError("Log-in attempts exceeded", "Log-in attempts exceeded", "System is shutting down due to exceeded number of log-in attempts");
 			System.exit(1);
 		}
-		Optional<String> pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in");
-
-		if (pass.isPresent()) {
-			String input = pass.get();
-			if(input.equals(operatorpass)){
+		String pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in");
+		if (pass!=null&&!pass.isEmpty()) {
+			if(pass.equals(operatorpass)){
 				login = true;
 			}
 			else{
@@ -88,8 +91,8 @@ public class GarageApplication extends Application{
 				Dialogs.alertError("Log-in failed", "Log-in failed", "Incorrect password entered");
 				login();
 			}
-
-		} else{
+		} 
+		else{
 			if(Dialogs.confirmDialog("Exit the application", "Exit the application?", "Are you sure you want to exit the application?")) {
 				stop();
 			}
@@ -98,8 +101,9 @@ public class GarageApplication extends Application{
 			}
 		}
 	}
+	
 	/**
-	 * The exit point for the Java program.
+	 * The exit point for the Java program. Leaves an alert about the consequences of quitting the program.
 	 */
 	@Override
 	public void stop(){

@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 /**
  * <h1>ListView</h1>
  * This class creates and populates the main view 
- * where the list of customers, buttons and selected customer information 
+ * where the list of Customers, buttons and selected Customer information 
  * is displayed and interacted with. 
  * @version 1.0
  * @author Group 9
@@ -50,8 +50,8 @@ public class CustomerListView extends BorderPane {
 	private Label numbersLabel4;
 	private HardwareManager hardwareManager;
 
-	/** Creates a list view of all customer names and adds buttons for adding/removing customers and bicycles.
-	 * @param customerManager Contains the customers
+	/** Creates a list view of all Customer names and adds buttons for adding/removing Customers and Bicycles.
+	 * @param customerManager Contains the Customers
 	 * @param hardwareManager Contains the hardware
 	 */
 	public CustomerListView(CustomerManager customerManager, HardwareManager hardwareManager) {	
@@ -124,14 +124,11 @@ public class CustomerListView extends BorderPane {
 		buttonBoxUp.setMinHeight(50);
 		buttonBoxUp.setMinWidth(150);
 		buttonBoxUp.setMaxWidth(430);
-		buttonBoxUp.setAlignment(Pos.CENTER_LEFT);
 		buttonBoxUp.setSpacing(5);
 		buttonBoxUp.setPadding(new Insets(10, 10, 10, 10));
 		buttonBoxUp.getChildren().addAll(addCustomerButton, addBicycleButton, removeCustomerButton);
-		buttonBoxUp.setAlignment(Pos.BOTTOM_CENTER);
 
 		HBox buttonBoxDown = new HBox();
-		buttonBoxDown.setAlignment(Pos.CENTER_LEFT);
 		buttonBoxDown.setMinHeight(50);
 		buttonBoxDown.setMinWidth(150);
 		buttonBoxDown.setMaxWidth(430);
@@ -141,13 +138,11 @@ public class CustomerListView extends BorderPane {
 		buttonBoxDown.setAlignment(Pos.BOTTOM_CENTER);
 		
 		VBox buttonBox = new VBox();
-		buttonBoxUp.setAlignment(Pos.CENTER_RIGHT);
 		buttonBox.setMinHeight(100);
 		buttonBox.setMinWidth(600);
 		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
 		buttonBox.getChildren().addAll(buttonBoxUp, buttonBoxDown);
-		
 		
 		HBox box = new HBox();
 		box.setMinHeight(100);
@@ -157,7 +152,6 @@ public class CustomerListView extends BorderPane {
 		box.getChildren().addAll(labelBox, buttonBox);
 		
 		//Information box
-		
 		HBox infoBox = new HBox();
 		infoBox.setMinHeight(100);
 		infoBox.setSpacing(5);
@@ -186,7 +180,7 @@ public class CustomerListView extends BorderPane {
 					numbersLabel.setText("Name: \n" + newValue.getName());
 					numbersLabel1.setText("Phone Number: \n" + newValue.getPhoneNr());
 					if(newValue.getBicycles().isEmpty()) {
-						numbersLabel2.setText("Bicycle barcodes: \n" + "No registred bicycles");
+						numbersLabel2.setText("Bicycle barcodes: \n" + "No registered bicycles");
 					}
 					else {
 						StringBuilder sb = new StringBuilder();
@@ -196,12 +190,12 @@ public class CustomerListView extends BorderPane {
 						while(i.hasNext()) {
 							Bicycle b = i.next();
 							if(b.checkStatus()) {		
-								sb.append(b.toString() + " (Checked in) ");
+								sb.append(b.toString() + " (Checked in)");
 							}		
 							else {
 								sb.append(b.toString());
 							}
-							if(firstIteration) {
+							if(firstIteration&&newValue.getBicycles().size()==2) {
 								firstIteration=false;
 								sb.append(", ");
 							}
@@ -218,7 +212,6 @@ public class CustomerListView extends BorderPane {
 					numbersLabel3.setText("");
 					numbersLabel4.setText("");
 				}
-
 			}
 		});
 		clearSelection();	
@@ -268,7 +261,7 @@ public class CustomerListView extends BorderPane {
 	public void fillList(Collection<Customer> col) {
 		obsList2.setAll(col);
 	}
-
+	
 	private void addCustomer() {
 		clearSelection();
 		String[] labels = {"Name", "Phone number"};
@@ -295,8 +288,7 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-
-
+	
 	private void addBicycle() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if (index != -1) {
@@ -306,6 +298,7 @@ public class CustomerListView extends BorderPane {
 				if(success) {
 					select(index);
 					save();
+					Dialogs.alert("Success!", "Success!", "A new bicycle was successfully added to " + customer + ".");
 				} else {
 					Dialogs.alert("Failed to add bicycle","Failed to add bicycle" , "The garage is either full or the customer already has two registered bicycles.");
 				}
@@ -325,50 +318,64 @@ public class CustomerListView extends BorderPane {
 			obsList2.setAll(customerManager.allCustomers());
 		}
 	}
-
+	
 	private void removeBicycle(){
 		int index = listView.getSelectionModel().getSelectedIndex();
-		if (index != -1) {
-			Customer customer = obsList2.get(index);
-			Optional<String> number = Dialogs.oneInputDialog("Remove bicycle", "Specify barcode", "Enter the barcode of the bicycle you want to remove from " + customer.getName());
-			if (number.isPresent()) {
-				String numb = number.get();
-				if(customer == customerManager.findCustomerByBarcode(numb)) {
-					if(customerManager.removeBicycle(numb)){
-						Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
-						save();
+		if(index!=-1) {
+			try {
+				Customer customer = obsList2.get(index);
+				Optional<Bicycle> result = Dialogs.choiceDialog("Remove bicycle", "Remove bicycle", "Choose which one of " + customer.getName() + "'s bicycle barcodes to remove.", customer.getBicycles());
+				boolean checkin = false;
+				if(result.isPresent()){
+					for(Bicycle b: customer.getBicycles()) {
+						if(result.get().toString().equals(b.getBarcode())) {
+							if(b.checkStatus()){
+								checkin = true;
+							}
+						}
 					}
-					else {		
-						if(Dialogs.confirmDialog("An error här står det ssaker.","Error","The entered barcode does not exist in the system. Do you want to remove a different bicycle?")){
+					if(checkin!=true){
+						if(customerManager.removeBicycle(result.get().toString())){
+							Dialogs.alert("Remove Bicycle", "Success!", "The bicycle was successfully removed!");
+							save();
+						}
+						else {		
+							if(Dialogs.confirmDialog("An error occured","An error occured","An error occured when removing the bicycle from the selected customer. Would you like to try again?")){
+								removeBicycle();
+							}
+						}
+					} else{
+						if(Dialogs.confirmDialog("Error: Bicycle is checked in","The selected bicycle is currently checked in","You need to check out the bicycle before removal is permitted. Would you like to remove another bicycle instead?")){
 							removeBicycle();
 						}
 					}
 				}
-				else {
-					if(Dialogs.confirmDialog("An error occurred","Error","The entered barcode does not belong to the chosen customer. Do you want to remove a different bicycle?")){
-						removeBicycle();
-					}
-				}
-				select(index);
 			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			select(index);
 		}
 	}
 	
-	/**Prints the barcode for a chosen bicycle.*/
+	/**Prints the barcode for a chosen Bicycle.*/
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index!=-1) {
 			try {
-			Customer customer = obsList2.get(index);
-			Optional<Bicycle> result = Dialogs.choiceDialog("Print barcode", "Print barcode", "Choose which one of " + customer.getName() + "'s bicycles' barcode to print.", customer.getBicycles());
-			hardwareManager.printBarcode(result.get().toString());
+				Customer customer = obsList2.get(index);
+				Optional<Bicycle> result = Dialogs.choiceDialog("Print barcode", "Print barcode", "Choose which one of " + customer.getName() + "'s bicycles' barcode to print.", customer.getBicycles());
+				if(result.isPresent()){
+					hardwareManager.printBarcode(result.get().toString());
+				}
 			}
 			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-/**Saves the database everytime a change has been made.*/
+	
+	/**Saves the database everytime a change has been made.*/
 	public void save() {
 		try {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("database"));
@@ -392,7 +399,6 @@ public class CustomerListView extends BorderPane {
 			System.exit(1);
 		}
 	}
-
 } 
 
 
