@@ -4,6 +4,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
@@ -12,10 +13,23 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.Set;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 
 /**
@@ -81,6 +95,50 @@ public class Dialogs {
 		}
 	}
 	
+	/** Shows a login dialog with one passwordField used for password input.
+	 * @param title the title of the pop up window
+	 * @param headerText the string to show in the dialog header area
+	 * @param label the string to show in the dialog content area before the input field
+	 * @return An Optional that contains the result
+	 */
+	public static String logInDialog(String title, String headerText, String question) {
+	Dialog<String> dialog = new Dialog<>();
+	dialog.setTitle(title);
+    GridPane grid = new GridPane();
+    grid.setAlignment(Pos.CENTER);
+    grid.setHgap(10);
+    grid.setVgap(10);
+    grid.setPadding(new Insets(25, 25, 25, 25));
+    Text scenetitle = new Text(headerText);
+    scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+    grid.add(scenetitle, 0, 0, 2, 1);
+    
+	dialog.setGraphic(new ImageView(Dialogs.class.getResource("login.png").toString()));
+
+    Label pw = new Label("Password:");
+    grid.add(pw, 0, 2);
+
+    PasswordField passwordField = new PasswordField();
+    grid.add(passwordField, 1, 2);
+    
+    dialog.getDialogPane().setContent(grid);
+	ButtonType buttonTypeLogin = new ButtonType("Login", ButtonData.OK_DONE);
+	ButtonType buttonTypeCancel = new ButtonType("Exit", ButtonData.CANCEL_CLOSE);
+	dialog.getDialogPane().getButtonTypes().addAll(buttonTypeCancel, buttonTypeLogin);
+
+	// Enable/Disable login button depending on whether a username was entered.
+	Node loginButton = dialog.getDialogPane().lookupButton(buttonTypeLogin);
+	loginButton.setDisable(true);
+
+	// Do some validation (using the Java 8 lambda syntax).
+	passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+	    loginButton.setDisable(newValue.trim().isEmpty());
+	});
+	dialog.showAndWait();
+	dialog.setResult(passwordField.getText());
+	return dialog.getResult();
+  }
+
 	/** Shows an input dialog with one input field.
 	 * @param title the title of the pop up window
 	 * @param headerText the string to show in the dialog header area
@@ -95,13 +153,13 @@ public class Dialogs {
 		return dialog.showAndWait();
 	}
 	
-	/** Shows an input dialog with one input field.
+	/** Shows a login dialog with one input field for password.
 	 * @param title the title of the pop up window
 	 * @param headerText the string to show in the dialog header area
 	 * @param label the string to show in the dialog content area before the input field
 	 * @return An Optional that contains the result
 	 */
-	public static Optional<String> logInDialog(String title, String headerText, String label) {
+	public static Optional<String> oldLogInDialog(String title, String headerText, String label) {
 		TextInputDialog dialog = new TextInputDialog();
 		// Set the icon (must be included in the project).
 		dialog.setGraphic(new ImageView(Dialogs.class.getResource("login.png").toString()));

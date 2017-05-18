@@ -3,6 +3,7 @@ package application;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.Locale;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -81,11 +82,9 @@ public class GarageApplication extends Application{
 			Dialogs.alertError("Log-in attempts exceeded", "Log-in attempts exceeded", "System is shutting down due to exceeded number of log-in attempts");
 			System.exit(1);
 		}
-		Optional<String> pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in");
-
-		if (pass.isPresent()) {
-			String input = pass.get();
-			if(input.equals(operatorpass)){
+		String pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in");
+		if (pass!=null&&!pass.isEmpty()) {
+			if(pass.equals(operatorpass)){
 				login = true;
 			}
 			else{
@@ -93,8 +92,8 @@ public class GarageApplication extends Application{
 				Dialogs.alertError("Log-in failed", "Log-in failed", "Incorrect password entered");
 				login();
 			}
-
-		} else{
+		} 
+		else{
 			if(Dialogs.confirmDialog("Exit the application", "Exit the application?", "Are you sure you want to exit the application?")) {
 				stop();
 			}
