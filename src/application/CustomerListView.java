@@ -190,12 +190,12 @@ public class CustomerListView extends BorderPane {
 						while(i.hasNext()) {
 							Bicycle b = i.next();
 							if(b.checkStatus()) {		
-								sb.append(b.toString() + " (Checked in) ");
+								sb.append(b.toString() + " (Checked in)");
 							}		
 							else {
 								sb.append(b.toString());
 							}
-							if(firstIteration) {
+							if(firstIteration&&newValue.getBicycles().size()==2) {
 								firstIteration=false;
 								sb.append(", ");
 							}
