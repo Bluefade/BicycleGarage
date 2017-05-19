@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 public class GarageApplication extends Application{
 	private CustomerManager customerManager;
 	private CustomerListView customerListView;
-	private final String operatorpass = "a";
+	private final String operatorpass = "1Qazwsx*";
 	private int logincounter = 0;
 	private boolean login = false;
 	private HardwareManager hardwareManager;
