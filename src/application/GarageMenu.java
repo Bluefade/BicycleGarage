@@ -14,7 +14,7 @@ import java.util.TreeSet;
  * <h1>GarageMenu</h1> Contains all functions and routines for the
  *menu of the program.
  *
- * @version 1.0
+ * @version 1.1
  * @author Group 9
  */
 public class GarageMenu extends MenuBar {
