@@ -44,6 +44,10 @@ public class CustomerManager implements Serializable {
 	public int getSize(){
 		return size;
 	}
+	
+	public void setSize(int size){
+		this.size = size;
+	}
 
 	/**
 	 * Finds the Customer with the given name.
@@ -149,7 +153,6 @@ public class CustomerManager implements Serializable {
 			}
 
 			Customer newCustomer = new Customer(name, phoneNr, PINcodes.pollLast());
-			size++;
 			return customers.add(newCustomer);
 		}
 	}
@@ -192,6 +195,7 @@ public class CustomerManager implements Serializable {
 			customer.addBicycle(bicycles);
 			size++;
 			barcodes.removeLast();
+			System.out.println(size);
 			return true;
 		}
 		return false;
