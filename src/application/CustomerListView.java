@@ -43,12 +43,11 @@ public class CustomerListView extends BorderPane {
 	private Button removeCustomerButton;
 	private Button removeBicycleButton;
 	private Button printBarcodeButton;
-	private Label numbersLabel;
-	private Label numbersLabel1;
-	private Label numbersLabel2;
-	private Label numbersLabel3;
-	private Label numbersLabel4;
-	private Label numbersLabel5;
+	private Label namesLabel;
+	private Label phoneNumberLabel;
+	private Label barcodesLabel;
+	private Label PINLabel;
+	private Label remindedLabel;
 	private HardwareManager hardwareManager;
 
 	/** Creates a list view of all Customer names and adds buttons for adding/removing Customers and Bicycles.
@@ -72,29 +71,25 @@ public class CustomerListView extends BorderPane {
 		setTop(listView);
 
 		// A label to display names
-		numbersLabel = new Label();
-		numbersLabel.setMinWidth(150);
+		namesLabel = new Label();
+		namesLabel.setMinWidth(150);
 
 		// A label to display phone numbers
-		numbersLabel1 = new Label();
-		numbersLabel1.setMinWidth(150);
+		phoneNumberLabel = new Label();
+		phoneNumberLabel.setMinWidth(150);
 
 		// A label to display barcodes
-		numbersLabel2 = new Label();
-		numbersLabel2.setMinWidth(150);
-		numbersLabel2.setWrapText(true);
+		barcodesLabel = new Label();
+		barcodesLabel.setMinWidth(150);
+		barcodesLabel.setWrapText(true);
 
 		//a label to display PIN-code
-		numbersLabel3 = new Label();
-		numbersLabel3.setMinWidth(100);
-
-		//a label to display Number of bikes in the garage.
-		numbersLabel4 = new Label();
-		numbersLabel4.setMinWidth(150);
+		PINLabel = new Label();
+		PINLabel.setMinWidth(100);
 
 		//a label to display if customer has been reminded
-		numbersLabel5 = new Label();
-		numbersLabel5.setMinWidth(100);
+		remindedLabel = new Label();
+		remindedLabel.setMinWidth(100);
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
@@ -107,22 +102,22 @@ public class CustomerListView extends BorderPane {
 		removeCustomerButton = new Button("Remove customer");	
 		removeCustomerButton.setOnAction(e -> removeCustomer());
 		removeCustomerButton.setAlignment(Pos.BOTTOM_CENTER);
-		addBicycleButton.setMinWidth(180);
+		removeCustomerButton.setMinWidth(180);
 
 		removeBicycleButton = new Button("Remove bicycle");
 		removeBicycleButton.setOnAction(e -> removeBicycle());
-		addBicycleButton.setMinWidth(120);
+		removeBicycleButton.setMinWidth(120);
 
 		printBarcodeButton = new Button("Print Barcode");
 		printBarcodeButton.setOnAction(e -> printBarcode());
-		addBicycleButton.setMinWidth(150);
+		printBarcodeButton.setMinWidth(150);
 
 		//Create Box for labels
 		HBox labelBox = new HBox();
 		labelBox.setMinHeight(100);
 		labelBox.setSpacing(5);
 		labelBox.setPadding(new Insets(10, 10, 10, 10));
-		labelBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, numbersLabel3, numbersLabel5);
+		labelBox.getChildren().addAll(namesLabel, phoneNumberLabel, barcodesLabel, PINLabel, remindedLabel);
 
 		//Create box for buttons
 		HBox buttonBoxUp = new HBox();
@@ -157,14 +152,6 @@ public class CustomerListView extends BorderPane {
 		box.setPadding(new Insets(10, 10, 10, 10));
 		box.getChildren().addAll(labelBox, buttonBox);
 
-		//Information box
-		HBox infoBox = new HBox();
-		infoBox.setMinHeight(100);
-		infoBox.setSpacing(5);
-		infoBox.setPadding(new Insets(10, 10, 10, 10));
-		infoBox.getChildren().addAll(numbersLabel4);
-		//setRight(infoBox);
-
 		setBottom(box);
 
 		// The method change is called when a row in the list view is selected. 
@@ -183,10 +170,10 @@ public class CustomerListView extends BorderPane {
 						removeBicycleButton.setDisable(true);
 						printBarcodeButton.setDisable(true);
 					}
-					numbersLabel.setText("Name: \n" + newValue.getName());
-					numbersLabel1.setText("Phone Number: \n" + newValue.getPhoneNr());
+					namesLabel.setText("Name: \n" + newValue.getName());
+					phoneNumberLabel.setText("Phone Number: \n" + newValue.getPhoneNr());
 					if(newValue.getBicycles().isEmpty()) {
-						numbersLabel2.setText("Bicycle barcodes: \n" + "No registered bicycles");
+						barcodesLabel.setText("Bicycle barcodes: \n" + "No registered bicycles");
 					}
 					else {
 						StringBuilder sb = new StringBuilder();
@@ -206,29 +193,27 @@ public class CustomerListView extends BorderPane {
 								sb.append(", ");
 							}
 						}
-						numbersLabel2.setText(sb.toString());
+						barcodesLabel.setText(sb.toString());
 
 					}
-					numbersLabel3.setText("Pin code: \n" + newValue.getPIN());
-					numbersLabel4.setText(Integer.toString(customerManager.getSize()));
+					PINLabel.setText("Pin code: \n" + newValue.getPIN());
 					if(newValue.getMissingPayment()) {
 						if(newValue.reminded()) {
-							numbersLabel5.setText("Reminded: \nYes");
+							remindedLabel.setText("Reminded: \nYes");
 						}
 						else {
-							numbersLabel5.setText("Reminded: \nNo");
+							remindedLabel.setText("Reminded: \nNo");
 						}
 					}	
 					else {
-						numbersLabel5.setText("");
+						remindedLabel.setText("");
 					}
 				} else {
-					numbersLabel.setText("");
-					numbersLabel1.setText("");
-					numbersLabel2.setText("");
-					numbersLabel3.setText("");
-					numbersLabel4.setText("");
-					numbersLabel5.setText("");
+					namesLabel.setText("");
+					phoneNumberLabel.setText("");
+					barcodesLabel.setText("");
+					PINLabel.setText("");
+					remindedLabel.setText("");
 				}
 			}
 		});
@@ -244,9 +229,9 @@ public class CustomerListView extends BorderPane {
 		removeBicycleButton.setDisable(true);
 		removeCustomerButton.setDisable(true);
 		printBarcodeButton.setDisable(true);
-		numbersLabel.setText("");
-		numbersLabel1.setText("");
-		numbersLabel2.setText("");
+		namesLabel.setText("");
+		phoneNumberLabel.setText("");
+		barcodesLabel.setText("");
 		listView.getSelectionModel().clearSelection();
 	}
 
