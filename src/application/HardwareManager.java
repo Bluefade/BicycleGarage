@@ -148,6 +148,7 @@ public class HardwareManager {
 			if (checkBarcode(s)) {
 				if (findBicycle(s).checkStatus() == false) {
 					entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
+					entryLock.open(15);
 					findBicycle(s).setStatus(true);
 				}
 			} else if (findBicycle(s) != null) {
@@ -181,12 +182,12 @@ public class HardwareManager {
 					exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 
 				} else {
-					
+
 					exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 				}
 				// resetar terminalen
 			} else {
-				
+
 				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 			}
 			timeOut();
@@ -213,6 +214,7 @@ public class HardwareManager {
 				barcodeByHand = true;
 			} else if (s == '*') {
 				// timeOut
+				executorEntryTerminal.shutdownNow();
 				entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 				timeOut();
 			} else {
@@ -231,14 +233,14 @@ public class HardwareManager {
 								entryLock.open(15);
 								findBicycle(barcode).setStatus(true);
 
-							}
-						} else if (findBicycle(barcode) != null) {
-							if (findBicycle(barcode).checkStatus()) {
-								entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
-								entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
-							}
-						} else {
+	
+							}else {
+									entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
+									entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 3);
+								}
 							
+						} else {
+
 							entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 						}
 						timeOut();
@@ -250,11 +252,11 @@ public class HardwareManager {
 					}
 					if (pinCounter == 4) {
 						executorEntryTerminal.shutdownNow();
-						
+
 						if (checkPIN(pin)) {
 							entryTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
 							entryLock.open(15);
-							
+
 						} else {
 							entryTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 						}
@@ -273,7 +275,7 @@ public class HardwareManager {
 			}
 			executorExitTerminal = Executors.newSingleThreadScheduledExecutor();
 			executorExitTerminal.schedule(new TimerTask() {
-				
+
 				@Override
 				public void run() {
 					exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
@@ -287,9 +289,10 @@ public class HardwareManager {
 				barcodeByHand = true;
 			} else if (s == '*') {
 				// timeOut
+				executorExitTerminal.shutdownNow();
 				exitTerminal.lightLED(PincodeTerminal.RED_LED, 3);
 				timeOut();
-				
+
 			} else {
 				if (barcodeByHand) {
 					if (barcodeCounter < 5) {
@@ -297,10 +300,10 @@ public class HardwareManager {
 						barcodeCounter++;
 					}
 					if (barcodeCounter == 5 && pinCounter == 4) {
-					
+
 						executorExitBarcode.shutdownNow();
 						executorExitTerminal.shutdownNow();
-						
+
 						if (checkPinBarcode(pin, barcode)) {
 							if (findBicycle(barcode).checkStatus()) {
 								exitTerminal.lightLED(PincodeTerminal.GREEN_LED, 15);
