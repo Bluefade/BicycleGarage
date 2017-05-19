@@ -34,9 +34,11 @@ public class CustomerManager implements Serializable {
 		PINcodes = new LinkedList<>();
 		barcodes = new LinkedList<>();
 		generatePIN();
-		generateBarcode();
-		customers.add(new Customer("Mata in namn här", "1234", "1234", true, true));
-		
+		customers.add(new Customer("Mata in a här", "1234", "1234", true, true));
+		customers.add(new Customer("Mata in b här", "1234", "1234", true, true));
+		customers.add(new Customer("Mata in c här", "1234", "1234", true, true));
+		customers.add(new Customer("Mata in d här", "1234", "1234", true, true));
+
 	}
 
 	/**
@@ -60,7 +62,7 @@ public class CustomerManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds the Customer with the given barcode.
 	 * @param barcode The barcode for the Customer
@@ -75,7 +77,7 @@ public class CustomerManager implements Serializable {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Finds the Customer with the given phone number.
 	 * @param phoneNr The phone number for the Customer
@@ -91,34 +93,37 @@ public class CustomerManager implements Serializable {
 	}
 
 	/**
-	 * Generates 50 random PIN-codes to be assigned to Customers.
+	 * Generates random PIN-codes to be assigned to Customers.
+	 * @return a new unique PIN number
 	 */
-	public void generatePIN(){
+
+	public String generatePIN() {
 		Random rand = new Random();
 		int count = 0;
-		while(count <50) {
+		while(count ==0) {
 			String newPIN = String.format("%04d", rand.nextInt(10000));
 			if(!PINcodes.contains(newPIN)) {
 				PINcodes.add(count, newPIN);
-				count++;
+				return newPIN;
 			}
 		}
-	}	
-
+		return null;
+	}
 	/**
-	 * Generates 50 random barcodes to be assigned to new Customers.
-	 * 
+	 * Generates a random barcode to be assigned to bicycles.
+	 * @return a new unique barcode
 	 */
-	public void generateBarcode(){
+	public String generateBarcode() {
 		Random rand = new Random();
 		int count = 0;
-		while(count <50) {
+		while(count == 0) {
 			String newBarcode = String.format("%05d",rand.nextInt(100000));
 			if(!barcodes.contains(newBarcode)) {
-				barcodes.add(count, newBarcode);
-				count++;
+				barcodes.add(newBarcode);
+				return newBarcode;
 			}
 		}
+		return null;
 	}
 
 	/**
@@ -132,7 +137,7 @@ public class CustomerManager implements Serializable {
 		}
 		return names;
 	}
-	
+
 	/**
 	 * Adds a Customer with a name and phoneNr to the system.
 	 * @param name The name for the Customer
@@ -150,11 +155,11 @@ public class CustomerManager implements Serializable {
 				}
 			}
 
-			Customer newCustomer = new Customer(name, phoneNr, PINcodes.pollLast());
+			Customer newCustomer = new Customer(name, phoneNr, generatePIN());
 			return customers.add(newCustomer);
 		}
 	}
-	
+
 	/**
 	 * Removes a Customer from the system.
 	 * @param customer The Customer that wishes to be removed
@@ -167,7 +172,7 @@ public class CustomerManager implements Serializable {
 		}
 		return removed;
 	}
-	
+
 	/**
 	 * Returns a list of all Customers as a TreeSet. To be used in CustomerListView for the
 	 * method removeCustomer to work.
@@ -180,7 +185,7 @@ public class CustomerManager implements Serializable {
 		}
 		return customers;
 	}
-	
+
 	/**
 	 * Adds Bicycle to Customer, by finding Customer by name.
 	 * @param Customer The Customer that the Bicycle will be added to
@@ -188,17 +193,16 @@ public class CustomerManager implements Serializable {
 	 */
 	public boolean addBicycle(Customer customer) {
 		HashSet<Bicycle> bicycles = new HashSet<Bicycle>();
-		bicycles.add(new Bicycle(barcodes.getLast()));
-		if(size<50 && customer.getBicycles().size()<2) {
+		bicycles.add(new Bicycle(generateBarcode()));
+		if(size<5 && customer.getBicycles().size()<2) {
 			customer.addBicycle(bicycles);
 			size++;
-			barcodes.removeLast();
 			System.out.println(size);
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Removes Bicycle from customer.
 	 * @param barcode The barcode for the Bicycle that will be removed
@@ -216,7 +220,7 @@ public class CustomerManager implements Serializable {
 		}
 		return false;
 	}
-	
+
 	/** Returns a set with the Bicycles in the garage.
 	 * @return a set with the Bicycles in the garages*/
 	public Set<Bicycle> getBikesInGarage() {
