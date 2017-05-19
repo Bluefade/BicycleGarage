@@ -96,12 +96,11 @@ public class Dialogs {
 	}
 	
 	/** Shows a login dialog with one passwordField used for password input.
-	 * @param title the title of the pop up window
-	 * @param headerText the string to show in the dialog header area
-	 * @param label the string to show in the dialog content area before the input field
+	 * @param title The title of the pop up window
+	 * @param headerText The string to show in the dialog header area
 	 * @return An Optional that contains the result
 	 */
-	public static String logInDialog(String title, String headerText, String question) {
+	public static String logInDialog(String title, String headerText) {
 	Dialog<String> dialog = new Dialog<>();
     GridPane grid = new GridPane();
     grid.setAlignment(Pos.CENTER);
@@ -223,10 +222,10 @@ public class Dialogs {
 	}
 	
 	/** Shows a multiple choice dialog with drop down selector.
-	 * @param title the title of the pop up window
-	 * @param headerText the string to show in the dialog header area
-	 * @param labels the strings to show in the dialog content area before the input fields
-	 * @param bicycles the bicycles to choose from
+	 * @param title The title of the pop up window
+	 * @param headerText The string to show in the dialog header area
+	 * @param label The strings to show in the dialog content area before the input fields
+	 * @param bicycle The bicycles to choose from
 	 * @return An Optional that contains the result
 	 */
 	public static Optional<Bicycle> choiceDialog(String title, String headerText, String label, Set<Bicycle> bicycle ) {

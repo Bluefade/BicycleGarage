@@ -250,7 +250,7 @@ public class CustomerListView extends BorderPane {
 	/**
 	 * Selects the row containing name. If no row contains the name nothing
 	 * happens.
-	 * @param name The name to select
+	 * @param customer The Customer to select
 	 */
 	public void select(Customer customer) {
 		int index = obsList2.indexOf(customer);

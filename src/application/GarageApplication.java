@@ -30,7 +30,7 @@ public class GarageApplication extends Application{
 
 	/**
 	 * The entry point for the Java program.
-	 * @param args
+	 * @param args 
 	 */
 	public static void main(String[] args) {	
 		Application.launch(args);
@@ -81,7 +81,7 @@ public class GarageApplication extends Application{
 			Dialogs.alertError("Log-in attempts exceeded", "Log-in attempts exceeded", "System is shutting down due to exceeded number of log-in attempts");
 			System.exit(1);
 		}
-		String pass = Dialogs.logInDialog("Log-in","Log into application", "Please enter your password to log in");
+		String pass = Dialogs.logInDialog("Log-in","Log into application");
 		if (pass!=null&&!pass.isEmpty()) {
 			if(pass.equals(operatorpass)){
 				login = true;

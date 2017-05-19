@@ -94,7 +94,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 
 	/**
 	 * Adds new bicycle(s) to Customer
-	 * @param bicyle A set of the Customer's new bicycle(s)
+	 * @param bicycle A set of the Customer's new bicycle(s)
 	 */
 	public void addBicycle(Set<Bicycle> bicycle){
 		for(Bicycle nextBicycle: bicycle){

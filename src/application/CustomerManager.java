@@ -187,7 +187,7 @@ public class CustomerManager implements Serializable {
 
 	/**
 	 * Adds Bicycle to Customer, by finding Customer by name.
-	 * @param Customer The Customer that the Bicycle will be added to
+	 * @param customer The Customer that the Bicycle will be added to
 	 * @return true if bike was added, false if it wasn't.
 	 */
 	public boolean addBicycle(Customer customer) {

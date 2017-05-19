@@ -11,10 +11,9 @@ public interface PincodeTerminal {
 	public void registerObserver(PincodeObserver observer);
 	
 	/**
-	 *  Turn on LED for time seconds.
-	 * Color: 
-	 * color = RED_LED = 0 => red 
-	 * color = GREEN_LED = 1 => green 
+	 * 	Turn on LED for time seconds.
+	 * 	@param color The color of the LED, 0=red, 1=green
+	 * 	@param time The number of seconds the LED should be turned on
 	 */
 	public void lightLED(int color, int time);
 }
