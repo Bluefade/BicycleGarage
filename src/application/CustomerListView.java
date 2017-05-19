@@ -48,6 +48,7 @@ public class CustomerListView extends BorderPane {
 	private Label numbersLabel2;
 	private Label numbersLabel3;
 	private Label numbersLabel4;
+	private Label numbersLabel5;
 	private HardwareManager hardwareManager;
 
 	/** Creates a list view of all Customer names and adds buttons for adding/removing Customers and Bicycles.
@@ -73,11 +74,11 @@ public class CustomerListView extends BorderPane {
 		// A label to display names
 		numbersLabel = new Label();
 		numbersLabel.setMinWidth(150);
-		
+
 		// A label to display phone numbers
 		numbersLabel1 = new Label();
 		numbersLabel1.setMinWidth(150);
-		
+
 		// A label to display barcodes
 		numbersLabel2 = new Label();
 		numbersLabel2.setMinWidth(150);
@@ -85,11 +86,15 @@ public class CustomerListView extends BorderPane {
 
 		//a label to display PIN-code
 		numbersLabel3 = new Label();
-		numbersLabel3.setMinWidth(150);
-		
+		numbersLabel3.setMinWidth(100);
+
 		//a label to display Number of bikes in the garage.
 		numbersLabel4 = new Label();
 		numbersLabel4.setMinWidth(150);
+
+		//a label to display if customer has been reminded
+		numbersLabel5 = new Label();
+		numbersLabel5.setMinWidth(100);
 
 		Button addCustomerButton = new Button("Add customer");
 		addCustomerButton.setOnAction(e -> addCustomer());
@@ -117,8 +122,8 @@ public class CustomerListView extends BorderPane {
 		labelBox.setMinHeight(100);
 		labelBox.setSpacing(5);
 		labelBox.setPadding(new Insets(10, 10, 10, 10));
-		labelBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, numbersLabel3);
-		
+		labelBox.getChildren().addAll(numbersLabel, numbersLabel1, numbersLabel2, numbersLabel3, numbersLabel5);
+
 		//Create box for buttons
 		HBox buttonBoxUp = new HBox();
 		buttonBoxUp.setAlignment(Pos.TOP_CENTER);
@@ -137,21 +142,21 @@ public class CustomerListView extends BorderPane {
 		buttonBoxDown.setPadding(new Insets(10, 10, 10, 10));
 		buttonBoxDown.getChildren().addAll(removeBicycleButton, printBarcodeButton);
 		buttonBoxDown.setAlignment(Pos.BOTTOM_CENTER);
-		
+
 		VBox buttonBox = new VBox();
 		buttonBox.setMinHeight(100);
-		buttonBox.setMinWidth(600);
+		buttonBox.setMinWidth(800);
 		buttonBox.setSpacing(5);
 		buttonBox.setPadding(new Insets(10, 10, 10, 10));
 		buttonBox.getChildren().addAll(buttonBoxUp, buttonBoxDown);
-		
+
 		HBox box = new HBox();
 		box.setMinHeight(100);
 		box.setPrefWidth(900);
 		box.setSpacing(5);
 		box.setPadding(new Insets(10, 10, 10, 10));
 		box.getChildren().addAll(labelBox, buttonBox);
-		
+
 		//Information box
 		HBox infoBox = new HBox();
 		infoBox.setMinHeight(100);
@@ -159,7 +164,7 @@ public class CustomerListView extends BorderPane {
 		infoBox.setPadding(new Insets(10, 10, 10, 10));
 		infoBox.getChildren().addAll(numbersLabel4);
 		//setRight(infoBox);
-		
+
 		setBottom(box);
 
 		// The method change is called when a row in the list view is selected. 
@@ -202,16 +207,28 @@ public class CustomerListView extends BorderPane {
 							}
 						}
 						numbersLabel2.setText(sb.toString());
-						
+
 					}
 					numbersLabel3.setText("Pin code: \n" + newValue.getPIN());
 					numbersLabel4.setText(Integer.toString(customerManager.getSize()));
+					if(newValue.getMissingPayment()) {
+						if(newValue.reminded()) {
+							numbersLabel5.setText("Reminded: \nYes");
+						}
+						else {
+							numbersLabel5.setText("Reminded: \nNo");
+						}
+					}	
+					else {
+						numbersLabel5.setText("");
+					}
 				} else {
 					numbersLabel.setText("");
 					numbersLabel1.setText("");
 					numbersLabel2.setText("");
 					numbersLabel3.setText("");
 					numbersLabel4.setText("");
+					numbersLabel5.setText("");
 				}
 			}
 		});
@@ -262,7 +279,7 @@ public class CustomerListView extends BorderPane {
 	public void fillList(Collection<Customer> col) {
 		obsList2.setAll(col);
 	}
-	
+
 	private void addCustomer() {
 		clearSelection();
 		String[] labels = {"Name", "Phone number"};
@@ -289,7 +306,7 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-	
+
 	private void addBicycle() {
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if (index != -1) {
@@ -330,7 +347,7 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-	
+
 	private void removeBicycle(){
 		int index = listView.getSelectionModel().getSelectedIndex();
 		if(index!=-1) {
@@ -369,7 +386,7 @@ public class CustomerListView extends BorderPane {
 			select(index);
 		}
 	}
-	
+
 	/**Prints the barcode for a chosen Bicycle.*/
 	public void printBarcode() {
 		int index = listView.getSelectionModel().getSelectedIndex();
@@ -386,7 +403,7 @@ public class CustomerListView extends BorderPane {
 			}
 		}
 	}
-	
+
 	/**Saves the database everytime a change has been made.*/
 	public void save() {
 		try {

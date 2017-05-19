@@ -70,7 +70,7 @@ public class GarageApplication extends Application{
 		primaryStage.setTitle("Bicycle Garage");
 		primaryStage.setX(0);
 		primaryStage.setY(280);
-		primaryStage.setMaxWidth(1100);
+		primaryStage.setMaxWidth(1200);
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.show();

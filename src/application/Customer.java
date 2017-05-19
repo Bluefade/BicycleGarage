@@ -17,6 +17,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 	private Set<Bicycle> bicycles;
 	private String phoneNr;
 	private boolean missingPayment;
+	private boolean reminded;
 	private static final long serialVersionUID = 2L;
 	
 	/**
@@ -30,6 +31,7 @@ public class Customer implements Comparable<Customer> , Serializable{
 		this.phoneNr = phoneNr;
 		this.PIN = PIN;
 		missingPayment = false;
+		reminded = false;
 		bicycles = new HashSet<>();
 	}
 	
@@ -39,12 +41,14 @@ public class Customer implements Comparable<Customer> , Serializable{
 	 * @param phoneNr The phone number of the Customer
 	 * @param PIN The PIN code of the Customer
 	 * @param missingPayment The pay status of the customer, true if customer has missing payments 
+	 * @param reminded The reminded status of the customer, true if the customer has been reminded
 	 */
-	public Customer(String name, String phoneNr, String PIN, boolean missingPayment){ 
+	public Customer(String name, String phoneNr, String PIN, boolean missingPayment, boolean reminded){ 
 		this.name = name;
 		this.phoneNr = phoneNr;
 		this.PIN = PIN;
 		this.missingPayment = missingPayment;
+		this.reminded = reminded;
 		bicycles = new HashSet<>();
 	}
 
@@ -112,6 +116,9 @@ public class Customer implements Comparable<Customer> , Serializable{
 	 */
 	public void setMissingPayment(boolean paymentStatus){
 		missingPayment = paymentStatus;
+	}
+	public boolean reminded() {
+		return reminded;
 	}
 
 	/**
