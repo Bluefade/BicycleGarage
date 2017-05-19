@@ -33,7 +33,6 @@ public class CustomerManager implements Serializable {
 		customers = new HashSet<>();
 		PINcodes = new LinkedList<>();
 		barcodes = new LinkedList<>();
-		generatePIN();
 		customers.add(new Customer("Mata in a här", "1234", "1234", true, true));
 		customers.add(new Customer("Mata in b här", "1234", "1234", true, true));
 		customers.add(new Customer("Mata in c här", "1234", "1234", true, true));
