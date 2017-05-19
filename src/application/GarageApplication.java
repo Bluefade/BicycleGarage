@@ -51,7 +51,6 @@ public class GarageApplication extends Application{
 		try{
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream("database"));
 			customerManager = (CustomerManager) in.readObject();
-			customerManager.setSize(customerManager.getBikesInGarage().size());
 			hardwareManager = new HardwareManager(customerManager.allCustomers());
 			customerListView = new CustomerListView(customerManager, hardwareManager);
 			

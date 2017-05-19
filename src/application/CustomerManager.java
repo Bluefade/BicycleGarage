@@ -44,10 +44,6 @@ public class CustomerManager implements Serializable {
 	public int getSize(){
 		return size;
 	}
-	
-	public void setSize(int size){
-		this.size = size;
-	}
 
 	/**
 	 * Finds the Customer with the given name.
