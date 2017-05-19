@@ -2,6 +2,7 @@ package application;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
@@ -33,11 +34,6 @@ public class CustomerManager implements Serializable {
 		customers = new HashSet<>();
 		PINcodes = new LinkedList<>();
 		barcodes = new LinkedList<>();
-		customers.add(new Customer("Mata in a här", "1234", "1234", true, true));
-		customers.add(new Customer("Mata in b här", "1234", "1234", true, true));
-		customers.add(new Customer("Mata in c här", "1234", "1234", true, true));
-		customers.add(new Customer("Mata in d här", "1234", "1234", true, true));
-
 	}
 
 	/**
@@ -144,7 +140,7 @@ public class CustomerManager implements Serializable {
 	 * @return true if the Customer was added, false if they were not.
 	 */
 	public boolean addCustomer(String name, String phoneNr) {
-		if(size>50) {
+		if(size>=50) {
 			return false; //Garage is full
 		}
 		else {
@@ -165,11 +161,14 @@ public class CustomerManager implements Serializable {
 	 * @return true if the Customer was removed, false if they were not.
 	 */
 	public boolean removeCustomer(Customer customer) {
-		boolean removed = customers.remove(customer);
-		if(removed == true) {
-			size--;
+		
+		if(customers.remove(customer)) {
+			size = size- customer.getBicycles().size();
+			return true;
 		}
-		return removed;
+		else {
+			return false;
+		}
 	}
 
 	/**
@@ -193,10 +192,9 @@ public class CustomerManager implements Serializable {
 	public boolean addBicycle(Customer customer) {
 		HashSet<Bicycle> bicycles = new HashSet<Bicycle>();
 		bicycles.add(new Bicycle(generateBarcode()));
-		if(size<5 && customer.getBicycles().size()<2) {
+		if(size<50 && customer.getBicycles().size()<2) {
 			customer.addBicycle(bicycles);
 			size++;
-			System.out.println(size);
 			return true;
 		}
 		return false;
