@@ -36,6 +36,7 @@ public class CustomerManager implements Serializable {
 		barcodes = new LinkedList<>();
 	}
 
+	
 	/**
 	 * Returns the number of Customers in the system.
 	 * @return the number of Customers in the system.
