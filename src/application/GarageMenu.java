@@ -14,7 +14,7 @@ import java.util.TreeSet;
  * <h1>GarageMenu</h1> Contains all functions and routines for the
  *menu of the program.
  *
- * @version 1.0
+ * @version 1.1
  * @author Group 9
  */
 public class GarageMenu extends MenuBar {
@@ -52,7 +52,7 @@ public class GarageMenu extends MenuBar {
 		menuPhoneNumber.setOnAction(e -> byPhoneNumber());
 		menuFind.getItems().addAll(menuPhoneNumber);
 
-		final MenuItem menuCheckedInBicycles = new MenuItem("by checked-in bicycles");
+		final MenuItem menuCheckedInBicycles = new MenuItem("by deposited bicycles");
 		menuCheckedInBicycles.setOnAction(e -> byBicyclesInGarage());
 		menuFind.getItems().addAll(menuCheckedInBicycles);
 
