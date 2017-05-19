@@ -43,8 +43,7 @@ public class HardwareManager {
 	 * includes barcode readers, PIN code terminals, a barcode printer and an
 	 * electronic lock.
 	 * 
-	 * @param cList
-	 *            A set of registered Customers for the garage
+	 * @param cList A set of registered Customers for the garage
 	 **/
 	public HardwareManager(Set<Customer> cList) {
 		entryScanner = new BarcodeScannerTestDriver("Entry Scanner", 1000, 0);
@@ -131,10 +130,7 @@ public class HardwareManager {
 
 	/**
 	 * Prints a barcode.
-	 * 
-	 * @param barcode
-	 *            The barcode that shall be printed, barcode is 5 characters
-	 *            that can be 0-9
+	 * @param barcode the barcode that shall be printed, barcode is 5 characters that can be 0-9
 	 **/
 	public void printBarcode(String barcode) {
 		testPrinter.printBarcode(barcode);
@@ -351,5 +347,4 @@ public class HardwareManager {
 			}
 		}
 	}
-
 }
