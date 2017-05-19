@@ -52,7 +52,7 @@ public class GarageMenu extends MenuBar {
 		menuPhoneNumber.setOnAction(e -> byPhoneNumber());
 		menuFind.getItems().addAll(menuPhoneNumber);
 
-		final MenuItem menuCheckedInBicycles = new MenuItem("by checked-in bicycles");
+		final MenuItem menuCheckedInBicycles = new MenuItem("by deposited bicycles");
 		menuCheckedInBicycles.setOnAction(e -> byBicyclesInGarage());
 		menuFind.getItems().addAll(menuCheckedInBicycles);
 

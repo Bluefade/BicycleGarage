@@ -31,7 +31,7 @@ import javafx.stage.Stage;
  * This class creates and populates the main view 
  * where the list of Customers, buttons and selected Customer information 
  * is displayed and interacted with. 
- * @version 1.0
+ * @version 1.1
  * @author Group 9
  */
 
@@ -191,7 +191,7 @@ public class CustomerListView extends BorderPane {
 						while(i.hasNext()) {
 							Bicycle b = i.next();
 							if(b.checkStatus()) {		
-								sb.append(b.toString() + " (Checked in)");
+								sb.append(b.toString() + " (Deposited)");
 							}		
 							else {
 								sb.append(b.toString());
@@ -357,7 +357,7 @@ public class CustomerListView extends BorderPane {
 							}
 						}
 					} else{
-						if(Dialogs.confirmDialog("Error: Bicycle is checked in","The selected bicycle is currently checked in","You need to check out the bicycle before removal is permitted. Would you like to remove another bicycle instead?")){
+						if(Dialogs.confirmDialog("Error: Bicycle is deposited","The selected bicycle is currently deposited","You need to withdraw the bicycle before removal is permitted. Would you like to remove another bicycle instead?")){
 							removeBicycle();
 						}
 					}

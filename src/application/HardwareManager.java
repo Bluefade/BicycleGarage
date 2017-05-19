@@ -14,7 +14,7 @@ import testdrivers.*;
  * hardware. The hardware includes barcode readers, PIN code terminals, a
  * barcode printer and an electronic lock.
  *
- * @version 1.0
+ * @version 1.1
  * @author Group 9
  */
 public class HardwareManager {
